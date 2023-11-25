@@ -32,15 +32,12 @@ body {
     min-height: 100vh;
     margin: 0;
 }
-.bg-image {
-    flex: 1;
-    display: flex;
-    
-}
+
 .display-10{
     
     font-weight: bold;
 }
+
 /* Media query for small screens 
 @media (max-width: 767px) {
     .bg-image{
