@@ -16,15 +16,15 @@
               <a class="nav-link" href="./news.php">News</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./faq_page.php">FAQ</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./impressum.php">Impressum</a>
+              <a class="nav-link" href="./rooms.php">Zimmer & Angebote</a>
             </li>
           </ul>
             <ul class="navbar-nav ms-auto">
             <?php
             if (isset($_SESSION['user'])) { ?>
+             <li class="nav-item">
+              <a class="nav-link" href="./meine_reservations.php">Meine Reservierungen</a>
+            </li>
               <li class="nav-item"><a class="nav-link" href="./logout.php">Logout</a></li>
             <?php } else { ?>
             <li class="nav-item">
