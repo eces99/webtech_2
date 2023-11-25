@@ -55,7 +55,7 @@ session_start();
                 <div class="row justify-content-center">
                     <div class="col-lg-9 text-center" id="box">
                         <h4 class="mt-3">Überschrift <?php echo $i + 1; ?></h4>
-                        <img src="\webtech_2\uploads\\<?php echo $files[$i]; ?>" alt="newsImage" class="img-thumbnail mt-3 mb-3" style="width:50%;">
+                        <img src="uploads/<?php echo $files[$i]; ?>" alt="newsImage" class="img-thumbnail mt-3 mb-3" style="width:50%;">
                         <p class="mb-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium reiciendis impedit at quis vitae eveniet vero sint molestiae ullam, sequi, aspernatur porro odit ex voluptates iste, ipsum suscipit eligendi aliquid!</p>
                     </div>
                 </div>
