@@ -12,16 +12,13 @@
   </symbol>
 </svg>
 <div class="container">
-<footer class="py-5">
-    <ul class="nav col-12 justify-content-end"> 
-    <li class="nav-item"><a href="./impressum.php" class="nav-link px-2 text-muted">Impressum</a></li>
-    <li class="nav-item"><a href="./faq_page.php" class="nav-link px-2 text-muted">FAQs</a></li>
-  </ul>
-
-
-        
-      <div class="d-flex justify-content-between py-4 my-4 border-top">
-      <p>&copy; 2021 Company, Inc. All rights reserved.</p>
+  
+  <footer class="py-3">
+    <div class="d-flex justify-content-between py-4 my-4 border-top">
+      <ul class="nav col-6 justify-content-start"> 
+        <li class="nav-item"><a href="./impressum.php" class="nav-link px-2 text-muted">Impressum</a></li>
+        <li class="nav-item"><a href="./faq_page.php" class="nav-link px-2 text-muted">FAQs</a></li>
+      </ul>
       <ul class="list-unstyled d-flex">
         <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
         <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
