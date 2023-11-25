@@ -17,6 +17,46 @@
 }
 #faqbody .accordion{
     padding: 3rem 3rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
 }
 
-  
+.error_msg{
+    color: red;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+.bg-image {
+    flex: 1;
+    display: flex;
+    
+}
+.display-10{
+    
+    font-weight: bold;
+}
+/* Media query for small screens 
+@media (max-width: 767px) {
+    .bg-image{
+       
+        background-position:center;
+        background-size: cover;
+       
+    }
+
+    #faqbody .accordion{
+        min-height: 100vh;
+        margin: 0;
+    }
+   
+    h1.display-3 {
+        font-size: 1.5rem;  
+        
+    }
+}*/

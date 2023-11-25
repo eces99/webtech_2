@@ -1,3 +1,56 @@
+
+<?php
+    $msg_anrede = $msg_vorname = $msg_lastname = $msg_username = $msg_email = $msg_password = $msg_password_2 = '';
+    $anrede = $vorname = $lastname = $username = $email = $password = $password_2 = $msg_checkbox = '';
+    
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        if(!isset($_POST["anrede"])){
+            $msg_anrede = "Anrede ist benötigt!";
+        }
+
+        if(empty($_POST["vorname"])){
+            $msg_vorname = "Vorname ist benötigt!";
+        }
+        if(empty($_POST["lastname"])){
+            $msg_lastname = "Nachname ist benötigt!";
+        }
+        if(empty($_POST["username"])){
+            $msg_username = "Benutzername ist benötigt!";
+        }
+        if(empty($_POST["email"])){
+            $msg_email = "Email ist benötigt!";
+        } elseif (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+            $msg_email = "Ungültige E-Mail-Adresse!";
+        }        
+        if(empty($_POST["password"])){
+            $msg_password = "Passwort ist benötigt";
+        }
+
+        if(empty($_POST["password_2"])){
+            $msg_password_2 = "Passwort nochmal angeben!";
+        } elseif ($_POST["password"] !== $_POST["password_2"]) {
+            $msg_password_2 = "Passwörter stimmen nicht überein!";
+        }
+        
+        if(!isset($_POST["invalidCheck"])){
+            $msg_checkbox = "Sie müssen den Allgemeinen Geschäftsbedingungen zustimmen.";
+        }
+        else{
+            header('Location: result_register.php');
+        }
+       
+    }
+      
+      function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+      }
+
+    ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,48 +74,59 @@
                 <div class="col-xxs-6 col-md-8 col-lg-6" id="box">
                     <div class="p-3 mb-2 bg-transparent text-dark">
                         <h1 class="h3 mb-3 font-weight-normal text-center">Anmeldeformular</h1>
-                            <form action="./result_register.php" method="post">
-                                <select class="form-select" aria-label="anrede" name="anrede" required>
+                            <form action="" method="post">
+                                <select class="form-select" aria-label="anrede" name="anrede" >
                                     <option selected disabled value="">Bitte wählen Sie den Anrede</option>
-                                    <option value="1">Herr</option>
+                                    <option value="Herr">Herr</option>
                                     <option value="2">Frau</option>
                                     <option value="3">Transgender</option>
                                     <option value="4">Non-binary/non-conforming</option>
                                     <option value="5">Keine Antwort</option>
-                                </select><br>
+                                </select>
+                                    <?php echo "<span class='error_msg'> $msg_anrede </span>" ?>
+                                    <br>
                                 <div class="form-group">
                                     <label for="vorname">Vorname</label>
-                                    <input type="text" class="form-control" name="vorname" id="vorname" required>
-                                </div><br>
+                                    <input type="text" class="form-control" name="vorname" id="vorname" value="<?php if(isset($_POST["vorname"])) echo $_POST["vorname"] ?>">
+                                </div>
+                                <?php echo "<span class='error_msg'> $msg_vorname </span>" ?>
+                                <br>
                                 <div class="form-group">
                                     <label for="lastname">Nachname</label>
-                                    <input type="text" class="form-control" name="lastname" id="lastname" required>
-                                </div><br>
+                                    <input type="text" class="form-control" name="lastname" id="lastname" value="<?php if(isset($_POST["lastname"])) echo $_POST["lastname"] ?>">
+                                </div>
+                                <?php echo "<span class='error_msg'> $msg_lastname </span>" ?><br>
                                 <div class="form-group">
                                     <label for="email">E-mail Adresse</label>
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com" required>
-                                </div><br>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com" value="<?php if(isset($_POST["email"])) echo $_POST["email"] ?>">
+                                </div>
+                                <?php echo "<span class='error_msg'> $msg_email </span>" ?>
+                                <br>
                                 <div class="form-group">
                                     <label for="username">Benutzername</label>
-                                    <input type="text" class="form-control" name="username" id="username" placeholder="Gewünschter Benutzername" required>
-                                </div><br>
+                                    <input type="text" class="form-control" name="username" id="username" placeholder="Gewünschter Benutzername" value="<?php if(isset($_POST["username"])) echo $_POST["username"] ?>">
+                                </div>
+                                <?php echo "<span class='error_msg'> $msg_username </span>" ?>
+                                <br>
                                 <div class="form-group">
                                     <label for="password">Passwort</label>
-                                    <input type="password" class="form-control" name="password" id="password" required>
-                                </div><br>
+                                    <input type="password" class="form-control" name="password" id="password" value="<?php if(isset($_POST["password"])) echo $_POST["password"] ?>">
+                                </div>
+                                <?php echo "<span class='error_msg'> $msg_password </span>" ?>
+                                <br>
                                 <div class="form-group">
                                     <label for="password_2">Passwort wiederholen</label>
-                                    <input type="password" class="form-control" name="password_2" id="password_2" required>
-                                </div><br>
+                                    <input type="password" class="form-control" name="password_2" id="password_2" value="<?php if(isset($_POST["password_2"])) echo $_POST["password_2"] ?>">
+                                </div>
+                                <?php echo "<span class='error_msg'> $msg_password_2 </span>" ?>
+                                <br>
                                 <div class="col-12">
                                     <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                    <input class="form-check-input" type="checkbox" id="invalidCheck" name="invalidCheck">
                                     <label class="form-check-label" for="invalidCheck">
                                         Ich stimme den Allgemeinen Geschäftsbedingungen zu.
-                                    </label>
-                                    <div class="invalid-feedback">
-                                        Sie müssen zustimmen, bevor Sie absenden können.
-                                    </div>
+                                    </label><br>
+                                        <?php echo "<span class='error_msg'> $msg_checkbox </span>" ?>
                                     </div>
                                 </div>
                                 <div class="col-12">

@@ -14,7 +14,8 @@
 
 <!-- Add navbar -->
 <?php include './navbar.php' ?>
-<div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1507506892840-60a3825a6161?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100%; background-repeat: no-repeat; background-position:center; background-size: cover;">
+<div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1507506892840-60a3825a6161?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-repeat: no-repeat; background-position:center; background-size: cover;">
+<div id="faq_page" class="container">
 <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Informationen auf einen Blick</h1>
 <!-- Accordion Panel that stays open -->
 <div class="accordion" id="accordionPanel">
@@ -133,6 +134,7 @@
     </div>
   </div>
   </div>
+</div>
 </div>
   <?php include './footer.php' ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
