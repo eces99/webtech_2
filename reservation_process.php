@@ -2,18 +2,36 @@
 session_start();
 
 // Process form data
-$conf_msg = "";
+$conf_msg = $anreise = $abreise = $room = $park = $tiere = $breakfast = "";
+$error_msg = "Please fill it out";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+  if (isset($_POST["anreise"])) {
     $anreise = $_POST['anreise'];
+  }
+  if (isset($_POST['abreise'])) {
     $abreise = $_POST['abreise'];
+  }
+  if (isset($_POST['room'])) {
     $room = $_POST['room'];
+  } 
+  if (isset($_POST['breakfast'])) {
     $breakfast = $_POST['breakfast'];
+  } 
+  if (isset($_POST['park'])) {
     $park = $_POST['park'];
+  } 
+  if (isset($_POST['tiere'])) {
     $tiere = $_POST['tiere'];
+  } 
+
 
 // Store reservation data in the session
+if (!empty($_POST['anreise'] && $_POST['abreise'])) {
+  if (!($anreise <= $abreise)) 
+      {echo "anreise muss früher als abreise datum!"; 
+    }
+  else{
     $reservation = [
         'anreise' => $anreise,
         'abreise' => $abreise,
@@ -22,14 +40,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'park'=> $park,
         'tiere'=> $tiere
     ];
+  
 
-    $i =0;
-    $_SESSION['reservations'][$i] = $reservation;
+    $_SESSION['reservations'][] = $reservation;
 
     $conf_msg = "Reservation successful! Sie können Ihre Reservierungen <a href='./meine_reservations.php'>hier</a> sehen.";
-    $i++;
+  }
 }
+  else { echo $error_msg; }
 
+}
 // Optionally, you can redirect the user to a confirmation page
 // header("Location: confirmation.php");
 // exit();
@@ -87,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="Nein">Nein</option>
                     </select>
                     <select class="form-select mt-4" aria-label="tiere" name="tiere">
-                        <option selected disabled value="">Bringen Sie Ihre Huastiere mit?</option>
+                        <option selected disabled value="">Bringen Sie Ihre Haustiere mit?</option>
                         <option value="Ja">Ja</option>
                         <option value="Nein">Nein</option>
                     </select>
