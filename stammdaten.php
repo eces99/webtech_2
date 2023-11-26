@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if (!isset($_SESSION['user'])) {
+    header('Location: login_page.php');
+}
+
 $msg_anrede = $msg_vorname = $msg_lastname = $msg_username = $msg_email = $msg_password = $msg_password_2 = $msg_checkbox = '';
 
 
