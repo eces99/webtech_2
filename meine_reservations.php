@@ -33,11 +33,13 @@ foreach ($serialized_arrays as $serialized_array) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./Images/Untitled-design.svg">
     <title>Ihre Reservierungen</title>
 </head>
 
 <body>
     <?php include("./navbar.php"); ?>
+    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1503017964658-e2ff5a583c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100vh; background-repeat: no-repeat; background-size: cover; background-position:center;">
     <div class="container">
         <div class="display-4 text-bold row justify-content-center mt-4 mb-2">Ihre Reservierungen</div>
         <div class="table-responsive">
@@ -70,6 +72,7 @@ foreach ($serialized_arrays as $serialized_array) {
                 <p>Keine Reservierungen gefunden.</p>
             <?php } ?>
         </div>
+    </div>
     </div>
 
     <?php include './footer.php' ?>
