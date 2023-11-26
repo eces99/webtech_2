@@ -38,12 +38,12 @@ foreach ($serialized_arrays as $serialized_array) {
                 <table class="table table-success table-striped">
                     <thead>
                         <tr>
-                            <th>Check-in</th>
-                            <th>Check-out</th>
-                            <th>Room Type</th>
-                            <th>Services</th>
-                            <th>Services</th>
-                            <th>Services</th>
+                            <th>Anreise</th>
+                            <th>Abreise</th>
+                            <th>Zimmer Type</th>
+                            <th>Services: Frühstück</th>
+                            <th>Services: Park</th>
+                            <th>Services: Tiere</th>
                         </tr>
                     </thead>
                     <tbody>
