@@ -3,7 +3,8 @@ session_start();
 
 // Process form data
 $conf_msg = $anreise = $abreise = $room = $park = $tiere = $breakfast = "";
-$error_msg = "Please fill it out";
+$error_msg = "Bitte Anreise & Abreise ausfüllen!";
+$isOk = 1;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST["anreise"])) {
@@ -29,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Store reservation data in the session
 if (!empty($_POST['anreise'] && $_POST['abreise'])) {
   if (!($anreise <= $abreise)) 
-      {echo "anreise muss früher als abreise datum!"; 
+      {$isOk = 0 ; $error_msg= "Anreisedatum muss früher als Abreisedatum sein!"; 
     }
   else{
     $reservation = [
@@ -45,10 +46,10 @@ if (!empty($_POST['anreise'] && $_POST['abreise'])) {
     $string_data = serialize($reservation);
     file_put_contents("reservations.txt", $string_data, FILE_APPEND);
 
-    $conf_msg = "Reservation successful! Sie können Ihre Reservierungen <a href='./meine_reservations.php'>hier</a> sehen.";
+    $conf_msg = "Reservation erfolgreich! Sie können Ihre Reservierungen <a href='./meine_reservations.php'>hier</a> sehen.";
   }
 }
-  else { echo $error_msg; }
+  else { $isOk = 0; }
 
 }
 // Optionally, you can redirect the user to a confirmation page
@@ -80,8 +81,9 @@ if (!empty($_POST['anreise'] && $_POST['abreise'])) {
             </div>
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
               <div class="body p-4 p-lg-5 text-black">
-                <?php echo "<div class='display-8'> $conf_msg </div>" ?> 
                 <h1 class="h3 mb-3 font-weight-normal text-center">Anmeldeformular</h1>
+                <?php if($isOk == 0) {echo "<div class='error_msg display-8'> $error_msg </div>";} else { ?> 
+                <?php } echo "<div class='display-8'> $conf_msg </div>" ?> 
                 <form action="" method="post">
                     <div class="form-group mt-4">
                         <label for="anreise">Anreisedatum</label>
