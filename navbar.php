@@ -18,6 +18,12 @@
           <li class="nav-item">
             <a class="nav-link" href="./rooms.php">Zimmer & Angebote</a>
           </li>
+          <?php
+          if (isset($_SESSION['user'])) { ?>
+            <li class="nav-item">
+              <a class="nav-link" href="./reservation_process.php">Zimmer buchen</a>
+            </li>
+          <?php } ?>
         </ul>
         <ul class="navbar-nav ms-auto">
           <?php
