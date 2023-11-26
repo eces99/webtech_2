@@ -32,7 +32,7 @@ foreach ($serialized_arrays as $serialized_array) {
 <body>   
     <?php include("./navbar.php"); ?>
     <div class="container">
-        <div class="display-4 text-bold row justify-content-center mt-4 mb-2">Your Reservations</div>
+        <div class="display-4 text-bold row justify-content-center mt-4 mb-2">Ihre Reservierungen</div>
         <div class="table-responsive">
             <?php if (!empty($reservations)) { ?>
                 <table class="table table-success table-striped">
