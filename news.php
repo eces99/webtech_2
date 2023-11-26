@@ -94,6 +94,12 @@ session_start();
                 $output = "<span class='text-danger'>Sorry, only JPG-Images!</span>";
                 $uploadCheck = 0;
             }
+
+            if ($_FILES["image"]["size"] > 15 * 1024 * 1024) {
+                $output = "<span class='text-danger'>Sorry, only JPG-Images below 15 MB!</span>";
+                $uploadCheck = 0;
+            }
+
             // required to upload an image
             if ($_FILES["image"]["size"] == 0) {
                 $output = "<span class='text-danger'>Please select an image to upload as a thumbnail.</span>";
