@@ -1,1 +1,0 @@
-a:6:{s:7:"anreise";s:10:"2023-11-03";s:7:"abreise";s:10:"2023-12-01";s:4:"room";s:6:"Single";s:9:"breakfast";s:2:"Ja";s:4:"park";s:2:"Ja";s:5:"tiere";s:2:"Ja";}a:6:{s:7:"anreise";s:10:"2023-11-27";s:7:"abreise";s:10:"2023-11-30";s:4:"room";s:6:"Single";s:9:"breakfast";s:2:"Ja";s:4:"park";s:2:"Ja";s:5:"tiere";s:2:"Ja";}
