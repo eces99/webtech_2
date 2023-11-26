@@ -28,7 +28,7 @@ session_start();
                     <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium reiciendis impedit at quis vitae eveniet vero sint molestiae ullam, sequi, aspernatur porro odit ex voluptates iste, ipsum suscipit eligendi aliquid!</p>
                 </div>
                 <button class="btn btn-light" 
-                    <?php if (!(isset($_SESSION["user"]) && $_SESSION["user"] == "admin")) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
+                    <?php if (!(isset($_SESSION["user"]))) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
                     Jetzt Buchen 
                 </button> 
                 </div>
@@ -57,7 +57,7 @@ session_start();
                     <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium reiciendis impedit at quis vitae eveniet vero sint molestiae ullam, sequi, aspernatur porro odit ex voluptates iste, ipsum suscipit eligendi aliquid!</p>
                 </div>
                 <button class="btn btn-light" 
-                    <?php if (!(isset($_SESSION["user"]) && $_SESSION["user"] == "admin")) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
+                    <?php if (!(isset($_SESSION["user"]))) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
                     Jetzt Buchen 
                 </button> 
                 </div>
@@ -86,7 +86,7 @@ session_start();
                     <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium reiciendis impedit at quis vitae eveniet vero sint molestiae ullam, sequi, aspernatur porro odit ex voluptates iste, ipsum suscipit eligendi aliquid!</p>
                 </div>
                 <button class="btn btn-light" 
-                    <?php if (!(isset($_SESSION["user"]) && $_SESSION["user"] == "admin")) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
+                    <?php if (!(isset($_SESSION["user"]))) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
                     Jetzt Buchen 
                 </button> 
                 </div>
@@ -115,7 +115,7 @@ session_start();
                     <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium reiciendis impedit at quis vitae eveniet vero sint molestiae ullam, sequi, aspernatur porro odit ex voluptates iste, ipsum suscipit eligendi aliquid!</p>
                 </div>
                 <button class="btn btn-light" 
-                    <?php if (!(isset($_SESSION["user"]) && $_SESSION["user"] == "admin")) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
+                    <?php if (!(isset($_SESSION["user"]))) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
                     Jetzt Buchen 
                 </button> 
                 </div>
