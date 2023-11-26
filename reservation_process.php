@@ -40,9 +40,10 @@ if (!empty($_POST['anreise'] && $_POST['abreise'])) {
         'park'=> $park,
         'tiere'=> $tiere
     ];
+    
   
-
-    $_SESSION['reservations'][] = $reservation;
+    $string_data = serialize($reservation);
+    file_put_contents("reservations.txt", $string_data, FILE_APPEND);
 
     $conf_msg = "Reservation successful! Sie können Ihre Reservierungen <a href='./meine_reservations.php'>hier</a> sehen.";
   }
