@@ -90,13 +90,13 @@ session_start();
 
             $destination = getcwd() . "\uploads\\" . $_FILES["image"]["name"];
 
-            if ($_FILES["image"]["type"] != "image/jpeg") {
-                $output = "<span class='text-danger'>Sorry, only JPG-Images!</span>";
+            if ($_FILES["image"]["type"] != "image/jpeg" && $_FILES["image"]["type"] != "image/png" && $_FILES["image"]["type"] != "image/tiff" && $_FILES["image"]["type"] != "image/gif") {
+                $output = "<span class='text-danger'>Sorry, only image files!</span>";
                 $uploadCheck = 0;
             }
 
             if ($_FILES["image"]["size"] > 15 * 1024 * 1024) {
-                $output = "<span class='text-danger'>Sorry, only JPG-Images below 15 MB!</span>";
+                $output = "<span class='text-danger'>Sorry, only images below 15 MB!</span>";
                 $uploadCheck = 0;
             }
 
@@ -132,7 +132,7 @@ session_start();
                                     <textarea name="text" id="text" class="form-control"></textarea>
                                 </div>
                                 <div class="mb-3"><label for="image" class="form-label">Bild hochladen</label>
-                                    <input type="file" name="image" id="image" class="form-control" accept="image/jpeg">
+                                    <input type="file" name="image" id="image" class="form-control" accept="image/jpeg, image/png, image/tiff, image/gif">
                                 </div>
                                 <div class="mb-3 text-center"><input type="submit" name="upload" value="Upload" class="btn btn-lg btn-primary"></div>
                             </form>
