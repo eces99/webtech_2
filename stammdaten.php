@@ -135,7 +135,7 @@ function test_input($data)
                             <?php echo $msg_password; ?>
                             <br>
                             <div class="col-12">
-                                <button class="btn btn-dark" type="submit" name="register">Formular abschicken</button>
+                                <button class="btn btn-dark" type="submit" name="register">Änderungen speichern</button>
                             </div>
                         </form>
                     </div>
