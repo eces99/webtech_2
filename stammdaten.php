@@ -91,7 +91,7 @@ function test_input($data)
         <div class="container rounded bg-white mt-5 mb-5">
             <div class="row">
                 <div class="col-md-3 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Max Mustermann</span><span class="text-black-50">max.mustermann@mail.com.my</span><span> </span></div>
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold"><?php echo $_SESSION["updateVorname"] . " " . $_SESSION["updateNachname"] ?></span><span class="text-black-50">max.mustermann@mail.com.my</span><span> </span></div>
                 </div>
                 <div class="col-md-5 border-right">
                     <div class="p-3 py-5">
@@ -109,52 +109,52 @@ function test_input($data)
                                     <option <?php if ($_SESSION["updateAnrede"] == "4") echo "selected"; ?> value="4">Non-binary/non-conforming</option>
                                     <option <?php if ($_SESSION["updateAnrede"] == "5") echo "selected"; ?> value="5">Keine Antwort</option>
                                 </select>
-                            <?php echo "<span class='text-success'> $msg_anrede </span>" ?>
-                            <br>
-                            <div class="form-group">
-                                <label for="vorname">Vorname</label>
-                                <input type="text" class="form-control" name="vorname" id="vorname" value="<?php echo $_SESSION["updateVorname"] ?>">
-                            </div>
-                            <?php echo "<span class='text-success'> $msg_vorname </span>" ?>
-                            <br>
-                            <div class="form-group">
-                                <label for="lastname">Nachname</label>
-                                <input type="text" class="form-control" name="lastname" id="lastname" value="<?php echo $_SESSION["updateNachname"] ?>">
-                            </div>
-                            <?php echo "<span class='text-success'> $msg_lastname </span>" ?><br>
-                            <div class="form-group">
-                                <label for="email">E-mail Adresse</label>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com" value="<?php echo $_SESSION["updateEmail"] ?>">
-                            </div>
-                            <?php echo "<span class='text-success'> $msg_email </span>" ?>
-                            <br>
-                            <div class="form-group">
-                                <label for="username">Benutzername</label>
-                                <input type="text" class="form-control" name="username" id="username" placeholder="Gewünschter Benutzername" value="<?php echo $_SESSION["updateUsername"] ?>">
-                            </div>
-                            <?php echo "<span class='text-success'> $msg_username </span>" ?>
-                            <br>
-                            <div class="form-group">
-                                <label for="password">Altes Passwort</label>
-                                <input type="password" class="form-control" name="password" id="password" value="">
-                            </div>
-                            <br>
-                            <div class="form-group">
-                                <label for="password_2">Neues Passwort</label>
-                                <input type="password" class="form-control" name="password_2" id="password_2" value="">
-                            </div>
-                            <?php echo $msg_password; ?>
-                            <br>
-                            <div class="col-12">
-                                <button class="btn btn-dark" type="submit" name="register">Änderungen speichern</button>
-                            </div>
-                        </form>
+                                <?php echo "<span class='text-success'> $msg_anrede </span>" ?>
+                                <br>
+                                <div class="form-group">
+                                    <label for="vorname">Vorname</label>
+                                    <input type="text" class="form-control" name="vorname" id="vorname" value="<?php echo $_SESSION["updateVorname"] ?>">
+                                </div>
+                                <?php echo "<span class='text-success'> $msg_vorname </span>" ?>
+                                <br>
+                                <div class="form-group">
+                                    <label for="lastname">Nachname</label>
+                                    <input type="text" class="form-control" name="lastname" id="lastname" value="<?php echo $_SESSION["updateNachname"] ?>">
+                                </div>
+                                <?php echo "<span class='text-success'> $msg_lastname </span>" ?><br>
+                                <div class="form-group">
+                                    <label for="email">E-mail Adresse</label>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com" value="<?php echo $_SESSION["updateEmail"] ?>">
+                                </div>
+                                <?php echo "<span class='text-success'> $msg_email </span>" ?>
+                                <br>
+                                <div class="form-group">
+                                    <label for="username">Benutzername</label>
+                                    <input type="text" class="form-control" name="username" id="username" placeholder="Gewünschter Benutzername" value="<?php echo $_SESSION["updateUsername"] ?>">
+                                </div>
+                                <?php echo "<span class='text-success'> $msg_username </span>" ?>
+                                <br>
+                                <div class="form-group">
+                                    <label for="password">Altes Passwort</label>
+                                    <input type="password" class="form-control" name="password" id="password" value="">
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label for="password_2">Neues Passwort</label>
+                                    <input type="password" class="form-control" name="password_2" id="password_2" value="">
+                                </div>
+                                <?php echo $msg_password; ?>
+                                <br>
+                                <div class="col-12">
+                                    <button class="btn btn-dark" type="submit" name="register">Änderungen speichern</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <?php include './footer.php' ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
