@@ -8,7 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_POST["anrede"])) {
         $msg_anrede = "Anrede ist benötigt!";
     }
-
     if (empty($_POST["vorname"])) {
         $msg_vorname = "Vorname ist benötigt!";
     }
@@ -32,11 +31,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($_POST["password"] !== $_POST["password_2"]) {
         $msg_password_2 = "Passwörter stimmen nicht überein!";
     }
-
     if (!isset($_POST["invalidCheck"])) {
         $msg_checkbox = "Sie müssen den Allgemeinen Geschäftsbedingungen zustimmen.";
     }
+    if(isset($_POST["register"]) && isset($_POST["invalidCheck"]) && isset($_POST["anrede"]) && (!empty(($_POST["vorname"]) && ($_POST["lastname"]) ($_POST["username"]) && ($_POST["email"]) && ($_POST["password"]) && ($_POST["password_2"])))){
+        header("Location:./result_regiter.php");
+    }
 }
+
 
 function test_input($data)
 {
