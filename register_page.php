@@ -34,8 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_POST["invalidCheck"])) {
         $msg_checkbox = "Sie müssen den Allgemeinen Geschäftsbedingungen zustimmen.";
     }
-    if(isset($_POST["register"]) && isset($_POST["invalidCheck"]) && isset($_POST["anrede"]) && (!empty(($_POST["vorname"]) && ($_POST["lastname"]) ($_POST["username"]) && ($_POST["email"]) && ($_POST["password"]) && ($_POST["password_2"])))){
-        header("Location:./result_regiter.php");
+    if( isset($_POST["invalidCheck"]) && isset($_POST["anrede"]) && (!empty(($_POST["vorname"]) && ($_POST["lastname"]) && ($_POST["username"]) && ($_POST["email"]) && ($_POST["password"]) && ($_POST["password_2"])))){
+        header("Location:./result_register.php");
     }
 }
 

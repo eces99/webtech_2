@@ -1,6 +1,6 @@
 <?php
     
-    if(isset($_POST["register"]) && isset($_POST["invalidCheck"]) && isset($_POST["anrede"]) && (!empty(($_POST["vorname"]) && ($_POST["lastname"]) ($_POST["username"]) && ($_POST["email"]) && ($_POST["password"]) && ($_POST["password_2"])))){
+    if(isset($_POST["register"])){
    
     }
     ?>
