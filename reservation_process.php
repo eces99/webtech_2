@@ -99,11 +99,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <form action="" method="post">
                     <div class="form-group ">
                       <label for="anreise">Anreisedatum</label>
-                      <input type="date" name="anreise" class="form-control input-with-post-icon datepicker" inline="true" placeholder="Anreisedatum">
+                      <input type="date" name="anreise" class="form-control input-with-post-icon datepicker" min="<?php echo date('Y-m-d'); ?>" inline="true" placeholder="Anreisedatum">
                     </div>
                     <div class="form-group mt-4">
                       <label for="abreise">Abreisedatum</label>
-                      <input type="date" name="abreise" class="form-control input-with-post-icon datepicker" inline="true" placeholder="Abreisedatum">
+                      <input type="date" name="abreise" class="form-control input-with-post-icon datepicker" min="<?php echo date('Y-m-d'); ?>" inline="true" placeholder="Abreisedatum">
                     </div>
 
                     <div class="form-group mt-4">
