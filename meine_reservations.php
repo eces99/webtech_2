@@ -1,22 +1,33 @@
 <?php
 session_start();
 
+
+ // Sicherstellen, dass der Benutzer angemeldet ist, bevor auf diese Seite zugegriffen wird.
+ // Falls nicht, wird der Benutzer zur Login-Seite weitergeleitet.
+
 if (!isset($_SESSION['user'])) {
     header('Location: login_page.php');
 }
 
 
+ // Dateiinhalt der Reservierungen aus "reservations.txt" lesen.
+ // Die Inhalte werden durch das Zeichen "}" getrennt und in ein Array gespeichert.
+ 
 $file_content = file_get_contents("./reservations.txt");
 $serialized_arrays = explode("}", $file_content);
 $reservations = [];
 
-// Loop through each serialized string and unserialize it
+
+ // Durchlaufe jedes serialisierte String und versuche, es zu deserialisieren.
+ // Gültige deserialisierte Daten, die ein Array sind, werden zur Liste der Reservierungen hinzugefügt.
 foreach ($serialized_arrays as $serialized_array) {
     if (!empty($serialized_array)) {
-        // Attempt to unserialize the data
+        // Versuch, die Daten zu deserialisieren
         $unserialized_data = unserialize($serialized_array . '}');
 
-        // Check if unserialization was successful and if the unserialized data is an array
+        
+         // Überprüfen, ob die Deserialisierung erfolgreich war und ob die deserialisierten Daten ein Array sind.
+         // Falls ja, werden sie zur Liste der Reservierungen hinzugefügt.
         if ($unserialized_data !== false && is_array($unserialized_data)) {
             $reservations[] = $unserialized_data;
         }
@@ -43,6 +54,7 @@ foreach ($serialized_arrays as $serialized_array) {
     <div class="container">
         <div class="display-4 text-bold row justify-content-center mt-4 mb-2">Ihre Reservierungen</div>
         <div class="table-responsive">
+            <!-- Wenn Reservations vorhanden sind, erstellen eine Tabelle -->
             <?php if (!empty($reservations)) { ?>
                 <table class="table table-success table-striped">
                     <thead>

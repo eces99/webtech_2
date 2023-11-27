@@ -1,3 +1,4 @@
+<!-- Für alle users sehbar -->
 <header>
   <nav class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container">
@@ -18,6 +19,7 @@
           <li class="nav-item">
             <a class="nav-link" href="./rooms.php">Zimmer & Angebote</a>
           </li>
+          <!-- nur logged in users können die reservierungs seite und stammdaetn bzw. logout button ansehen -->
           <?php
           if (isset($_SESSION['user'])) { ?>
             <li class="nav-item">
@@ -36,6 +38,8 @@
             </li>
             <li class="nav-item"><a class="nav-link" href="./logout.php">Logout</a></li>
           <?php } else { ?>
+
+          <!-- nicht logged in users können die nur login und anmelden auf der rechte seite des navbars sehen ansehen -->
             <li class="nav-item">
               <a class="nav-link" href="./login_page.php">Login</a>
             </li>

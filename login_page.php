@@ -72,7 +72,7 @@ $_SESSION["updatePassword_1"] = "123";
                                 <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
                             </div>
                             <br>
-                            <!--check box will be linked to php somehow? -->
+                            
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                 <label class="form-check-label" for="exampleCheck1">Angemeldet bleiben</label>

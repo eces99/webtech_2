@@ -32,12 +32,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
 
-  // Store reservation data in the session
+  // Überprüfen, ob Anreise- und Abreisedatum im Buchungsformular ausgefüllt sind.
   if (!empty($_POST['anreise'] && $_POST['abreise'])) {
+    
+     // Überprüfen, ob das Anreisedatum vor dem Abreisedatum liegt.
+     // Wenn nicht, wird ein Fehler gemeldet, andernfalls werden die Buchungsinformationen gespeichert.
     if (!($anreise <= $abreise)) {
       $isOk = 0;
       $error_msg = "Das Anreisedatum sollte vor dem Abreisedatum liegen!";
     } else {
+      // Buchungsinformationen in ein Array speichern
       $reservation = [
         'anreise' => $anreise,
         'abreise' => $abreise,
@@ -47,19 +51,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'tiere' => $tiere
       ];
 
-
+      // Buchungsinformationen serialisieren und in einer Datei speichern (an bestehende Daten anhängen)
       $string_data = serialize($reservation);
       file_put_contents("reservations.txt", $string_data, FILE_APPEND);
 
+      // Erfolgsmeldung für erfolgreiche Buchung
       $conf_msg = "Reservation erfolgreich! Sie können Ihre Reservierungen <a href='./meine_reservations.php'>hier</a> sehen.";
     }
   } else {
     $isOk = 0;
   }
 }
-// Optionally, you can redirect the user to a confirmation page
-// header("Location: confirmation.php");
-// exit();
 
 ?>
 <!DOCTYPE html>

@@ -1,4 +1,4 @@
-<!--Background img starts here closing div is right above above footer -->
+
 <!--Social media symbols for footer-->
 <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
   <symbol id="facebook" viewBox="0 0 16 16">
@@ -12,13 +12,14 @@
   </symbol>
 </svg>
 <div class="container">
-  
+  <!-- Impressum and FAQ links auf der linke seite des footers -->
   <footer class="py-3">
     <div class="d-flex justify-content-between py-4 my-4 border-top">
       <ul class="nav col-6 justify-content-start"> 
         <li class="nav-item"><a href="./impressum.php" class="nav-link px-2 text-muted">Impressum</a></li>
         <li class="nav-item"><a href="./faq_page.php" class="nav-link px-2 text-muted">FAQs</a></li>
       </ul>
+      <!-- Social media buttons -->
       <ul class="list-unstyled d-flex">
         <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
         <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>

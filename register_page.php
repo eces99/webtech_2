@@ -1,4 +1,10 @@
 <?php
+
+// Formularvalidierung und Verarbeitung der Benutzerregistrierungsdaten.
+
+
+// Initialisierung von Fehlermeldungen und Eingabevariablen
+
 $msg_anrede = $msg_vorname = $msg_lastname = $msg_username = $msg_email = $msg_password = $msg_password_2 = '';
 $anrede = $vorname = $lastname = $username = $email = $password = $password_2 = $msg_checkbox = '';
 
@@ -34,12 +40,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_POST["invalidCheck"])) {
         $msg_checkbox = "Sie müssen den Allgemeinen Geschäftsbedingungen zustimmen.";
     }
+    // Weiterleitung zur Ergebnisseite, wenn alle Validierungen erfolgreich sind
     if( isset($_POST["invalidCheck"]) && isset($_POST["anrede"]) && (!empty(($_POST["vorname"]) && ($_POST["lastname"]) && ($_POST["username"]) && ($_POST["email"]) && ($_POST["password"]) && ($_POST["password_2"])))){
         header("Location:./result_register.php");
     }
 }
 
 
+// Diese Funktion bereinigt und validiert Eingabedaten.
 function test_input($data)
 {
     $data = trim($data);
