@@ -91,24 +91,24 @@ session_start();
             $destination = getcwd() . "\uploads\\" . $_FILES["image"]["name"];
 
             if ($_FILES["image"]["type"] != "image/jpeg" && $_FILES["image"]["type"] != "image/png" && $_FILES["image"]["type"] != "image/tiff" && $_FILES["image"]["type"] != "image/gif") {
-                $output = "<span class='text-danger'>Sorry, only image files!</span>";
+                $output = "<span class='text-danger'>Bitte nur Bilddateien hochladen!</span>";
                 $uploadCheck = 0;
             }
 
             if ($_FILES["image"]["size"] > 15 * 1024 * 1024) {
-                $output = "<span class='text-danger'>Sorry, only images below 15 MB!</span>";
+                $output = "<span class='text-danger'>Bitte nur Bilder unter 15 MB hochladen!</span>";
                 $uploadCheck = 0;
             }
 
             // required to upload an image
             if ($_FILES["image"]["size"] == 0) {
-                $output = "<span class='text-danger'>Please select an image to upload as a thumbnail.</span>";
+                $output = "<span class='text-danger'>Bitte laden Sie ein Bild hoch!</span>";
                 $uploadCheck = 0;
             }
 
             if ($uploadCheck == 1) {
                 move_uploaded_file($_FILES["image"]["tmp_name"], $destination);
-                $output = "<span class='text-success'>The file " . $_FILES["image"]["name"] . " has been uploaded!</span>";
+                $output = "<span class='text-success'>Die Datei " . $_FILES["image"]["name"] . " wurde hochgeladen!</span>";
             }
         }
 
@@ -135,6 +135,11 @@ session_start();
                                     <input type="file" name="image" id="image" class="form-control" accept="image/jpeg, image/png, image/tiff, image/gif">
                                 </div>
                                 <div class="mb-3 text-center"><input type="submit" name="upload" value="Upload" class="btn btn-lg btn-primary"></div>
+                                <div class="mb-3 text-center">
+                                    <?php
+                                    echo $output;
+                                    ?>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -145,16 +150,6 @@ session_start();
         <?php
         }
         ?>
-        <div class="container">
-            <div class="row">
-                <div class="col mb-3 text-center">
-                    <?php
-                    echo $output;
-                    ?>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
     <?php include './footer.php' ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
