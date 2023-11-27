@@ -70,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="stylesheet" href="./style.css">
+  <link rel="icon" href="./Images/Untitled-design.svg">
   <title>Reservierungen</title>
 </head>
 
@@ -82,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="col col-xl-10">
           <div class="" style="border-radius: 1rem;">
             <div class="row g-0">
-              <div class="col-md-6 col-lg-5 d-none d-md-block">
+              <div class="col-md-6 col-lg-5 d-none d-md-block mt-5 pt-3">
                 <img src="./room_imgs/reg_process.jpg" alt="res" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
@@ -94,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <?php }
                   echo "<div class='display-8'> $conf_msg </div>" ?>
                   <form action="" method="post">
-                    <div class="form-group mt-4">
+                    <div class="form-group ">
                       <label for="anreise">Anreisedatum</label>
                       <input type="date" name="anreise" class="form-control input-with-post-icon datepicker" inline="true" placeholder="Anreisedatum">
                     </div>
@@ -102,27 +103,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       <label for="abreise">Abreisedatum</label>
                       <input type="date" name="abreise" class="form-control input-with-post-icon datepicker" inline="true" placeholder="Abreisedatum">
                     </div>
-                    <select class="form-select mt-4" aria-label="room" name="room">
+
+                    <div class="form-group mt-4">
+                    <label for="zimmertyp">Zimmertyp</label>
+                    <select class="form-select" aria-label="room" name="room">
                       <option selected disabled value="">Bitte wählen Sie den Zimmertyp...</option>
                       <option value="Single">Single Zimmer</option>
                       <option value="Double">Double Zimmer</option>
                       <option value="Suite">Suite</option>
                     </select>
-                    <select class="form-select mt-4" aria-label="breakfast" name="breakfast">
+                    </div>
+
+                    <div class="form-group mt-4">
+                    <label for="breakfast">Frühstück</label>
+                    <select class="form-select" aria-label="breakfast" name="breakfast">
                       <option selected disabled value="">Möchten Sie Frühstück?</option>
                       <option value="Ja">Ja</option>
                       <option value="Nein">Nein</option>
                     </select>
-                    <select class="form-select mt-4" aria-label="park" name="park">
+                    </div>
+
+                    <div class="form-group mt-4">
+                    <label for="park">Parkplatz</label>
+                    <select class="form-select" aria-label="park" name="park">
                       <option selected disabled value="">Möchten Sie einen Parkplatz reservieren?</option>
                       <option value="Ja">Ja</option>
                       <option value="Nein">Nein</option>
                     </select>
-                    <select class="form-select mt-4" aria-label="tiere" name="tiere">
+                    </div>
+
+                    <div class="form-group mt-4">
+                    <label for="tiere">Haustiere</label>
+                    <select class="form-select" aria-label="tiere" name="tiere">
                       <option selected disabled value="">Bringen Sie Ihre Haustiere mit?</option>
                       <option value="Ja">Ja</option>
                       <option value="Nein">Nein</option>
                     </select>
+                    </div>
+
                     <br>
                     <div class="btns">
                       <button type="submit" name="reservieren" value="reserieren" class="btn btn-dark">Reservieren</button>
