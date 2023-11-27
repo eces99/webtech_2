@@ -50,7 +50,7 @@ foreach ($serialized_arrays as $serialized_array) {
 
 <body>
     <?php include("./inc/navbar.php"); ?>
-    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1503017964658-e2ff5a583c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100vh; background-repeat: no-repeat; background-size: cover; background-position:center;">
+    <div class="bg-image" style="background-image: url('./Images/bg_imgs/bg_img_4.jpg'); height: 100vh; background-repeat: no-repeat; background-size: cover; background-position:center;">
     <div class="container">
         <div class="display-4 text-bold row justify-content-center mt-4 mb-2">Ihre Reservierungen</div>
         <div class="table-responsive">

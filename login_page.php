@@ -51,7 +51,7 @@ $_SESSION["updatePassword_1"] = "123";
     <!--Navbar-->
     <?php include_once './inc/navbar.php' ?>
 
-    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100vh; background-repeat: no-repeat; background-size: cover;">
+    <div class="bg-image" style="background-image: url('./Images/bg_imgs/bg_img_3.jpg'); height: 100vh; background-repeat: no-repeat; background-size: cover;">
 
         <div id="login_form" class="container">
             <div class="row justify-content-center">

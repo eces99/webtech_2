@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
   <?php include "./inc/navbar.php"; ?>
-  <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1503017964658-e2ff5a583c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-position:center; background-size:cover; background-repeat:no-repeat; height:100%;">
+  <div class="bg-image" style="background-image: url('./Images/bg_imgs/bg_img_4.jpg'); background-position:center; background-size:cover; background-repeat:no-repeat; height:100%;">
 
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">

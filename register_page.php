@@ -77,7 +77,7 @@ function test_input($data)
     <header>
         <?php include_once './inc/navbar.php' ?>
     </header>
-    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1563209750-fb9498c83efd?q=80&w=1489&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100%; background-repeat: no-repeat; background-size: cover;">
+    <div class="bg-image" style="background-image: url('./Images/bg_imgs/bg_img_5.jpg'); height: 100%; background-repeat: no-repeat; background-size: cover;">
 
         <div id="register_page" class="container">
             <div class="row justify-content-center">
