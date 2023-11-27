@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="body p-4 p-lg-5 text-black">
-                  <h1 class="h3 mb-3 font-weight-normal text-center">Anmeldeformular</h1>
+                  <h1 class="h3 mb-3 font-weight-normal text-center">Reservierung</h1>
                   <?php if ($isOk == 0) {
                     echo "<div class='error_msg display-8'> $error_msg </div>";
                   } else { ?>
