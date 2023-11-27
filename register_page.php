@@ -2,6 +2,7 @@
 $msg_anrede = $msg_vorname = $msg_lastname = $msg_username = $msg_email = $msg_password = $msg_password_2 = '';
 $anrede = $vorname = $lastname = $username = $email = $password = $password_2 = $msg_checkbox = '';
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!isset($_POST["anrede"])) {
@@ -34,8 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!isset($_POST["invalidCheck"])) {
         $msg_checkbox = "Sie müssen den Allgemeinen Geschäftsbedingungen zustimmen.";
-    } else {
-        header('Location: result_register.php');
     }
 }
 
