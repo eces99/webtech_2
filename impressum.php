@@ -18,7 +18,7 @@
     <div class="container">
         <div class="row justify-content-center">
 
-            <div class="header-img" style="background-image: url('./Images/bg_imgs/impressum_bg.jpg'); height: 20vh; background-size: cover; background-position: center;">
+            <div class="header-img" style="background-image: url('https://images.unsplash.com/photo-1517200578024-62d131797ec8?q=80&w=1414&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 20vh; background-size: cover; background-position: center;">
 
                 <h1 class="display-2" style="color: white; text-align: center; padding: auto; font-weight:500;">Impressum</h1>
             </div>

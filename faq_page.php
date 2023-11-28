@@ -15,7 +15,7 @@
 
 <!-- Add navbar -->
 <?php include './inc/navbar.php' ?>
-<div class="bg-image" style="background-image: url('./Images/bg_imgs/bg_img_1.jpg'); background-repeat: no-repeat; background-position:center; background-size: cover;">
+<div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1507506892840-60a3825a6161?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-repeat: no-repeat; background-position:center; background-size: cover;">
 <div id="faq_page" class="container">
 <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Informationen auf einen Blick</h1>
 <!-- Accordion Panel that stays open -->
