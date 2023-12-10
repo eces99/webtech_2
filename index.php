@@ -16,7 +16,7 @@ if (isset($_COOKIE["logincookie"])) {
 <title>Homepage</title>
 </head>
 <body>
-        <?php include_once "./inc/navbar.php" ?> 
+        <?php include_once "./includes/navbar.php" ?> 
         <div class="bg-image-hp" style="background-image: url('https://images.unsplash.com/photo-1596436889106-be35e843f974?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100vh; background-size: cover;">
                 <div class="welcome-header">
                         <h1 class="display-1" style="color: white; text-align: center; padding-top: 10rem; font-weight:500;">Welcome to Casa Valle 
@@ -31,7 +31,7 @@ if (isset($_COOKIE["logincookie"])) {
                 </div>
         </div>  
 
-        <?php include_once './inc/footer.php' ?>
+        <?php include_once './includes/footer.php' ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

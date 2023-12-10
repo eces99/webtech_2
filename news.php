@@ -21,7 +21,7 @@ session_start();
 
     <!--Navbar-->
     <header>
-        <?php include_once './inc/navbar.php' ?>
+        <?php include_once './includes/navbar.php' ?>
     </header>
     <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1586967440896-732b8ef262f9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100%; background-repeat: no-repeat; background-size: cover;">
         <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">News</h1>
@@ -152,7 +152,7 @@ session_start();
         }
         ?>
     </div>
-    <?php include './inc/footer.php' ?>
+    <?php include './includes/footer.php' ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 
