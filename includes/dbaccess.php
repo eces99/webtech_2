@@ -1,7 +1,7 @@
 <?php
 
 $host = "localhost";
-$dbname = "hotel";
+$dbname = "hotel_project";
 $dbusername = "root";
 $dbpassword = "spoilers123";
 

@@ -73,12 +73,12 @@ CREATE TABLE `reservations` (
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
   `role` varchar(10) NOT NULL DEFAULT 'anonym',
+  `anrede` varchar(32) NOT NULL,
+  `vorname` varchar(32) NOT NULL,
+  `lastname` varchar(32) NOT NULL,
+  `email` varchar(32) NOT NULL,
   `username` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
-  `anrede` varchar(10) NOT NULL,
-  `name` varchar(32) NOT NULL,
-  `surname` varchar(32) NOT NULL,
-  `email` varchar(32) NOT NULL,
   `profile_photo` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
