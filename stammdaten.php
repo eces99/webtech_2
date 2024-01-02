@@ -104,10 +104,10 @@ function test_input($data)
                                     <option disabled value="">Bitte wählen Sie den Anrede</option>
 
                                     <option <?php if ($_SESSION["updateAnrede"] == "Herr") echo "selected"; ?> value="Herr">Herr</option>
-                                    <option <?php if ($_SESSION["updateAnrede"] == "2") echo "selected"; ?> value="2">Frau</option>
-                                    <option <?php if ($_SESSION["updateAnrede"] == "3") echo "selected"; ?> value="3">Transgender</option>
-                                    <option <?php if ($_SESSION["updateAnrede"] == "4") echo "selected"; ?> value="4">Non-binary/non-conforming</option>
-                                    <option <?php if ($_SESSION["updateAnrede"] == "5") echo "selected"; ?> value="5">Keine Antwort</option>
+                                    <option <?php if ($_SESSION["updateAnrede"] == "Frau") echo "selected"; ?> value="2">Frau</option>
+                                    <option <?php if ($_SESSION["updateAnrede"] == "") echo "selected"; ?> value="3">Transgender</option>
+                                    <option <?php if ($_SESSION["updateAnrede"] == "") echo "selected"; ?> value="4">Non-binary/non-conforming</option>
+                                    <option <?php if ($_SESSION["updateAnrede"] == "") echo "selected"; ?> value="5">Keine Antwort</option>
                                 </select>
                                 <?php echo "<span class='text-success'> $msg_anrede </span>" ?>
                                 <br>
