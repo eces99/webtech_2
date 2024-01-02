@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_POST["invalidCheck"])) {
         $msg_checkbox = "Sie müssen den Allgemeinen Geschäftsbedingungen zustimmen.";
     }
+    
     // Weiterleitung zur Ergebnisseite, wenn alle Validierungen erfolgreich sind
     if( isset($_POST["invalidCheck"]) && isset($_POST["anrede"]) && (!empty(($_POST["vorname"]) && ($_POST["lastname"]) && ($_POST["username"]) && ($_POST["email"]) && ($_POST["password"]) && ($_POST["password_2"])))){
         header("Location:./result_register.php");
@@ -84,14 +85,14 @@ function test_input($data)
                 <div class="col-xxs-6 col-md-8 col-lg-6" id="box">
                     <div class="p-3 mb-2 bg-transparent text-dark">
                         <h1 class="h3 mb-3 font-weight-normal text-center">Anmeldeformular</h1>
-                        <form action="" method="post">
+                        <form action="./includes/formhandler.inc.php" method="post">
                             <select class="form-select" aria-label="anrede" name="anrede">
                                 <option selected disabled value="">Bitte wählen Sie den Anrede</option>
                                 <option value="Herr">Herr</option>
-                                <option value="2">Frau</option>
-                                <option value="3">Transgender</option>
-                                <option value="4">Non-binary/non-conforming</option>
-                                <option value="5">Keine Antwort</option>
+                                <option value="Frau">Frau</option>
+                                <option value="">Transgender</option>
+                                <option value="">Non-binary/non-conforming</option>
+                                <option value="">Keine Antwort</option>
                             </select>
                             <?php echo "<span class='error_msg'> $msg_anrede </span>" ?>
                             <br>
