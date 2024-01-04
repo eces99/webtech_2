@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2023 at 02:34 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Erstellungszeit: 04. Jan 2024 um 13:28
+-- Server-Version: 10.4.19-MariaDB
+-- PHP-Version: 7.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,24 +18,24 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `hotel_project`
+-- Datenbank: `hotel_project`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admins`
+-- Tabellenstruktur für Tabelle `admins`
 --
 
 CREATE TABLE `admins` (
   `admin_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `news`
+-- Tabellenstruktur für Tabelle `news`
 --
 
 CREATE TABLE `news` (
@@ -44,12 +44,12 @@ CREATE TABLE `news` (
   `news_content` varchar(1024) NOT NULL,
   `news_image` blob NOT NULL,
   `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reservations`
+-- Tabellenstruktur für Tabelle `reservations`
 --
 
 CREATE TABLE `reservations` (
@@ -62,12 +62,12 @@ CREATE TABLE `reservations` (
   `pets_service` tinyint(1) NOT NULL,
   `reservation_status` varchar(10) NOT NULL,
   `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Tabellenstruktur für Tabelle `users`
 --
 
 CREATE TABLE `users` (
@@ -80,32 +80,39 @@ CREATE TABLE `users` (
   `username` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
   `profile_photo` blob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Indexes for dumped tables
+-- Daten für Tabelle `users`
+--
+
+INSERT INTO `users` (`user_id`, `role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `profile_photo`) VALUES
+(1, 'anonym', 'Herr', 'Kenn-Michael', 'Sanga', 'kennsanga@yahoo.com', 'kenn', '123', '');
+
+--
+-- Indizes der exportierten Tabellen
 --
 
 --
--- Indexes for table `admins`
+-- Indizes für die Tabelle `admins`
 --
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`admin_id`,`user_id`);
 
 --
--- Indexes for table `news`
+-- Indizes für die Tabelle `news`
 --
 ALTER TABLE `news`
   ADD PRIMARY KEY (`news_id`);
 
 --
--- Indexes for table `reservations`
+-- Indizes für die Tabelle `reservations`
 --
 ALTER TABLE `reservations`
   ADD PRIMARY KEY (`reservation_id`);
 
 --
--- Indexes for table `users`
+-- Indizes für die Tabelle `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
@@ -113,34 +120,42 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT für exportierte Tabellen
 --
 
 --
--- AUTO_INCREMENT for table `admins`
+-- AUTO_INCREMENT für Tabelle `admins`
 --
 ALTER TABLE `admins`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `news`
+-- AUTO_INCREMENT für Tabelle `news`
 --
 ALTER TABLE `news`
   MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `reservations`
+-- AUTO_INCREMENT für Tabelle `reservations`
 --
 ALTER TABLE `reservations`
   MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- admin spoilers123
+GRANT ALL PRIVILEGES ON *.* TO `admin`@`localhost` IDENTIFIED BY PASSWORD '*F7CF153D11966CD0BA485F5B8900F65DCF43CAC7' WITH GRANT OPTION;
+
+GRANT ALL PRIVILEGES ON `hotel_project`.* TO `admin`@`localhost` WITH GRANT OPTION;
+
+-- user spoilers456
+GRANT SELECT, INSERT, UPDATE ON *.* TO `user`@`localhost` IDENTIFIED BY PASSWORD '*FBAC95AB2B520662909A4C86E99EFE37879584A6';
