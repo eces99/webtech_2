@@ -12,6 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $role = 'anonym';
     $profile_photo = ''; // You should replace this with the actual blob data when handling file uploads.
 
+    $hashpassword = hash('sha512', $password); // hashed password with hash512 algorithm
+
 
     if (isset($_POST["invalidCheck"]) && isset($_POST["anrede"]) && (!empty(($_POST["vorname"]) && ($_POST["lastname"]) && ($_POST["username"]) && ($_POST["email"]) && ($_POST["password"]) && ($_POST["password_2"])))) {
 
@@ -28,10 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Create a query and insert into using SQL statement
             $query = "INSERT INTO `users`(`user_id`, `role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `profile_photo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"; //placeholders
-            
+
 
             $stmt = $db_obj->prepare($query);
-            $stmt->bind_param("isssssssb", $user_id, $role, $anrede, $vorname, $lastname, $email, $username, $password, $profile_photo);
+            $stmt->bind_param("isssssssb", $user_id, $role, $anrede, $vorname, $lastname, $email, $username, $hashpassword, $profile_photo);
 
             $stmt->execute();
 

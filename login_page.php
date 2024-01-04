@@ -62,7 +62,7 @@ $_SESSION["updatePassword_1"] = "123";
                         <?php if (!empty($errorMsg)) : ?>
                             <p style="color: red;"><?php echo $errorMsg; ?></p>
                         <?php endif; ?>
-                        <form action="" method="post">
+                        <form action="./includes/login.inc.php" method="post">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Ihre Benutzername</label>
                                 <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username" required>
@@ -72,7 +72,7 @@ $_SESSION["updatePassword_1"] = "123";
                                 <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
                             </div>
                             <br>
-                            
+
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                 <label class="form-check-label" for="exampleCheck1">Angemeldet bleiben</label>
