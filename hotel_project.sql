@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 04. Jan 2024 um 13:28
+-- Erstellungszeit: 05. Jan 2024 um 01:16
 -- Server-Version: 10.4.19-MariaDB
 -- PHP-Version: 7.3.28
 
@@ -43,6 +43,7 @@ CREATE TABLE `news` (
   `news_title` varchar(64) NOT NULL,
   `news_content` varchar(1024) NOT NULL,
   `news_image` blob NOT NULL,
+  `news_date` date DEFAULT current_timestamp(),
   `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -87,7 +88,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `profile_photo`) VALUES
-(1, 'anonym', 'Herr', 'Kenn-Michael', 'Sanga', 'kennsanga@yahoo.com', 'kenn', '123', '');
+(1, 'anonym', 'Herr', 'Kenn-Michael', 'Sanga', 'kennsanga@yahoo.com', 'kenn', '123', ''),
+(4, 'anonym', 'Herr', 'Kenn', 'Sanga', 'kennsanga@gmail.com', 'kenno', '73941847d9611927275d93139981ee78', '');
 
 --
 -- Indizes der exportierten Tabellen
@@ -145,17 +147,9 @@ ALTER TABLE `reservations`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
--- admin spoilers123
-GRANT ALL PRIVILEGES ON *.* TO `admin`@`localhost` IDENTIFIED BY PASSWORD '*F7CF153D11966CD0BA485F5B8900F65DCF43CAC7' WITH GRANT OPTION;
-
-GRANT ALL PRIVILEGES ON `hotel_project`.* TO `admin`@`localhost` WITH GRANT OPTION;
-
--- user spoilers456
-GRANT SELECT, INSERT, UPDATE ON *.* TO `user`@`localhost` IDENTIFIED BY PASSWORD '*FBAC95AB2B520662909A4C86E99EFE37879584A6';
