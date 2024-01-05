@@ -1,34 +1,61 @@
 <?php
-session_start();
-$errorMsg = "";
 
-// Hardcoded username and password
-$hardcodedUsername = 'admin';
-$hardcodedPassword = '123';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Validate username and password
-    if ($username == $hardcodedUsername && $password == $hardcodedPassword) {
-        $_SESSION['user'] = $username;
+    $mysqli = require __DIR__ . "/includes/dbaccess.php";
 
-        // Set a cookie for the username (you can set other cookie parameters as needed)
-        setcookie('username', $username, time() + 3600, '/'); // Cookie expires in 1 hour
+    // Create a query and select using SQL statement
+    $query = sprintf("SELECT `username`, `password` FROM `users` WHERE `username` = '%s'", $mysqli->real_escape_string($username));
 
-        header('Location: index.php');
-    } else {
-        $errorMsg = "Ungültige benutzername oder passwort.";
+    $result = $mysqli->query($query);
+    $user = $result->fetch_assoc();
+
+    if ($user) {
+        if (hash('sha512', $password) == $user["password"]) {
+            //die("Successful login!");
+            session_start();
+            $_SESSION['user'] = $username;
+
+            // Set a cookie for the username (you can set other cookie parameters as needed)
+            setcookie('username', $username, time() + 3600, '/'); // Cookie expires in 1 hour
+
+            header("Location: login_success.php");
+            die();
+        } else {
+            echo "Invalid password!<br>";
+        }
     }
+    /*
+        $stmt = $db_obj->prepare($query);
+        $stmt->execute();
+        $stmt->bind_result($user_username, $user_password); // store selected data into variables
+
+        // Close the statement and connection when done
+        $stmt->close();
+        $db_obj->close();
+
+        if ($username == $user_username && hash('sha512', $password) == $user_password) {
+            echo "Successful login!<br>";
+            session_start();
+            $_SESSION['user'] = $username;
+
+            // Set a cookie for the username (you can set other cookie parameters as needed)
+            setcookie('username', $username, time() + 3600, '/'); // Cookie expires in 1 hour
+
+            header("Location: ../index.php");
+            die();
+            
+        } else {
+            echo "Invalid password!<br>";
+        }
+
+        header("Location: ../index.php");
+        die();
+        */
 }
-// Hardcoded stammdaten (echtes passwort und username wird nicht verändert, nur statische daten zum Zeigen)
-$_SESSION["updateAnrede"] = "Herr";
-$_SESSION["updateVorname"] = "Max";
-$_SESSION["updateNachname"] = "Mustermann";
-$_SESSION["updateUsername"] = "admin";
-$_SESSION["updateEmail"] = "max.mustermann@muster.com";
-$_SESSION["updatePassword_1"] = "123";
 ?>
 
 <!-- ... (rest of the login form) ... -->
@@ -62,7 +89,7 @@ $_SESSION["updatePassword_1"] = "123";
                         <?php if (!empty($errorMsg)) : ?>
                             <p style="color: red;"><?php echo $errorMsg; ?></p>
                         <?php endif; ?>
-                        <form action="./includes/login.inc.php" method="post">
+                        <form method="post">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Ihre Benutzername</label>
                                 <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username" required>
