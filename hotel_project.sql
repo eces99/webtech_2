@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 05. Jan 2024 um 01:16
+-- Erstellungszeit: 05. Jan 2024 um 14:28
 -- Server-Version: 10.4.19-MariaDB
 -- PHP-Version: 7.3.28
 
@@ -79,7 +79,7 @@ CREATE TABLE `users` (
   `lastname` varchar(32) NOT NULL,
   `email` varchar(32) NOT NULL,
   `username` varchar(32) NOT NULL,
-  `password` varchar(32) NOT NULL,
+  `password` varchar(128) NOT NULL,
   `profile_photo` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
