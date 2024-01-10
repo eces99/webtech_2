@@ -5,7 +5,23 @@ if (!isset($_SESSION['user'])) {
     header('Location: login_page.php');
 }
 
-$msg_anrede = $msg_vorname = $msg_lastname = $msg_username = $msg_email = $msg_password = $msg_password_2 = $msg_checkbox = '';
+$msg_anrede = $msg_vorname = $msg_lastname = $msg_username = $msg_email = $msg_password = '';
+
+require_once './includes/dbaccess.php';
+
+$query = "SELECT `anrede`, `vorname`, `lastname`, `email`, `username` FROM `users` WHERE `username` = ?";
+$stmt = $db_obj->prepare($query);
+$stmt->bind_param("s", $_SESSION['user']);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+$user_anrede = $user['anrede'];
+$user_vorname = $user['vorname'];
+$user_lastname = $user['lastname'];
+$user_email = $user['email'];
+$user_username = $user['username'];
+
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -91,7 +107,7 @@ function test_input($data)
         <div class="container rounded bg-white mt-5 mb-5">
             <div class="row">
                 <div class="col-md-3 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold"><?php echo $_SESSION["updateVorname"] . " " . $_SESSION["updateNachname"] ?></span><span class="text-black-50">max.mustermann@mail.com.my</span><span> </span></div>
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold"><?php echo $user_vorname . " " . $user_lastname ?></span><span class="text-black-50"><?php echo $user_email ?></span><span> </span></div>
                 </div>
                 <div class="col-md-5 border-right">
                     <div class="p-3 py-5">
@@ -103,34 +119,34 @@ function test_input($data)
                                 <select class="form-select" aria-label="anrede" name="anrede">
                                     <option disabled value="">Bitte wählen Sie den Anrede</option>
 
-                                    <option <?php if ($_SESSION["updateAnrede"] == "Herr") echo "selected"; ?> value="Herr">Herr</option>
-                                    <option <?php if ($_SESSION["updateAnrede"] == "Frau") echo "selected"; ?> value="2">Frau</option>
-                                    <option <?php if ($_SESSION["updateAnrede"] == "") echo "selected"; ?> value="3">Transgender</option>
-                                    <option <?php if ($_SESSION["updateAnrede"] == "") echo "selected"; ?> value="4">Non-binary/non-conforming</option>
-                                    <option <?php if ($_SESSION["updateAnrede"] == "") echo "selected"; ?> value="5">Keine Antwort</option>
+                                    <option <?php if ($user_anrede == "Herr") echo "selected"; ?> value="Herr">Herr</option>
+                                    <option <?php if ($user_anrede == "Frau") echo "selected"; ?> value="2">Frau</option>
+                                    <option <?php if ($user_anrede == "Transgender") echo "selected"; ?> value="3">Transgender</option>
+                                    <option <?php if ($user_anrede == "Non-binary/non-conforming") echo "selected"; ?> value="4">Non-binary/non-conforming</option>
+                                    <option <?php if ($user_anrede == "Keine Antwort") echo "selected"; ?> value="5">Keine Antwort</option>
                                 </select>
                                 <?php echo "<span class='text-success'> $msg_anrede </span>" ?>
                                 <br>
                                 <div class="form-group">
                                     <label for="vorname">Vorname</label>
-                                    <input type="text" class="form-control" name="vorname" id="vorname" value="<?php echo $_SESSION["updateVorname"] ?>">
+                                    <input type="text" class="form-control" name="vorname" id="vorname" value="<?php echo $user_vorname ?>">
                                 </div>
                                 <?php echo "<span class='text-success'> $msg_vorname </span>" ?>
                                 <br>
                                 <div class="form-group">
                                     <label for="lastname">Nachname</label>
-                                    <input type="text" class="form-control" name="lastname" id="lastname" value="<?php echo $_SESSION["updateNachname"] ?>">
+                                    <input type="text" class="form-control" name="lastname" id="lastname" value="<?php echo $user_lastname ?>">
                                 </div>
                                 <?php echo "<span class='text-success'> $msg_lastname </span>" ?><br>
                                 <div class="form-group">
                                     <label for="email">E-mail Adresse</label>
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com" value="<?php echo $_SESSION["updateEmail"] ?>">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com" value="<?php echo $user_email ?>">
                                 </div>
                                 <?php echo "<span class='text-success'> $msg_email </span>" ?>
                                 <br>
                                 <div class="form-group">
                                     <label for="username">Benutzername</label>
-                                    <input type="text" class="form-control" name="username" id="username" placeholder="Gewünschter Benutzername" value="<?php echo $_SESSION["updateUsername"] ?>">
+                                    <input type="text" class="form-control" name="username" id="username" placeholder="Gewünschter Benutzername" value="<?php echo $user_username ?>">
                                 </div>
                                 <?php echo "<span class='text-success'> $msg_username </span>" ?>
                                 <br>
