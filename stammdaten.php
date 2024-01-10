@@ -9,9 +9,9 @@ $msg_anrede = $msg_vorname = $msg_lastname = $msg_username = $msg_email = $msg_p
 
 require_once './includes/dbaccess.php';
 
-$query = "SELECT `anrede`, `vorname`, `lastname`, `email`, `username` FROM `users` WHERE `username` = ?";
+$query = "SELECT `anrede`, `vorname`, `lastname`, `email`, `username` FROM `users` WHERE `user_id` = ?";
 $stmt = $db_obj->prepare($query);
-$stmt->bind_param("s", $_SESSION['user']);
+$stmt->bind_param("i", $_SESSION['uid']);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
@@ -27,40 +27,48 @@ $user_username = $user['username'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST["anrede"])) {
-        if ($_SESSION["updateAnrede"] != $_POST["anrede"]) {
+        if ($user_anrede != $_POST["anrede"]) {
             $msg_anrede = "Anrede wurde aktualisiert!";
         }
         $_SESSION["updateAnrede"] = $_POST["anrede"];
     }
 
     if (isset($_POST["vorname"])) {
-        if ($_SESSION["updateVorname"] != $_POST["vorname"]) {
+        if ($user_vorname != $_POST["vorname"]) {
+
+            $newquery = "UPDATE `users` SET `vorname` = ? WHERE `users`.`user_id` = ?";
+            $stmt = $db_obj->prepare($newquery);
+            $stmt->bind_param("si", $_POST["vorname"], $_SESSION['uid']);
+            $stmt->execute();
+
+            $user_vorname = $_POST["vorname"];
             $msg_vorname = "Vorname wurde aktualisiert!";
         }
-        $_SESSION["updateVorname"] = $_POST["vorname"];
     }
+
     if (isset($_POST["lastname"])) {
-        if ($_SESSION["updateNachname"] != $_POST["lastname"]) {
+        if ($user_lastname != $_POST["lastname"]) {
             $msg_lastname = "Nachname wurde aktualisiert!";
         }
         $_SESSION["updateNachname"] = $_POST["lastname"];
-    }
-    if (isset($_POST["username"])) {
-        if ($_SESSION["updateUsername"] != $_POST["username"]) {
-            $msg_username = "Benutzername wurde aktualisiert!";
-        }
-        $_SESSION["updateUsername"] = $_POST["username"];
     }
 
     if (isset($_POST["email"])) {
         if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
             $msg_email = "Ungültige E-Mail-Adresse!";
         } else {
-            if ($_SESSION["updateEmail"] != $_POST["email"]) {
+            if ($user_email != $_POST["email"]) {
                 $msg_email = "Email wurde aktualisiert!";
             }
             $_SESSION["updateEmail"] = $_POST["email"];
         }
+    }
+
+    if (isset($_POST["username"])) {
+        if ($user_username != $_POST["username"]) {
+            $msg_username = "Benutzername wurde aktualisiert!";
+        }
+        $_SESSION["updateUsername"] = $_POST["username"];
     }
 
     if (!empty($_POST["password"]) && !empty($_POST["password_2"])) {

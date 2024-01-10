@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mysqli = require __DIR__ . "/includes/dbaccess.php";
 
     // Create a query and select using SQL statement
-    $query = sprintf("SELECT `username`, `password` FROM `users` WHERE `username` = '%s'", $mysqli->real_escape_string($username));
+    $query = sprintf("SELECT `user_id`, `username`, `password` FROM `users` WHERE `username` = '%s'", $mysqli->real_escape_string($username));
 
     $result = $mysqli->query($query);
     $user = $result->fetch_assoc();
@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //die("Successful login!");
             session_start();
             $_SESSION['user'] = $username;
+            $_SESSION['uid'] = $user["user_id"];
 
             // Set a cookie for the username (you can set other cookie parameters as needed)
             setcookie('username', $username, time() + 3600, '/'); // Cookie expires in 1 hour
