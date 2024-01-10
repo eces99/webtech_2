@@ -25,6 +25,11 @@
             <li class="nav-item">
               <a class="nav-link" href="./reservation_process.php">Zimmer buchen</a>
             </li>
+          <?php }
+          if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") { ?>
+            <li class="nav-item">
+              <a class="nav-link" href="./userverwaltung.php">Userverwaltung</a>
+            </li>
           <?php } ?>
         </ul>
         <ul class="navbar-nav ms-auto">
@@ -39,12 +44,12 @@
             <li class="nav-item"><a class="nav-link" href="./logout.php">Logout</a></li>
           <?php } else { ?>
 
-          <!-- nicht logged in users können die nur login und anmelden auf der rechte seite des navbars sehen ansehen -->
+            <!-- nicht logged in users können die nur login und anmelden auf der rechte seite des navbars sehen ansehen -->
             <li class="nav-item">
               <a class="nav-link" href="./login_page.php">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./register_page.php">Anmelden</a>
+              <a class="nav-link" href="./register_page.php">Registrieren</a>
             </li>
           <?php } ?>
         </ul>

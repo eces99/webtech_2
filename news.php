@@ -114,8 +114,8 @@ session_start();
         }
 
 
-        // Upload Form HTML
-        if (isset($_SESSION["user"]) && $_SESSION["user"] == "admin") {
+        // Upload Form HTML for admins
+        if (isset($_SESSION["role"]) && $_SESSION["role"] == "admin") {
         ?>
             <hr>
             <h3 class="display-5 text-center pt-4 pb-4" style="font-weight:bold; color:white;">Beiträge hochladen (Admin)</h3>

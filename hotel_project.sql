@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 05. Jan 2024 um 19:30
+-- Erstellungszeit: 10. Jan 2024 um 23:21
 -- Server-Version: 10.4.19-MariaDB
 -- PHP-Version: 7.3.28
 
@@ -73,13 +73,14 @@ CREATE TABLE `reservations` (
 
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
-  `role` varchar(10) NOT NULL DEFAULT 'anonym',
+  `role` varchar(10) DEFAULT 'user',
   `anrede` varchar(32) NOT NULL,
   `vorname` varchar(32) NOT NULL,
   `lastname` varchar(32) NOT NULL,
   `email` varchar(32) NOT NULL,
   `username` varchar(32) NOT NULL,
   `password` varchar(128) NOT NULL,
+  `status` varchar(32) NOT NULL DEFAULT 'aktiv',
   `profile_photo` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -87,15 +88,10 @@ CREATE TABLE `users` (
 -- Daten für Tabelle `users`
 --
 
-INSERT INTO `users` (`user_id`, `role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `profile_photo`) VALUES
-(1, 'anonym', 'Herr', 'Kenn-Michael', 'Sanga', 'kennsanga@yahoo.com', 'kenn', '123', ''),
-(4, 'anonym', 'Herr', 'Kenn', 'Sanga', 'kennsanga@gmail.com', 'kenno', '73941847d9611927275d93139981ee78', ''),
-(6, 'anonym', 'Herr', 'asdf', 'asdf', 'asdf@asdf.asdf', 'asdf', '401b09eab3c013d4ca54922bb802bec8fd5318192b0a75f201d8b3727429080fb337591abd3e44453b954555b7a0812e1081c39b740293f765eae731f5a65ed1', ''),
-(9, 'anonym', '', 'asdf', 'asdf', 'asdf@asdfasdf', 'qwer', '401b09eab3c013d4ca54922bb802bec8fd5318192b0a75f201d8b3727429080fb337591abd3e44453b954555b7a0812e1081c39b740293f765eae731f5a65ed1', ''),
-(11, 'anonym', 'Frau', 'Kenn-Michael', 'Sanga', 'herbertnewald@yahoo.com', '11114444', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', ''),
-(18, 'anonym', 'Herr', 'Kenn-Michael', 'Sanga', 'kennsanga@yahoo.comf', 'kenn123', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', ''),
-(20, 'anonym', '', 'kenn2', 'sanga2', 'kennsanga@gmail.comasdf', 'kenntest', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', ''),
-(21, 'anonym', 'Herr', 'test', 'test', 'test@est.adf', 'test', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', '');
+INSERT INTO `users` (`user_id`, `role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `status`, `profile_photo`) VALUES
+(40, 'user', 'Herr', 'user', 'user', 'user@user.user', 'user', 'b14361404c078ffd549c03db443c3fede2f3e534d73f78f77301ed97d4a436a9fd9db05ee8b325c0ad36438b43fec8510c204fc1c1edb21d0941c00e9e2c1ce2', 'aktiv', ''),
+(41, 'admin', 'Herr', 'admin', 'admin', 'admin@admin.admin', 'admin', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', 'aktiv', ''),
+(42, 'user', 'Herr', 'Kenn-Michael', 'Sanga', 'kennsanga@yahoo.com', 'if23b128', '720fa1a25ee112bb64259ab07d62e20076a3b55879d998596a5ed35362d1e6ba67e2b504e0e78eea5cd291f280e639c24f6b640853d494494fe05e521cb268b0', 'aktiv', '');
 
 --
 -- Indizes der exportierten Tabellen
@@ -153,7 +149,7 @@ ALTER TABLE `reservations`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
