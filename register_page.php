@@ -11,7 +11,7 @@ $anrede = $vorname = $lastname = $username = $email = $password = $password_2 = 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if (!isset($_POST["anrede"])) {
+    if (empty($_POST["anrede"])) {
         $msg_anrede = "Anrede ist benötigt!";
     } else {
         $anrede = test_input($_POST["anrede"]);
