@@ -5,11 +5,11 @@ if (!isset($_SESSION['user'])) {
     header('Location: login_page.php');
 }
 
-$msg_anrede = $msg_vorname = $msg_lastname = $msg_username = $msg_email = $msg_password = '';
+$msg_anrede = $msg_vorname = $msg_lastname = $msg_email = $msg_username = $msg_password = '';
 
 require_once './includes/dbaccess.php';
 
-$query = "SELECT `anrede`, `vorname`, `lastname`, `email`, `username` FROM `users` WHERE `user_id` = ?";
+$query = "SELECT `anrede`, `vorname`, `lastname`, `email`, `username`, `password` FROM `users` WHERE `user_id` = ?";
 $stmt = $db_obj->prepare($query);
 $stmt->bind_param("i", $_SESSION['uid']);
 $stmt->execute();
@@ -21,6 +21,7 @@ $user_vorname = $user['vorname'];
 $user_lastname = $user['lastname'];
 $user_email = $user['email'];
 $user_username = $user['username'];
+$user_password = $user['password'];
 
 
 
@@ -28,9 +29,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST["anrede"])) {
         if ($user_anrede != $_POST["anrede"]) {
+            $newquery = "UPDATE `users` SET `anrede` = ? WHERE `users`.`user_id` = ?";
+            $stmt = $db_obj->prepare($newquery);
+            $stmt->bind_param("si", $_POST["anrede"], $_SESSION['uid']);
+            $stmt->execute();
+
+            $user_anrede = $_POST["anrede"];
             $msg_anrede = "Anrede wurde aktualisiert!";
         }
-        $_SESSION["updateAnrede"] = $_POST["anrede"];
     }
 
     if (isset($_POST["vorname"])) {
@@ -48,9 +54,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST["lastname"])) {
         if ($user_lastname != $_POST["lastname"]) {
+
+            $newquery = "UPDATE `users` SET `lastname` = ? WHERE `users`.`user_id` = ?";
+            $stmt = $db_obj->prepare($newquery);
+            $stmt->bind_param("si", $_POST["lastname"], $_SESSION['uid']);
+            $stmt->execute();
+
+            $user_lastname = $_POST["lastname"];
+
             $msg_lastname = "Nachname wurde aktualisiert!";
         }
-        $_SESSION["updateNachname"] = $_POST["lastname"];
     }
 
     if (isset($_POST["email"])) {
@@ -58,28 +71,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $msg_email = "Ungültige E-Mail-Adresse!";
         } else {
             if ($user_email != $_POST["email"]) {
-                $msg_email = "Email wurde aktualisiert!";
+                $newquery = "UPDATE `users` SET `email` = ? WHERE `users`.`user_id` = ?";
+                $stmt = $db_obj->prepare($newquery);
+                $stmt->bind_param("si", $_POST["email"], $_SESSION['uid']);
+
+                if ($stmt->execute()) {
+                    $user_email = $_POST["email"];
+                    $msg_email = "<span class='text-success'>Email wurde aktualisiert!</span>";
+                } else {
+                    if ($db_obj->errno === 1062) { // error code 1062 means duplicate entry in unique
+                        $msg_email = "<span class='text-danger'>Email has already been taken!</span>";
+                    }
+                    die($db_obj->error . " " . $db_obj->errno);
+                }
             }
-            $_SESSION["updateEmail"] = $_POST["email"];
         }
     }
 
     if (isset($_POST["username"])) {
         if ($user_username != $_POST["username"]) {
-            $msg_username = "Benutzername wurde aktualisiert!";
+            $newquery = "UPDATE `users` SET `username` = ? WHERE `users`.`user_id` = ?";
+            $stmt = $db_obj->prepare($newquery);
+            $stmt->bind_param("si", $_POST["username"], $_SESSION['uid']);
+
+            if ($stmt->execute()) {
+                $user_username = $_POST["username"];
+                $msg_username = "<span class='text-success'>Username wurde aktualisiert!</span>";
+            } else {
+                if ($db_obj->errno === 1062) { // error code 1062 means duplicate entry in unique
+                    $msg_username = "<span class='text-success'>Username has already been taken</span>";
+                }
+                die($db_obj->error . " " . $db_obj->errno);
+            }
         }
-        $_SESSION["updateUsername"] = $_POST["username"];
     }
 
-    if (!empty($_POST["password"]) && !empty($_POST["password_2"])) {
-        if ($_POST["password"] == $_SESSION["updatePassword_1"]) {
-            $_SESSION["updatePassword_1"] = $_POST["password_2"];
-            $msg_password = "<span class='text-success'> Passwort wurde aktualisiert! </span>";
+    if (!empty($_POST["password"]) && !empty($_POST["password_2"])) { // Check if
+        $hashpassword_old = hash('sha512', $_POST["password"]);
+
+        if ($hashpassword_old == $user_password) { // Check if old password is correct
+            if ($_POST["password_2"] == $_POST["password_3"]) { // Check if new password is entered correctly twice
+                $hashpassword_new = hash('sha512', $_POST["password_2"]);
+                $newquery = "UPDATE `users` SET `password` = ? WHERE `users`.`user_id` = ?";
+                $stmt = $db_obj->prepare($newquery);
+                $stmt->bind_param("si", $hashpassword_new, $_SESSION['uid']);
+                $stmt->execute();
+                $msg_password = "<span class='text-success'>Passwort wurde aktualisiert!</span>";
+            } else {
+                $msg_password = "<span class='text-danger'>Neues Passwort erneut korrekt eingeben!</span>";
+            }
         } else {
-            $msg_password = "<span class='text-danger'> Altes Passwort stimmt nicht überein! </span>";
+            $msg_password = "<span class='text-danger'>Altes Passwort stimmt nicht überein!</span>";
         }
-    } else if (!empty($_POST["password"]) xor !empty($_POST["password_2"])) {
-        $msg_password = "<span class='text-danger'> Bitte altes und neues Passwort angeben! </span>";
+    } else if (!empty($_POST["password"]) || !empty($_POST["password_2"]) || !empty($_POST["password_3"])) {
+        $msg_password = "<span class='text-danger'>Bitte altes und neues Passwort angeben!</span>";
     }
 }
 
@@ -128,10 +173,10 @@ function test_input($data)
                                     <option disabled value="">Bitte wählen Sie den Anrede</option>
 
                                     <option <?php if ($user_anrede == "Herr") echo "selected"; ?> value="Herr">Herr</option>
-                                    <option <?php if ($user_anrede == "Frau") echo "selected"; ?> value="2">Frau</option>
-                                    <option <?php if ($user_anrede == "Transgender") echo "selected"; ?> value="3">Transgender</option>
-                                    <option <?php if ($user_anrede == "Non-binary/non-conforming") echo "selected"; ?> value="4">Non-binary/non-conforming</option>
-                                    <option <?php if ($user_anrede == "Keine Antwort") echo "selected"; ?> value="5">Keine Antwort</option>
+                                    <option <?php if ($user_anrede == "Frau") echo "selected"; ?> value="Frau">Frau</option>
+                                    <option <?php if ($user_anrede == "Transgender") echo "selected"; ?> value="Transgender">Transgender</option>
+                                    <option <?php if ($user_anrede == "Non-binary/non-conforming") echo "selected"; ?> value="Non-binary/non-conforming">Non-binary/non-conforming</option>
+                                    <option <?php if ($user_anrede == "Keine Antwort") echo "selected"; ?> value="Keine Antwort">Keine Antwort</option>
                                 </select>
                                 <?php echo "<span class='text-success'> $msg_anrede </span>" ?>
                                 <br>
@@ -150,13 +195,13 @@ function test_input($data)
                                     <label for="email">E-mail Adresse</label>
                                     <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com" value="<?php echo $user_email ?>">
                                 </div>
-                                <?php echo "<span class='text-success'> $msg_email </span>" ?>
+                                <?php echo $msg_email; ?>
                                 <br>
                                 <div class="form-group">
                                     <label for="username">Benutzername</label>
                                     <input type="text" class="form-control" name="username" id="username" placeholder="Gewünschter Benutzername" value="<?php echo $user_username ?>">
                                 </div>
-                                <?php echo "<span class='text-success'> $msg_username </span>" ?>
+                                <?php echo $msg_username; ?>
                                 <br>
                                 <div class="form-group">
                                     <label for="password">Altes Passwort</label>
@@ -166,6 +211,11 @@ function test_input($data)
                                 <div class="form-group">
                                     <label for="password_2">Neues Passwort</label>
                                     <input type="password" class="form-control" name="password_2" id="password_2" value="">
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label for="password_3">Neues Passwort bestätigen</label>
+                                    <input type="password" class="form-control" name="password_3" id="password_3" value="">
                                 </div>
                                 <?php echo $msg_password; ?>
                                 <br>
