@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mysqli = require __DIR__ . "/includes/dbaccess.php";
 
     // Create a query and select using SQL statement
-    $query = sprintf("SELECT `user_id`, `role`, `username`, `password` FROM `users` WHERE `username` = '%s'", $mysqli->real_escape_string($username));
+    $query = sprintf("SELECT `user_id`, `role`, `username`, `password`, `status` FROM `users` WHERE `username` = '%s'", $mysqli->real_escape_string($username));
 
     $result = $mysqli->query($query);
     $user = $result->fetch_assoc();
@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user) {
         if (hash('sha512', $password) == $user["password"]) {
             //die("Successful login!");
+            if($user["status"] != "inaktiv") {
             session_start();
             $_SESSION['user'] = $user["username"];
             $_SESSION['uid'] = $user["user_id"];
@@ -26,6 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             header("Location: login_success.php");
             die();
+        } else {
+            echo "inaktiv";
+        }
         } else {
             echo "Invalid password!<br>";
         }
