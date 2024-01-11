@@ -39,7 +39,7 @@ if ($_SESSION['role'] != "admin") {
                 <th>Nachname</th>
                 <th>E-Mail</th>
                 <th>Username</th>
-                <th>Passwort</th>
+                <!--<th>Passwort</th>-->
                 <th>Status</th>
                 <th>Actions</th> <!-- Added a new header for the "Edit" button -->
                 <?php
@@ -58,11 +58,11 @@ if ($_SESSION['role'] != "admin") {
                     echo "<td>" . $user['lastname'] . "</td>";
                     echo "<td>" . $user['email'] . "</td>";
                     echo "<td>" . $user['username'] . "</td>";
-                    echo "<td>" . $user['password'] . "</td>";      //wie sinvoll pass zu sehen? datenschutz?
+                    //echo "<td>" . $user['password'] . "</td>";      //wie sinvoll pass zu sehen? datenschutz?
                     echo "<td>" . $user['status'] . "</td>";
                     // Add a link or button for editing with the user ID as a parameter
                     echo "<td><a href='user_update.php?user_id=" . $user['user_id'] . "' class='btn btn-primary btn-sm'>Edit</a></td>";
-                    echo "</tr>";                    
+                    echo "</tr>";
                 }
                 ?>
             </table>

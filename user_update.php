@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Reset Password
-    if (isset($_POST["password"])) {
+    if (!empty($_POST["password"])) {
         $new_password = hash('sha512', $_POST["password"]);
 
         $newquery = "UPDATE `users` SET `password` = ? WHERE `users`.`user_id` = ?";
@@ -134,19 +134,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-    if (isset($_POST["status"])) {
-        if ($user_status != $_POST["status"]) {
+if (isset($_POST["status"])) {
+    if ($user_status != $_POST["status"]) {
 
-            $newquery = "UPDATE `users` SET `status` = ? WHERE `users`.`user_id` = ?";
-            $stmt = $db_obj->prepare($newquery);
-            $stmt->bind_param("si", $_POST["status"], $user_id);
-            $stmt->execute();
+        $newquery = "UPDATE `users` SET `status` = ? WHERE `users`.`user_id` = ?";
+        $stmt = $db_obj->prepare($newquery);
+        $stmt->bind_param("si", $_POST["status"], $user_id);
+        $stmt->execute();
 
-            $user_status = $_POST["status"];
+        $user_status = $_POST["status"];
 
-            $msg_status = "Status wurde aktualisiert!";
-        }
+        $msg_status = "Status wurde aktualisiert!";
     }
+}
 
 
 function test_input($data)
@@ -232,7 +232,12 @@ function test_input($data)
                                 <br>
                                 <div class="form-group">
                                     <label for="status">Status</label>
-                                    <input type="text" class="form-control" name="status" id="status" value="<?php echo $user_status ?>">
+                                    <!--<input type="text" class="form-control" name="status" id="status" value="<?php //echo $user_status 
+                                                                                                                    ?>">-->
+                                    <select class="form-select" aria-label="status" name="status">
+                                        <option <?php if ($user_status == "aktiv") echo "selected"; ?> value="aktiv">aktiv</option>
+                                        <option <?php if ($user_status == "inaktiv") echo "selected"; ?> value="inaktiv">inaktiv</option>
+                                    </select>
                                 </div>
                                 <?php echo "<span class='text-success'> $msg_status </span>" ?>
                                 <br>
