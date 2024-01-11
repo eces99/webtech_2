@@ -179,7 +179,7 @@ function test_input($data)
                 <div class="col-md-5 border-right">
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right">Profileinstellungen</h4>
+                            <h4 class="text-right">Profileinstellungen <?php echo $user_username ?></h4>
                         </div>
                         <div class="row mt-3">
                             <form action="" method="post">
