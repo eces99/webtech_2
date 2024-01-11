@@ -228,7 +228,7 @@ function test_input($data)
                                     <label for="password">Neues Passwort</label>
                                     <input type="password" class="form-control" name="password" id="password" value="">
                                 </div>
-                                <?php echo $msg_password; ?>
+                                <?php echo "<span class='text-success'> $msg_password </span>" ?>
                                 <br>
                                 <div class="form-group">
                                     <label for="status">Status</label>

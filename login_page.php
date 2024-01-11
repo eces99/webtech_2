@@ -1,6 +1,9 @@
 <?php
 
+$errorMsg = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+   
 
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -17,21 +20,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (hash('sha512', $password) == $user["password"]) {
             //die("Successful login!");
             if($user["status"] != "inaktiv") {
-            session_start();
-            $_SESSION['user'] = $user["username"];
-            $_SESSION['uid'] = $user["user_id"];
-            $_SESSION['role'] = $user["role"];
+                session_start();
+                $_SESSION['user'] = $user["username"];
+                $_SESSION['uid'] = $user["user_id"];
+                $_SESSION['role'] = $user["role"];
 
-            // Set a cookie for the username (you can set other cookie parameters as needed)
-            setcookie('username', $username, time() + 3600, '/'); // Cookie expires in 1 hour
+                // Set a cookie for the username (you can set other cookie parameters as needed)
+                setcookie('username', $username, time() + 3600, '/'); // Cookie expires in 1 hour
 
-            header("Location: login_success.php");
-            die();
+                header("Location: login_success.php");
+                die();
+            } else {
+                $errorMsg = "Sie sind inaktive bitte kontaktieren mit uns!";
+            }
         } else {
-            echo "inaktiv";
-        }
-        } else {
-            echo "Invalid password!<br>";
+            $errorMsg = "Ungültige passwort!";
         }
     }
     /*
@@ -91,10 +94,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-sm-6 col-md-4" id="box">
                     <div class="p-3 mb-2 bg-transparent text-dark">
                         <h1 class="h3 mb-3 font-weight-normal text-center">Bitte einloggen</h1>
-                        <!-- Display error message if present -->
-                        <?php if (!empty($errorMsg)) : ?>
-                            <p style="color: red;"><?php echo $errorMsg; ?></p>
-                        <?php endif; ?>
                         <form method="post">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Ihre Benutzername</label>
@@ -105,7 +104,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
                             </div>
                             <br>
-
+                            <!-- Display error message if present -->
+                            <?php if (!empty($errorMsg)) : ?>
+                                <p style="color: red;"><?php echo $errorMsg; ?></p>
+                            <?php endif; ?>
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                 <label class="form-check-label" for="exampleCheck1">Angemeldet bleiben</label>
