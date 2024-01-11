@@ -5,7 +5,7 @@ if ($_SESSION['role'] != "admin") {
     header('Location: index.php');
 }
 
-$msg_anrede = $msg_vorname = $msg_lastname = $msg_email = $msg_username = $msg_password = '';
+$msg_anrede = $msg_vorname = $msg_lastname = $msg_email = $msg_username = $msg_password = $msg_status = '';
 
 require_once './includes/dbaccess.php';
 
@@ -13,7 +13,7 @@ require_once './includes/dbaccess.php';
 if (isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
 
-    $query = "SELECT `anrede`, `vorname`, `lastname`, `email`, `username`, `password` FROM `users` WHERE `user_id` = ?";
+    $query = "SELECT `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `status` FROM `users` WHERE `user_id` = ?";
     $stmt = $db_obj->prepare($query);
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -27,6 +27,7 @@ if (isset($_GET['user_id'])) {
         $user_email = $user['email'];
         $user_username = $user['username'];
         $user_password = $user['password'];
+        $user_status = $user['status'];
     } else {
         // Handle case where user with provided ID is not found
         echo "User not found!";
@@ -120,27 +121,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if (!empty($_POST["password"]) && !empty($_POST["password_2"])) { // Check if
-        $hashpassword_old = hash('sha512', $_POST["password"]);
+    // Reset Password
+    if (isset($_POST["password"])) {
+        $new_password = hash('sha512', $_POST["password"]);
 
-        if ($hashpassword_old == $user_password) { // Check if old password is correct
-            if ($_POST["password_2"] == $_POST["password_3"]) { // Check if new password is entered correctly twice
-                $hashpassword_new = hash('sha512', $_POST["password_2"]);
-                $newquery = "UPDATE `users` SET `password` = ? WHERE `users`.`user_id` = ?";
-                $stmt = $db_obj->prepare($newquery);
-                $stmt->bind_param("si", $hashpassword_new, $user_id);
-                $stmt->execute();
-                $msg_password = "<span class='text-success'>Passwort wurde aktualisiert!</span>";
-            } else {
-                $msg_password = "<span class='text-danger'>Neues Passwort erneut korrekt eingeben!</span>";
-            }
-        } else {
-            $msg_password = "<span class='text-danger'>Altes Passwort stimmt nicht überein!</span>";
-        }
-    } else if (!empty($_POST["password"]) || !empty($_POST["password_2"]) || !empty($_POST["password_3"])) {
-        $msg_password = "<span class='text-danger'>Bitte altes und neues Passwort angeben!</span>";
+        $newquery = "UPDATE `users` SET `password` = ? WHERE `users`.`user_id` = ?";
+        $stmt = $db_obj->prepare($newquery);
+        $stmt->bind_param("si", $new_password, $user_id);
+        $stmt->execute();
+
+        $msg_password = "Password reset successfully!";
     }
 }
+
+    if (isset($_POST["status"])) {
+        if ($user_status != $_POST["status"]) {
+
+            $newquery = "UPDATE `users` SET `status` = ? WHERE `users`.`user_id` = ?";
+            $stmt = $db_obj->prepare($newquery);
+            $stmt->bind_param("si", $_POST["status"], $user_id);
+            $stmt->execute();
+
+            $user_status = $_POST["status"];
+
+            $msg_status = "Status wurde aktualisiert!";
+        }
+    }
+
 
 function test_input($data)
 {
@@ -218,20 +225,16 @@ function test_input($data)
                                 <?php echo $msg_username; ?>
                                 <br>
                                 <div class="form-group">
-                                    <label for="password">Altes Passwort</label>
+                                    <label for="password">Neues Passwort</label>
                                     <input type="password" class="form-control" name="password" id="password" value="">
                                 </div>
-                                <br>
-                                <div class="form-group">
-                                    <label for="password_2">Neues Passwort</label>
-                                    <input type="password" class="form-control" name="password_2" id="password_2" value="">
-                                </div>
-                                <br>
-                                <div class="form-group">
-                                    <label for="password_3">Neues Passwort bestätigen</label>
-                                    <input type="password" class="form-control" name="password_3" id="password_3" value="">
-                                </div>
                                 <?php echo $msg_password; ?>
+                                <br>
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <input type="text" class="form-control" name="status" id="status" value="<?php echo $user_status ?>">
+                                </div>
+                                <?php echo "<span class='text-success'> $msg_status </span>" ?>
                                 <br>
                                 <div class="col-12">
                                     <button class="btn btn-dark" type="submit" name="register">Änderungen speichern</button>
