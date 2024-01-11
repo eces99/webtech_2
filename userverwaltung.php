@@ -45,7 +45,7 @@ if ($_SESSION['role'] != "admin") {
                 <?php
                 include_once "./includes/dbaccess.php";
 
-                $query = "SELECT * FROM `users`";
+                $query = "SELECT * FROM `users` WHERE role != 'admin'";
                 $stmt = $db_obj->prepare($query);
                 $stmt->execute();
                 $result = $stmt->get_result();
@@ -58,7 +58,7 @@ if ($_SESSION['role'] != "admin") {
                     echo "<td>" . $user['lastname'] . "</td>";
                     echo "<td>" . $user['email'] . "</td>";
                     echo "<td>" . $user['username'] . "</td>";
-                    echo "<td>" . $user['password'] . "</td>";
+                    echo "<td>" . $user['password'] . "</td>";      //wie sinvoll pass zu sehen? datenschutz?
                     echo "<td>" . $user['status'] . "</td>";
                     // Add a link or button for editing with the user ID as a parameter
                     echo "<td><a href='user_update.php?user_id=" . $user['user_id'] . "' class='btn btn-primary btn-sm'>Edit</a></td>";
