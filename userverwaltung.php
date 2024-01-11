@@ -31,8 +31,8 @@ if ($_SESSION['role'] != "admin") {
     </div>
 
     <div class="container">
-        <div class="row">
-            <table class="table table-hover">
+        <div class="table-responsive">
+            <table class="table">
                 <th>Rolle</th>
                 <th>Anrede</th>
                 <th>Vorname</th>
@@ -41,6 +41,7 @@ if ($_SESSION['role'] != "admin") {
                 <th>Username</th>
                 <th>Passwort</th>
                 <th>Status</th>
+                <th>Actions</th> <!-- Added a new header for the "Edit" button -->
                 <?php
                 include_once "./includes/dbaccess.php";
 
@@ -49,6 +50,7 @@ if ($_SESSION['role'] != "admin") {
                 $stmt->execute();
                 $result = $stmt->get_result();
                 while ($user = $result->fetch_assoc()) {
+                    // Inside the while loop
                     echo "<tr>";
                     echo "<td>" . $user['role'] . "</td>";
                     echo "<td>" . $user['anrede'] . "</td>";
@@ -58,7 +60,9 @@ if ($_SESSION['role'] != "admin") {
                     echo "<td>" . $user['username'] . "</td>";
                     echo "<td>" . $user['password'] . "</td>";
                     echo "<td>" . $user['status'] . "</td>";
-                    echo "</tr>";
+                    // Add a link or button for editing with the user ID as a parameter
+                    echo "<td><a href='user_update.php?user_id=" . $user['user_id'] . "' class='btn btn-primary btn-sm'>Edit</a></td>";
+                    echo "</tr>";                    
                 }
                 ?>
             </table>
