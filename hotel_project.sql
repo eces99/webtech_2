@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 10. Jan 2024 um 23:21
+-- Erstellungszeit: 11. Jan 2024 um 13:46
 -- Server-Version: 10.4.19-MariaDB
 -- PHP-Version: 7.3.28
 
@@ -41,11 +41,20 @@ CREATE TABLE `admins` (
 CREATE TABLE `news` (
   `news_id` int(11) NOT NULL,
   `news_title` varchar(64) NOT NULL,
-  `news_content` varchar(1024) NOT NULL,
-  `news_image` blob NOT NULL,
+  `news_text` varchar(1024) NOT NULL,
+  `news_filepath` varchar(512) NOT NULL,
   `news_date` date DEFAULT current_timestamp(),
   `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Daten für Tabelle `news`
+--
+
+INSERT INTO `news` (`news_id`, `news_title`, `news_text`, `news_filepath`, `news_date`, `admin_id`) VALUES
+(1, 'header', 'text test lmao', 'C:\\xampp\\htdocs\\webtech_2\\uploads\\son.jpg', '2024-01-11', 0),
+(2, 'Werner und Tottenham - passt das?', 'Werners Motive sind klar nachvollziehbar: Der Angreifer will unbedingt bei der Heim-EM im Sommer dabei sein. Ein Ziel, das er jedoch in Leipzig ernsthaft gefährdet sieht, da er bei den Sachsen zuletzt nur noch die zweite Geige spielte. „Er muss Spielpraxis sammeln, wenn er bei der Europameisterschaft eine Rolle spielen möchte“, betonte Rose.', 'C:\\xampp\\htdocs\\webtech_2\\uploads\\hyemhyemu.jpg', '2024-01-11', 0),
+(3, 'How to align an image dead center with bootstrap', 'I\'m using the bootstrap framework and trying to get an image centered horizontally without success..\r\n\r\nI\'ve tried various techniques such as splitting the the 12 grid system in 3 equal blocks e.g', 'C:\\xampp\\htdocs\\webtech_2\\uploads\\Mr._Krabs_Theorie.jpg', '2024-01-11', 0);
 
 -- --------------------------------------------------------
 
@@ -91,7 +100,9 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `status`, `profile_photo`) VALUES
 (40, 'user', 'Herr', 'user', 'user', 'user@user.user', 'user', 'b14361404c078ffd549c03db443c3fede2f3e534d73f78f77301ed97d4a436a9fd9db05ee8b325c0ad36438b43fec8510c204fc1c1edb21d0941c00e9e2c1ce2', 'aktiv', ''),
 (41, 'admin', 'Herr', 'admin', 'admin', 'admin@admin.admin', 'admin', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', 'aktiv', ''),
-(42, 'user', 'Herr', 'Kenn-Michael', 'Sanga', 'kennsanga@yahoo.com', 'if23b128', '720fa1a25ee112bb64259ab07d62e20076a3b55879d998596a5ed35362d1e6ba67e2b504e0e78eea5cd291f280e639c24f6b640853d494494fe05e521cb268b0', 'aktiv', '');
+(42, 'user', 'Herr', 'Kenn-Michael', 'Sanga', 'kennsanga@yahoo.com', 'if23b128', '720fa1a25ee112bb64259ab07d62e20076a3b55879d998596a5ed35362d1e6ba67e2b504e0e78eea5cd291f280e639c24f6b640853d494494fe05e521cb268b0', 'aktiv', ''),
+(43, 'user', 'Frau', 'test', 'test', 'test@test.test', 'test', 'ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff', 'aktiv', ''),
+(44, 'user', 'Herr', '', '', '', '', 'cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e', 'aktiv', '');
 
 --
 -- Indizes der exportierten Tabellen
@@ -137,7 +148,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT für Tabelle `news`
 --
 ALTER TABLE `news`
-  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT für Tabelle `reservations`
@@ -149,7 +160,7 @@ ALTER TABLE `reservations`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
