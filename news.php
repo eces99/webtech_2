@@ -29,7 +29,13 @@ session_start();
 
         <?php
 
+        include_once "./includes/dbaccess.php";
+
+
+
         // News Post PHP
+
+        // sort news
         function scan_dir($dir)
         {
             $ignored = array('.', '..', '.svn', '.htaccess');
@@ -50,20 +56,32 @@ session_start();
 
         $files = scan_dir($uploadDir);
 
-        for ($i = 0; $i < count($files); $i++) {
+        $query_select = "SELECT `news_title`, `news_text`, `news_filepath`, `news_date` FROM `news`";
+        $stmt = $db_obj->prepare($query_select);
+        $stmt->execute();
+        $stmt->bind_result($db_newsTitle, $db_newsText, $db_newsFilepath, $db_newsDate);
+        //$result = $stmt->get_result();
+
+        //for ($i = 0; $i < count($files); $i++) {
+        //while ($news = $result->fetch_assoc()) {
+        while ($stmt->fetch()) {
+            //$db_newsTitle = $news["news_title"];
+            //$db_newsText = $news["news_text"];
+            //$db_newsFilepath = $news["news_filepath"];
+            //$db_newsDate = $news["news_date"];
         ?>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-9 text-center" id="box">
-                        <h4 class="mt-3">Überschrift <?php echo $i + 1; ?></h4>
-                        <img src="uploads/<?php echo $files[$i]; ?>" alt="newsImage" class="img-thumbnail mt-3 mb-3" style="width:50%;">
-                        <p class="mb-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium reiciendis impedit at quis vitae eveniet vero sint molestiae ullam, sequi, aspernatur porro odit ex voluptates iste, ipsum suscipit eligendi aliquid!</p>
+                        <h4 class="mt-3"><?php echo $db_newsTitle; ?></h4>
+                        <img src=".../<?php echo $db_newsFilepath; ?>" alt="newsImage" class="img-thumbnail mt-3 mb-3" style="width:50%;">
+                        <p class="mb-3 text-justify"><?php echo $db_newsText; ?></p>
+                        <h6 class="mb-3 text-left">Veröffentlicht am <?php echo $db_newsDate; ?></h6>
                     </div>
                 </div>
             </div>
         <?php
         }
-
 
         if (count($files) == 0) {
         ?>
@@ -108,6 +126,12 @@ session_start();
             }
 
             if ($uploadCheck == 1) {
+
+                $query_upload = "INSERT INTO `news` (`news_title`,`news_text`,`news_filepath`) VALUES (?, ?, ?)";
+                $stmt = $db_obj->prepare($query_upload);
+                $stmt->bind_param("sss", $newsHeader, $newsText, $destination);
+                $stmt->execute();
+
                 move_uploaded_file($_FILES["image"]["tmp_name"], $destination);
                 $output = "<span class='text-success'>Die Datei " . $_FILES["image"]["name"] . " wurde hochgeladen!</span>";
             }
@@ -116,6 +140,7 @@ session_start();
 
         // Upload Form HTML for admins
         if (isset($_SESSION["role"]) && $_SESSION["role"] == "admin") {
+
         ?>
             <hr>
             <h3 class="display-5 text-center pt-4 pb-4" style="font-weight:bold; color:white;">Beiträge hochladen (Admin)</h3>
