@@ -39,7 +39,8 @@ if (!isset($_SESSION['user'])) {
                 <th>Parking</th>
                 <th>Tiere</th>
                 <th>Status</th>
-                <th>User</th> <!-- change to visible for only admins -->
+                <th>User</th> <!-- change to visible for only admins? -->
+                <th>Erstellt am</th>
                 <?php
                 include_once "./includes/dbaccess.php";
 
@@ -58,6 +59,7 @@ if (!isset($_SESSION['user'])) {
                     echo "<td>" . $res['pets_service'] . "</td>";
                     echo "<td>" . $res['reservation_status'] . "</td>";      
                     echo "<td>" . $res['uid_fk'] . "</td>";
+                    echo "<td>" . $res['erstellt_am'] . "</td>";
                     echo "</tr>";                    
                 }
                 ?>

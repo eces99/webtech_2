@@ -72,7 +72,8 @@ CREATE TABLE `reservations` (
   `pets_service` varchar(10),
   `reservation_status` varchar(20) DEFAULT 'neu',
   `admin_id` int(11) NOT NULL,
-  `uid_fk` int(11) DEFAULT NULL
+  `uid_fk` int(11) DEFAULT NULL,
+  `erstellt_am` DATETIME
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

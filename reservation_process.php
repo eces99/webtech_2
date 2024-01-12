@@ -56,16 +56,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Get user_id from the session
   $user_id = $_SESSION['uid'];
+  $aktuellerTimestamp = time();
+  $timestamp = date("Y-m-d H:i:s", $aktuellerTimestamp);
 
   // Insert reservation into the database
-  $query = "INSERT INTO `reservations`(`arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`, `uid_fk`) VALUES (?,?,?,?,?,?,?)";
+  $query = "INSERT INTO `reservations`(`arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`, `uid_fk`, `erstellt_am`) VALUES (?,?,?,?,?,?,?,?)";
   $stmt = $db_obj->stmt_init();
   if (!$stmt->prepare($query)) {
     die("SQL error: " . $db_obj->error);
   }
 
     $stmt = $db_obj->prepare($query);
-    $stmt->bind_param("ssssssi", $arrival_date, $departure_date, $room_type, $breakfast_service, $parking_service, $pets_service, $user_id);
+    $stmt->bind_param("ssssssis", $arrival_date, $departure_date, $room_type, $breakfast_service, $parking_service, $pets_service, $user_id, $timestamp);
 
   if ($stmt->execute()) {  
     $conf_msg = "Reservierung erfolgreich";
@@ -131,9 +133,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="room_type">Zimmertyp</label>
                     <select class="form-select" aria-label="room" name="room_type">
                       <option selected disabled value="">Bitte wählen Sie den Zimmertyp...</option>
-                      <option value="Single">Single Zimmer</option>
-                      <option value="Double">Double Zimmer</option>
-                      <option value="Suite">Suite</option>
+                      <option value="Single">Single Zimmer - 90€/Nacht</option>
+                      <option value="Double">Double Zimmer - 120€/Nacht</option>
+                      <option value="Suite">Suite - 150€/Nacht</option>
                     </select>
                     </div>
                     <?php echo "<span class='error_msg'> $error1 </span>" ?>
@@ -143,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="breakfast_service">Frühstück</label>
                     <select class="form-select" aria-label="breakfast" name="breakfast_service">
                       <option selected disabled value="">Möchten Sie Frühstück?</option>
-                      <option value="Ja">Ja</option>
+                      <option value="Ja">Ja + 15€</option>
                       <option value="Nein">Nein</option>
                     </select>
                     </div>
@@ -153,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="parking_service">Parkplatz</label>
                     <select class="form-select" aria-label="park" name="parking_service">
                       <option selected disabled value="">Möchten Sie einen Parkplatz reservieren?</option>
-                      <option value="Ja">Ja</option>
+                      <option value="Ja">Ja + 10€</option>
                       <option value="Nein">Nein</option>
                     </select>
                     </div>
@@ -163,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="pets_service">Haustiere</label>
                     <select class="form-select" aria-label="tiere" name="pets_service">
                       <option selected disabled value="">Bringen Sie Ihre Haustiere mit?</option>
-                      <option value="Ja">Ja</option>
+                      <option value="Ja">Ja (kostenlos)</option>
                       <option value="Nein">Nein</option>
                     </select>
                     </div>
