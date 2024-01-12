@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 12, 2024 at 12:14 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Erstellungszeit: 12. Jan 2024 um 18:38
+-- Server-Version: 10.4.19-MariaDB
+-- PHP-Version: 7.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,24 +18,24 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `hotel_project`
+-- Datenbank: `hotel_project`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admins`
+-- Tabellenstruktur für Tabelle `admins`
 --
 
 CREATE TABLE `admins` (
   `admin_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `news`
+-- Tabellenstruktur für Tabelle `news`
 --
 
 CREATE TABLE `news` (
@@ -45,41 +45,39 @@ CREATE TABLE `news` (
   `news_filepath` varchar(512) NOT NULL,
   `news_date` date DEFAULT current_timestamp(),
   `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `news`
+-- Daten für Tabelle `news`
 --
 
 INSERT INTO `news` (`news_id`, `news_title`, `news_text`, `news_filepath`, `news_date`, `admin_id`) VALUES
-(1, 'header', 'text test lmao', 'C:\\xampp\\htdocs\\webtech_2\\uploads\\son.jpg', '2024-01-11', 0),
-(2, 'Werner und Tottenham - passt das?', 'Werners Motive sind klar nachvollziehbar: Der Angreifer will unbedingt bei der Heim-EM im Sommer dabei sein. Ein Ziel, das er jedoch in Leipzig ernsthaft gefährdet sieht, da er bei den Sachsen zuletzt nur noch die zweite Geige spielte. „Er muss Spielpraxis sammeln, wenn er bei der Europameisterschaft eine Rolle spielen möchte“, betonte Rose.', 'C:\\xampp\\htdocs\\webtech_2\\uploads\\hyemhyemu.jpg', '2024-01-11', 0),
-(3, 'How to align an image dead center with bootstrap', 'I\'m using the bootstrap framework and trying to get an image centered horizontally without success..\r\n\r\nI\'ve tried various techniques such as splitting the the 12 grid system in 3 equal blocks e.g', 'C:\\xampp\\htdocs\\webtech_2\\uploads\\Mr._Krabs_Theorie.jpg', '2024-01-11', 0);
+(20, 'Werner und Tottenham - passt das?', 'Werners Motive sind klar nachvollziehbar: Der Angreifer will unbedingt bei der Heim-EM im Sommer dabei sein. Ein Ziel, das er jedoch in Leipzig ernsthaft gefährdet sieht, da er bei den Sachsen zuletzt nur noch die zweite Geige spielte. „Er muss Spielpraxis sammeln, wenn er bei der Europameisterschaft eine Rolle spielen möchte“, betonte Rose.', 'resized/2068144_body_780622_ticker_dier_afp.jpg', '2024-01-12', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reservations`
+-- Tabellenstruktur für Tabelle `reservations`
 --
 
 CREATE TABLE `reservations` (
   `reservation_id` int(11) NOT NULL,
   `arrival_date` date NOT NULL,
   `departure_date` date NOT NULL,
-  `room_type` varchar(10),
-  `breakfast_service` varchar(10),
-  `parking_service` varchar(10),
-  `pets_service` varchar(10),
+  `room_type` varchar(10) DEFAULT NULL,
+  `breakfast_service` varchar(10) DEFAULT NULL,
+  `parking_service` varchar(10) DEFAULT NULL,
+  `pets_service` varchar(10) DEFAULT NULL,
   `reservation_status` varchar(20) DEFAULT 'neu',
   `admin_id` int(11) NOT NULL,
   `uid_fk` int(11) DEFAULT NULL,
-  `erstellt_am` DATETIME
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `erstellt_am` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Tabellenstruktur für Tabelle `users`
 --
 
 CREATE TABLE `users` (
@@ -93,10 +91,10 @@ CREATE TABLE `users` (
   `password` varchar(128) NOT NULL,
   `status` varchar(32) NOT NULL DEFAULT 'aktiv',
   `profile_photo` blob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `users`
+-- Daten für Tabelle `users`
 --
 
 INSERT INTO `users` (`user_id`, `role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `status`, `profile_photo`) VALUES
@@ -108,30 +106,30 @@ INSERT INTO `users` (`user_id`, `role`, `anrede`, `vorname`, `lastname`, `email`
 (45, 'admin', 'Frau', 'Ece', 'Sen', 'eecesenn@gmail.com', 'if23b062', 'f6b07b6c1340e947b861def5f8b092d8ee710826dc56bd175bdc8f3a16b0b8acf853c64786a710dedf9d1524d61e32504e27d60de159af110bc3941490731578', 'aktiv', '');
 
 --
--- Indexes for dumped tables
+-- Indizes der exportierten Tabellen
 --
 
 --
--- Indexes for table `admins`
+-- Indizes für die Tabelle `admins`
 --
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`admin_id`,`user_id`);
 
 --
--- Indexes for table `news`
+-- Indizes für die Tabelle `news`
 --
 ALTER TABLE `news`
   ADD PRIMARY KEY (`news_id`);
 
 --
--- Indexes for table `reservations`
+-- Indizes für die Tabelle `reservations`
 --
 ALTER TABLE `reservations`
   ADD PRIMARY KEY (`reservation_id`),
   ADD KEY `uid_fk` (`uid_fk`);
 
 --
--- Indexes for table `users`
+-- Indizes für die Tabelle `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
@@ -139,39 +137,39 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT für exportierte Tabellen
 --
 
 --
--- AUTO_INCREMENT for table `admins`
+-- AUTO_INCREMENT für Tabelle `admins`
 --
 ALTER TABLE `admins`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `news`
+-- AUTO_INCREMENT für Tabelle `news`
 --
 ALTER TABLE `news`
-  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT for table `reservations`
+-- AUTO_INCREMENT für Tabelle `reservations`
 --
 ALTER TABLE `reservations`
   MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
--- Constraints for dumped tables
+-- Constraints der exportierten Tabellen
 --
 
 --
--- Constraints for table `reservations`
+-- Constraints der Tabelle `reservations`
 --
 ALTER TABLE `reservations`
   ADD CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`uid_fk`) REFERENCES `users` (`user_id`);
