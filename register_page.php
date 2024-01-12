@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         require_once "./includes/dbaccess.php";
 
         // Create a query and insert into using SQL statement
-        $query = "INSERT INTO `users`(`user_id`, `role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `status`, `profile_photo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; //placeholders
+        $query = "INSERT INTO `users`(`role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `status`, `profile_photo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"; //placeholders
 
         // Check query for errors (f.e. duplicate entries for unique usernames/emails)
         $stmt = $db_obj->stmt_init();
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $stmt = $db_obj->prepare($query);
-        $stmt->bind_param("issssssssb", $user_id, $role, $anrede, $vorname, $lastname, $email, $username, $hashpassword, $status, $profile_photo);
+        $stmt->bind_param("ssssssssb", $role, $anrede, $vorname, $lastname, $email, $username, $hashpassword, $status, $profile_photo);
 
         if ($stmt->execute()) {
             // Close the statement and connection when done
