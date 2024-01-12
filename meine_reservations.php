@@ -9,31 +9,6 @@ if (!isset($_SESSION['user'])) {
     header('Location: login_page.php');
 }
 
-
- // Dateiinhalt der Reservierungen aus "reservations.txt" lesen.
- // Die Inhalte werden durch das Zeichen "}" getrennt und in ein Array gespeichert.
- 
-$file_content = file_get_contents("./reservations.txt");
-$serialized_arrays = explode("}", $file_content);
-$reservations = [];
-
-
- // Durchlaufe jedes serialisierte String und versuche, es zu deserialisieren.
- // Gültige deserialisierte Daten, die ein Array sind, werden zur Liste der Reservierungen hinzugefügt.
-foreach ($serialized_arrays as $serialized_array) {
-    if (!empty($serialized_array)) {
-        // Versuch, die Daten zu deserialisieren
-        $unserialized_data = unserialize($serialized_array . '}');
-
-        
-         // Überprüfen, ob die Deserialisierung erfolgreich war und ob die deserialisierten Daten ein Array sind.
-         // Falls ja, werden sie zur Liste der Reservierungen hinzugefügt.
-        if ($unserialized_data !== false && is_array($unserialized_data)) {
-            $reservations[] = $unserialized_data;
-        }
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -52,37 +27,38 @@ foreach ($serialized_arrays as $serialized_array) {
     <?php include("./includes/navbar.php"); ?>
     <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1503017964658-e2ff5a583c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100vh; background-repeat: no-repeat; background-size: cover; background-position:center;">
     <div class="container">
-        <div class="display-4 text-bold row justify-content-center mt-4 mb-2">Ihre Reservierungen</div>
         <div class="table-responsive">
-            <!-- Wenn Reservations vorhanden sind, erstellen eine Tabelle -->
-            <?php if (!empty($reservations)) { ?>
-                <table class="table table-success table-striped">
-                    <thead>
-                        <tr>
-                            <th>Anreise</th>
-                            <th>Abreise</th>
-                            <th>Zimmer Type</th>
-                            <th>Services: Frühstück</th>
-                            <th>Services: Park</th>
-                            <th>Services: Tiere</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($reservations as $reservation) { ?>
-                            <tr>
-                                <td><?php echo $reservation['anreise'] ?></td>
-                                <td><?php echo $reservation['abreise'] ?></td>
-                                <td><?php echo $reservation['room'] ?></td>
-                                <td><?php echo $reservation['breakfast'] ?></td>
-                                <td><?php echo $reservation['park'] ?></td>
-                                <td><?php echo $reservation['tiere'] ?></td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-            <?php } else { ?>
-                <p>Keine Reservierungen gefunden.</p>
-            <?php } ?>
+            <table class="table">
+                <th>Anreise</th>
+                <th>Abreise</th>
+                <th>Zimmertyp</th>
+                <th>Frühstück</th>
+                <th>Parking</th>
+                <th>Tiere</th>
+                <th>Status</th>
+                <th>User</th> <!-- change to visible for only admins -->
+                <?php
+                include_once "./includes/dbaccess.php";
+
+                $query = "SELECT * FROM `reservations`";
+                $stmt = $db_obj->prepare($query);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                while ($res = $result->fetch_assoc()) {
+                    // Inside the while loop
+                    echo "<tr>";
+                    echo "<td>" . $res['arrival_date'] . "</td>";
+                    echo "<td>" . $res['departure_date'] . "</td>";
+                    echo "<td>" . $res['room_type'] . "</td>";
+                    echo "<td>" . $res['breakfast_service'] . "</td>";
+                    echo "<td>" . $res['parking_service'] . "</td>";
+                    echo "<td>" . $res['pets_service'] . "</td>";
+                    echo "<td>" . $res['reservation_status'] . "</td>";      
+                    echo "<td>" . $res['uid_fk'] . "</td>";
+                    echo "</tr>";                    
+                }
+                ?>
+            </table>
         </div>
     </div>
     </div>

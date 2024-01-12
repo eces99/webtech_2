@@ -4,64 +4,87 @@ session_start();
 if (!isset($_SESSION['user'])) {
   header('Location: login_page.php');
 }
+// Initialisierung von Fehlermeldungen und Eingabevariablen
 
-
-// Process form data
-$conf_msg = $anreise = $abreise = $room = $park = $tiere = $breakfast = "";
-$error_msg = "Bitte füllen Sie sowohl das Anreisedatum als auch das Abreisedatum aus!";
-$isOk = 1;
+$error1 = $error2 = $error3 = $error4 = $error5 = "";
+$conf_msg = "Reservierung gemacht";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (isset($_POST["anreise"])) {
-    $anreise = $_POST['anreise'];
-  }
-  if (isset($_POST['abreise'])) {
-    $abreise = $_POST['abreise'];
-  }
-  if (isset($_POST['room'])) {
-    $room = $_POST['room'];
-  }
-  if (isset($_POST['breakfast'])) {
-    $breakfast = $_POST['breakfast'];
-  }
-  if (isset($_POST['park'])) {
-    $park = $_POST['park'];
-  }
-  if (isset($_POST['tiere'])) {
-    $tiere = $_POST['tiere'];
-  }
 
-
-  // Überprüfen, ob Anreise- und Abreisedatum im Buchungsformular ausgefüllt sind.
-  if (!empty($_POST['anreise'] && $_POST['abreise'])) {
-    
-     // Überprüfen, ob das Anreisedatum vor dem Abreisedatum liegt.
-     // Wenn nicht, wird ein Fehler gemeldet, andernfalls werden die Buchungsinformationen gespeichert.
-    if (!($anreise <= $abreise)) {
-      $isOk = 0;
-      $error_msg = "Das Anreisedatum sollte vor dem Abreisedatum liegen!";
+    if (empty($_POST["arrival_date"])) {
+      $error1 = "Bitte füllen Sie aus!";
     } else {
-      // Buchungsinformationen in ein Array speichern
-      $reservation = [
-        'anreise' => $anreise,
-        'abreise' => $abreise,
-        'room' => $room,
-        'breakfast' => $breakfast,
-        'park' => $park,
-        'tiere' => $tiere
-      ];
-
-      // Buchungsinformationen serialisieren und in einer Datei speichern (an bestehende Daten anhängen)
-      $string_data = serialize($reservation);
-      file_put_contents("reservations.txt", $string_data, FILE_APPEND);
-
-      // Erfolgsmeldung für erfolgreiche Buchung
-      $conf_msg = "Reservation erfolgreich! Sie können Ihre Reservierungen <a href='./meine_reservations.php'>hier</a> sehen.";
+      $arrival_date = ($_POST["arrival_date"]);
     }
-  } else {
-    $isOk = 0;
+    if (empty($_POST["departure_date"])) {
+      $error2 = "Bitte füllen Sie aus!";
+    } else {
+        $departure_date = ($_POST["departure_date"]);
+    }
+    if (!empty($arrival_date) && !empty($departure_date)) {
+      if (($arrival_date) > ($departure_date)){
+        $error2 = "Bitte füllen Sie aus!";
+      }
+    }
+    if (empty($_POST["room_type"])) {
+        $error3 = "Bitte füllen Sie aus!";
+    } else {
+        $room_type = ($_POST["room_type"]);
+    }
+    if (empty($_POST["breakfast_service"])) {
+      $error4 = "Bitte füllen Sie aus!";
+    } else {
+        $breakfast_service = ($_POST["breakfast_service"]);
+    }
+    if (empty($_POST["parking_service"])) {
+      $error5 = "Bitte füllen Sie aus!";
+    } else {
+        $parking_service = ($_POST["parking_service"]);
+    }
+    if (empty($_POST["pets_service"])) {
+      $error6 = "Bitte füllen Sie aus!";
+    } else {
+        $pets_service = ($_POST["pets_service"]);
+    }
+    
+
+
+    if (isset($_POST["arrival_date"]) && isset($_POST["departure_date"]) && isset($_POST["room_type"])) {
+
+  // Include your database connection
+  require_once "./includes/dbaccess.php";
+
+  // Get user_id from the session
+  $user_id = $_SESSION['uid'];
+
+  // Insert reservation into the database
+  $query = "INSERT INTO `reservations`(`arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`) VALUES (?,?,?,?,?,?)";
+  $stmt = $db_obj->stmt_init();
+  if (!$stmt->prepare($query)) {
+    die("SQL error: " . $db_obj->error);
   }
+
+    $stmt = $db_obj->prepare($query);
+    $stmt->bind_param("ssssss", $arrival_date, $departure_date, $room_type, $breakfast_service, $parking_service, $pets_service);
+
+  if ($stmt->execute()) {  
+    $conf_msg = "Reservierung erfolgreich";
+    // Close the statement and connection when done
+    $stmt->close();
+    $db_obj->close();
+    $isOk = 0;
+    header("Location: meine_reservations.php");
+    die();
+  }
+  }
+    else {
+      // If trying to access the page without pressing the submit button, send back to the index page
+      //header("Location: ../register_page.php");
+    }
 }
+
+
+
 
 ?>
 <!DOCTYPE html>
@@ -91,61 +114,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="body p-4 p-lg-5 text-black">
                   <h1 class="h3 mb-3 font-weight-normal text-center">Reservierung</h1>
-                  <?php if ($isOk == 0) {
-                    echo "<div class='error_msg display-8'> $error_msg </div>";
-                  } else { ?>
-                  <?php }
-                  echo "<div class='display-8'> $conf_msg </div>" ?>
                   <form action="" method="post">
                     <div class="form-group ">
-                      <label for="anreise">Anreisedatum</label>
-                      <input type="date" name="anreise" class="form-control input-with-post-icon datepicker" min="<?php echo date('Y-m-d'); ?>" inline="true" placeholder="Anreisedatum">
+                      <label for="arrival_date">Anreisedatum</label>
+                      <input type="date" name="arrival_date" class="form-control input-with-post-icon datepicker" min="<?php echo date('Y-m-d'); ?>" inline="true" placeholder="Anreisedatum">
                     </div>
-                    <div class="form-group mt-4">
-                      <label for="abreise">Abreisedatum</label>
-                      <input type="date" name="abreise" class="form-control input-with-post-icon datepicker" min="<?php echo date('Y-m-d'); ?>" inline="true" placeholder="Abreisedatum">
-                    </div>
+                    <?php echo "<span class='error_msg'> $error1 </span>" ?>
 
                     <div class="form-group mt-4">
-                    <label for="zimmertyp">Zimmertyp</label>
-                    <select class="form-select" aria-label="room" name="room">
+                      <label for="departure_date">Abreisedatum</label>
+                      <input type="date" name="departure_date" class="form-control input-with-post-icon datepicker" min="<?php echo date('Y-m-d'); ?>" inline="true" placeholder="Abreisedatum">
+                    </div>
+                    <?php echo "<span class='error_msg'> $error1 </span>" ?>
+
+                    <div class="form-group mt-4">
+                    <label for="room_type">Zimmertyp</label>
+                    <select class="form-select" aria-label="room" name="room_type">
                       <option selected disabled value="">Bitte wählen Sie den Zimmertyp...</option>
                       <option value="Single">Single Zimmer</option>
                       <option value="Double">Double Zimmer</option>
                       <option value="Suite">Suite</option>
                     </select>
                     </div>
+                    <?php echo "<span class='error_msg'> $error1 </span>" ?>
+
 
                     <div class="form-group mt-4">
-                    <label for="breakfast">Frühstück</label>
-                    <select class="form-select" aria-label="breakfast" name="breakfast">
+                    <label for="breakfast_service">Frühstück</label>
+                    <select class="form-select" aria-label="breakfast" name="breakfast_service">
                       <option selected disabled value="">Möchten Sie Frühstück?</option>
                       <option value="Ja">Ja</option>
                       <option value="Nein">Nein</option>
                     </select>
                     </div>
+                    <?php echo "<span class='error_msg'> $error1 </span>" ?>
 
                     <div class="form-group mt-4">
-                    <label for="park">Parkplatz</label>
-                    <select class="form-select" aria-label="park" name="park">
+                    <label for="parking_service">Parkplatz</label>
+                    <select class="form-select" aria-label="park" name="parking_service">
                       <option selected disabled value="">Möchten Sie einen Parkplatz reservieren?</option>
                       <option value="Ja">Ja</option>
                       <option value="Nein">Nein</option>
                     </select>
                     </div>
+                    <?php echo "<span class='error_msg'> $error1 </span>" ?>
 
                     <div class="form-group mt-4">
-                    <label for="tiere">Haustiere</label>
-                    <select class="form-select" aria-label="tiere" name="tiere">
+                    <label for="pets_service">Haustiere</label>
+                    <select class="form-select" aria-label="tiere" name="pets_service">
                       <option selected disabled value="">Bringen Sie Ihre Haustiere mit?</option>
                       <option value="Ja">Ja</option>
                       <option value="Nein">Nein</option>
                     </select>
                     </div>
+                    <?php echo "<span class='error_msg'> $error1 </span>" ?>
 
                     <br>
                     <div class="btns">
-                      <button type="submit" name="reservieren" value="reserieren" class="btn btn-dark">Reservieren</button>
+                      <button type="submit" name="reservieren" value="reservieren" class="btn btn-dark">Reservieren</button>
                     </div>
                   </form>
                 </div>
