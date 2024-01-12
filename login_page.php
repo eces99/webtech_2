@@ -1,12 +1,19 @@
 <?php
 
-$errorMsg = "";
+$errorMsg = $msg_uname = $msg_pass = $username = $password = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-   
-
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    if (empty($_POST["username"])) {
+        $msg_uname = "Benutzername ist benötigt!";
+    } else {
+        $username = ($_POST["username"]);
+    }
+    if (empty($_POST["password"])) {
+        $msg_pass = "Passwort ist benötigt!";
+    } else {
+        $password = ($_POST["password"]);
+    }
+    if (!empty($username) && !empty($password)) {
 
     $mysqli = require __DIR__ . "/includes/dbaccess.php";
 
@@ -64,6 +71,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../index.php");
         die();
         */
+} else {
+
+}
 }
 ?>
 
@@ -97,12 +107,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <form method="post">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Ihre Benutzername</label>
-                                <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username" required>
-                            </div><br>
+                                <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username" value="<?php if (isset($_POST["username"])) echo $_POST["username"] ?>">
+                            </div>
+                            <?php echo "<span class='error_msg'> $msg_uname </span>" ?>
+
+                            <br>                            
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Passwort</label>
-                                <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                                <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" value="<?php if (isset($_POST["password"])) echo $_POST["password"] ?>">
                             </div>
+                            <?php echo "<span class='error_msg'> $msg_pass </span>" ?>
+
                             <br>
                             <!-- Display error message if present -->
                             <?php if (!empty($errorMsg)) : ?>
