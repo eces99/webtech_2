@@ -5,10 +5,9 @@ session_start();
 // Sicherstellen, dass der Benutzer angemeldet ist, bevor auf diese Seite zugegriffen wird.
 // Falls nicht, wird der Benutzer zur Login-Seite weitergeleitet.
 
-if (!isset($_SESSION['user'])) {
-    header('Location: login_page.php');
+if ($_SESSION['role'] != "admin") {
+    header('Location: index.php');
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -20,14 +19,14 @@ if (!isset($_SESSION['user'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./Images/Untitled-design.svg">
-    <title>Ihre Reservierungen</title>
+    <title>Reservationsverwaltung</title>
 </head>
 
 <body>
     <?php include("./includes/navbar.php"); ?>
     <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1503017964658-e2ff5a583c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100vh; background-repeat: no-repeat; background-size: cover; background-position:center;">
         <div class="bg-image">
-            <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Meine Reservierungen</h1>
+            <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Reservationsverwaltung</h1>
         </div>
         <div class="container">
             <div class="table-responsive">
@@ -39,14 +38,17 @@ if (!isset($_SESSION['user'])) {
                     <th>Parking</th>
                     <th>Tiere</th>
                     <th>Status</th>
+                    <th>UserId</th> <!-- change to visible for only admins? -->
+                    <th>Benutzer</th>
                     <th>Erstellt am</th>
                     <?php
                     include_once "./includes/dbaccess.php";
 
-                    $query = "SELECT * FROM `reservations`";
+                    $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id";
                     $stmt = $db_obj->prepare($query);
                     $stmt->execute();
                     $result = $stmt->get_result();
+                    
                     while ($res = $result->fetch_assoc()) {
                         // Inside the while loop
                         echo "<tr>";
@@ -56,7 +58,38 @@ if (!isset($_SESSION['user'])) {
                         echo "<td>" . $res['breakfast_service'] . "</td>";
                         echo "<td>" . $res['parking_service'] . "</td>";
                         echo "<td>" . $res['pets_service'] . "</td>";
-                        echo "<td>" . $res['reservation_status'] . "</td>";
+
+                        echo "<td>";
+                        echo "<form method='post'>";
+                        echo "<div class='form-group'>";
+                        echo "<select class='form-select' aria-label='status' name='reservation_status'>";
+                        echo "<option " . ($res['reservation_status'] == "neu" ? "selected" : "") . " value='neu'>neu</option>";
+                        echo "<option " . ($res['reservation_status'] == "bestätigt" ? "selected" : "") . " value='bestätigt'>bestätigt</option>";
+                        echo "<option " . ($res['reservation_status'] == "storniert" ? "selected" : "") . " value='storniert'>storniert</option>";
+                        echo "</select>";
+                        echo "</div>";
+                        echo "<button type='submit' class='btn btn-primary'>Okay</button>";
+                        echo "</form>";
+                        echo "</td>";
+
+                            // Inside the while loop, after you output the reservation data
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            $newStatus = $_POST["reservation_status"];
+                            $reservationId = $res['reservation_id']; // Assuming you have a reservation_id field in your database
+
+                            // Update the reservation status in the database
+                            $updateQuery = "UPDATE reservations SET reservation_status = ? WHERE reservation_id = ?";
+                            $stmtUpdate = $db_obj->prepare($updateQuery);
+                            $stmtUpdate->bind_param("si", $newStatus, $reservationId);
+                            $stmtUpdate->execute();
+                            header('Location: reservationsverwaltung.php');
+
+                            
+                        }
+
+
+                        echo "<td>" . $res['uid_fk'] . "</td>";
+                        echo "<td>" . $res['lastname'] . " " . $res['vorname'] . "</td>";
                         echo "<td>" . $res['erstellt_am'] . "</td>";
                         echo "</tr>";
                     }

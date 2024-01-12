@@ -42,7 +42,9 @@ if ($_SESSION['role'] != "admin") {
                 <th>Username</th>
                 <!--<th>Passwort</th>-->
                 <th>Status</th>
-                <th>Actions</th> <!-- Added a new header for the "Edit" button -->
+                <th>Reservationen</th>
+                <th>Bearbeiten</th> <!-- Added a new header for the "Edit" button -->
+                <th>Löschen</th>
                 <?php
                 include_once "./includes/dbaccess.php";
 
@@ -61,8 +63,11 @@ if ($_SESSION['role'] != "admin") {
                     echo "<td>" . $user['username'] . "</td>";
                     //echo "<td>" . $user['password'] . "</td>";      //wie sinvoll pass zu sehen? datenschutz?
                     echo "<td>" . $user['status'] . "</td>";
+                    echo "<td><a href='reservationsverwaltung.php'</a>Details</td>"; //that will change to reservations link
                     // Add a link or button for editing with the user ID as a parameter
                     echo "<td><a href='user_update.php?user_id=" . $user['user_id'] . "' class='btn btn-primary btn-sm'>Edit</a></td>";
+                    // Add a delete button for each row
+                    echo "<td><a href='delete_user.php?user_id=" . $user['user_id'] . "'class='btn btn-danger btn-sm' onclick='return confirm(\"Sind Sie sicher?\")'>Löschen</a></td>";
                     echo "</tr>";
                 }
                 ?>
