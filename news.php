@@ -52,20 +52,25 @@ session_start();
                 <div class="row justify-content-center">
                     <div class="col-lg-9 text-center" id="box">
                         <h4 class="mt-3"><?php echo $db_newsTitle; ?></h4>
-                        <img src="<?php echo $db_newsFilepath; ?>" alt="newsImage" class="img-thumbnail mt-3 mb-3" style="width:50%;">
+                        <?php if ($db_newsFilepath) {
+                            echo '<img src="' . $db_newsFilepath . '" alt="newsImage" class="img-thumbnail mt-3 mb-3" style="width:50%;">';
+                        } ?>
                         <p class="mb-3 text-justify"><?php echo $db_newsText; ?></p>
                         <h6 class="mb-3 text-left">Veröffentlicht am <?php echo $db_newsDate; ?></h6>
                     </div>
                 </div>
             </div>
             <?php
+
             while ($stmt->fetch()) {
             ?>
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-9 text-center" id="box">
                             <h4 class="mt-3"><?php echo $db_newsTitle; ?></h4>
-                            <img src="<?php echo $db_newsFilepath; ?>" alt="newsImage" class="img-thumbnail mt-3 mb-3" style="width:50%;">
+                            <?php if ($db_newsFilepath) {
+                                echo '<img src="' . $db_newsFilepath . '" alt="newsImage" class="img-thumbnail mt-3 mb-3" style="width:50%;">';
+                            } ?>
                             <p class="mb-3 text-justify"><?php echo $db_newsText; ?></p>
                             <h6 class="mb-3 text-left">Veröffentlicht am <?php echo $db_newsDate; ?></h6>
                         </div>
@@ -88,20 +93,15 @@ session_start();
         $uploadCheck = 1;
         $output = "";
         if (isset($_POST["upload"])) {
+            $query_upload = "INSERT INTO `news` (`news_title`,`news_text`) VALUES (?, ?)"; // news post without image
+            $stmt = $db_obj->prepare($query_upload);
+            $stmt->bind_param("ss", $newsHeader, $newsText);
+            $stmt->execute();
 
-            if (!isset($_FILES["image"])) { // news post without image
-                if ($uploadCheck == 1) {
-                    $query_upload = "INSERT INTO `news` (`news_title`,`news_text`) VALUES (?, ?)";
-                    $stmt = $db_obj->prepare($query_upload);
-                    $stmt->bind_param("ss", $newsHeader, $newsText);
-                    $stmt->execute();
+            $output = "<span class='text-success'>Newsbeitrag wurde veröffentlicht!</span>";
 
-                    $output = "<span class='text-success'>Newsbeitrag wurde veröffentlicht!</span>";
+            if (isset($_FILES["image"])) { // news post with image
 
-                    $stmt->close();
-                    $db_obj->close();
-                }
-            } else { // news post with image
                 $target_dir = "uploads/";
                 $file = @$_FILES["image"];
                 $picname = explode(".", @$_FILES["image"]["name"]);
@@ -121,20 +121,19 @@ session_start();
 
                 if ($uploadCheck == 1) {
                     if (move_uploaded_file($_FILES["image"]["tmp_name"], $filepath)) {
-                        $query_upload = "INSERT INTO `news` (`news_title`,`news_text`,`news_filepath`) VALUES (?, ?, ?)";
+                        $query_upload = "UPDATE `news` SET `news_filepath` = ? WHERE `news`.`news_id` = (SELECT MAX(`news_id`) FROM `news`)";
                         $stmt = $db_obj->prepare($query_upload);
-                        $stmt->bind_param("sss", $newsHeader, $newsText, $filepath);
+                        $stmt->bind_param("s", $filepath);
                         $stmt->execute();
 
                         $output = "<span class='text-success'>Newsbeitrag mit dem Bild " . $_FILES["image"]["name"] . " wurde veröffentlicht!</span>";
-
-                        $stmt->close();
-                        $db_obj->close();
                     } else {
                         $output = "<span class='text-danger'>Etwas ist beim Hochladen fehlgeschlagen!</span>";
                     }
                 }
             }
+            $stmt->close();
+            $db_obj->close();
         }
 
         // Upload Form HTML for admins
