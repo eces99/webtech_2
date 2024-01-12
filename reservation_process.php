@@ -58,14 +58,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $user_id = $_SESSION['uid'];
 
   // Insert reservation into the database
-  $query = "INSERT INTO `reservations`(`arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`) VALUES (?,?,?,?,?,?)";
+  $query = "INSERT INTO `reservations`(`arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`, `uid_fk`) VALUES (?,?,?,?,?,?,?)";
   $stmt = $db_obj->stmt_init();
   if (!$stmt->prepare($query)) {
     die("SQL error: " . $db_obj->error);
   }
 
     $stmt = $db_obj->prepare($query);
-    $stmt->bind_param("ssssss", $arrival_date, $departure_date, $room_type, $breakfast_service, $parking_service, $pets_service);
+    $stmt->bind_param("ssssssi", $arrival_date, $departure_date, $room_type, $breakfast_service, $parking_service, $pets_service, $user_id);
 
   if ($stmt->execute()) {  
     $conf_msg = "Reservierung erfolgreich";
