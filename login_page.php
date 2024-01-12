@@ -15,65 +15,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if (!empty($username) && !empty($password)) {
 
-    $mysqli = require __DIR__ . "/includes/dbaccess.php";
+        include_once "./includes/dbaccess.php";
 
-    // Create a query and select using SQL statement
-    $query = sprintf("SELECT `user_id`, `role`, `username`, `password`, `status` FROM `users` WHERE `username` = '%s'", $mysqli->real_escape_string($username));
+        // Create a query and select using SQL statement
+        $query = "SELECT `user_id`, `role`, `username`, `password`, `status` FROM `users` WHERE `username` = ?";
 
-    $result = $mysqli->query($query);
-    $user = $result->fetch_assoc();
+        $stmt = $db_obj->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
 
-    if ($user) {
-        if (hash('sha512', $password) == $user["password"]) {
-            //die("Successful login!");
-            if($user["status"] != "inaktiv") {
-                session_start();
-                $_SESSION['user'] = $user["username"];
-                $_SESSION['uid'] = $user["user_id"];
-                $_SESSION['role'] = $user["role"];
+        if ($user) {
+            if (hash('sha512', $password) == $user["password"]) {
+                //die("Successful login!");
+                if ($user["status"] != "inaktiv") {
+                    session_start();
+                    $_SESSION['user'] = $user["username"];
+                    $_SESSION['uid'] = $user["user_id"];
+                    $_SESSION['role'] = $user["role"];
 
-                // Set a cookie for the username (you can set other cookie parameters as needed)
-                setcookie('username', $username, time() + 3600, '/'); // Cookie expires in 1 hour
+                    // Set a cookie for the username (you can set other cookie parameters as needed)
+                    setcookie('username', $username, time() + 3600, '/'); // Cookie expires in 1 hour
 
-                header("Location: login_success.php");
-                die();
+                    header("Location: login_success.php");
+                    die();
+                } else {
+                    $errorMsg = "Sie sind inaktiv, bitte kontaktieren Sie uns!";
+                }
             } else {
-                $errorMsg = "Sie sind inaktive bitte kontaktieren mit uns!";
+                $errorMsg = "Ungültiges Passwort!";
             }
-        } else {
-            $errorMsg = "Ungültige passwort!";
         }
     }
-    /*
-        $stmt = $db_obj->prepare($query);
-        $stmt->execute();
-        $stmt->bind_result($user_username, $user_password); // store selected data into variables
-
-        // Close the statement and connection when done
-        $stmt->close();
-        $db_obj->close();
-
-        if ($username == $user_username && hash('sha512', $password) == $user_password) {
-            echo "Successful login!<br>";
-            session_start();
-            $_SESSION['user'] = $username;
-
-            // Set a cookie for the username (you can set other cookie parameters as needed)
-            setcookie('username', $username, time() + 3600, '/'); // Cookie expires in 1 hour
-
-            header("Location: ../index.php");
-            die();
-            
-        } else {
-            echo "Invalid password!<br>";
-        }
-
-        header("Location: ../index.php");
-        die();
-        */
-} else {
-
-}
 }
 ?>
 
@@ -106,12 +80,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h1 class="h3 mb-3 font-weight-normal text-center">Bitte einloggen</h1>
                         <form method="post">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Ihre Benutzername</label>
-                                <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username" value="<?php if (isset($_POST["username"])) echo $_POST["username"] ?>">
+                                <label for="exampleInputEmail1">Ihr Benutzername</label>
+                                <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username" value="<?php if (isset($_POST["username"])) echo $_POST["username"] ?>" autofocus>
                             </div>
                             <?php echo "<span class='error_msg'> $msg_uname </span>" ?>
 
-                            <br>                            
+                            <br>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Passwort</label>
                                 <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" value="<?php if (isset($_POST["password"])) echo $_POST["password"] ?>">

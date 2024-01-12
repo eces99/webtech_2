@@ -55,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $role = 'user';
     $status = 'aktiv';
     $profile_photo = ''; // You should replace this with the actual blob data when handling file uploads.
+    // profilephoto can be removed and the column in table since we dont use profile photo?
 
     $hashpassword = hash('sha512', $password); // hashed password with hash512 algorithm
 
@@ -84,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die();
         } else {
             if ($db_obj->errno === 1062) { // error code 1062 for duplicate entries in unique
-                die("Username already exists/Email has already been taken");
+                die("Benutzername ist bereits vergeben/E-Mail ist bereits registriert");
             }
             die($db_obj->error . " " . $db_obj->errno);
         }

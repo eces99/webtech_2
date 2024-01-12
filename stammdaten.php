@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $msg_email = "<span class='text-success'>Email wurde aktualisiert!</span>";
                 } else {
                     if ($db_obj->errno === 1062) { // error code 1062 means duplicate entry in unique
-                        $msg_email = "<span class='text-danger'>Email has already been taken!</span>";
+                        $msg_email = "<span class='text-danger'>Diese Email ist bereits registriert</span>";
                     }
                     die($db_obj->error . " " . $db_obj->errno);
                 }
@@ -96,10 +96,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($stmt->execute()) {
                 $user_username = $_POST["username"];
-                $msg_username = "<span class='text-success'>Username wurde aktualisiert!</span>";
+                $msg_username = "<span class='text-success'>Benutzername wurde aktualisiert!</span>";
             } else {
                 if ($db_obj->errno === 1062) { // error code 1062 means duplicate entry in unique
-                    $msg_username = "<span class='text-success'>Username has already been taken</span>";
+                    $msg_username = "<span class='text-success'>Dieser Benutzername ist bereits vergeben</span>";
                 }
                 die($db_obj->error . " " . $db_obj->errno);
             }
@@ -147,7 +147,7 @@ function test_input($data)
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./Images/Untitled-design.svg">
-    <title>Login Page</title>
+    <title>Meine Daten</title>
 
 </head>
 
@@ -170,7 +170,7 @@ function test_input($data)
                         <div class="row mt-3">
                             <form action="" method="post">
                                 <select class="form-select" aria-label="anrede" name="anrede">
-                                    <option disabled value="">Bitte wählen Sie den Anrede</option>
+                                    <option disabled value="">Bitte wählen Sie die Anrede</option>
 
                                     <option <?php if ($user_anrede == "Herr") echo "selected"; ?> value="Herr">Herr</option>
                                     <option <?php if ($user_anrede == "Frau") echo "selected"; ?> value="Frau">Frau</option>
@@ -192,7 +192,7 @@ function test_input($data)
                                 </div>
                                 <?php echo "<span class='text-success'> $msg_lastname </span>" ?><br>
                                 <div class="form-group">
-                                    <label for="email">E-mail Adresse</label>
+                                    <label for="email">E-Mail Adresse</label>
                                     <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com" value="<?php echo $user_email ?>">
                                 </div>
                                 <?php echo $msg_email; ?>

@@ -168,7 +168,7 @@ function test_input($data)
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./Images/Untitled-design.svg">
-    <title>Login Page</title>
+    <title>Profileinstellungen <?php echo $user_username ?></title>
 
 </head>
 
@@ -186,12 +186,12 @@ function test_input($data)
                 <div class="col-md-5 border-right">
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right">Profileinstellungen für <?php echo "<span class='text-success' style='font-style: italic;'> $user_username </span>"?></h4>
+                            <h4 class="text-right">Profileinstellungen für <?php echo "<span class='text-success' style='font-style: italic;'> $user_username </span>" ?></h4>
                         </div>
                         <div class="row mt-3">
                             <form action="" method="post">
                                 <select class="form-select" aria-label="anrede" name="anrede">
-                                    <option disabled value="">Bitte wählen Sie den Anrede</option>
+                                    <option disabled value="">Bitte wählen Sie die Anrede</option>
 
                                     <option <?php if ($user_anrede == "Herr") echo "selected"; ?> value="Herr">Herr</option>
                                     <option <?php if ($user_anrede == "Frau") echo "selected"; ?> value="Frau">Frau</option>
@@ -213,7 +213,7 @@ function test_input($data)
                                 </div>
                                 <?php echo "<span class='text-success'> $msg_lastname </span>" ?><br>
                                 <div class="form-group">
-                                    <label for="email">E-mail Adresse</label>
+                                    <label for="email">E-Mail Adresse</label>
                                     <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com" value="<?php echo $user_email ?>">
                                 </div>
                                 <?php echo $msg_email; ?>
