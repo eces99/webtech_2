@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $msg_email = "<span class='text-success'>Email wurde aktualisiert!</span>";
                 } else {
                     if ($db_obj->errno === 1062) { // error code 1062 means duplicate entry in unique
-                        $msg_email = "<span class='text-danger'>Email has already been taken!</span>";
+                        $msg_email = "<span class='text-danger'>Die E-Mail-Adresse wurde bereits verwendet!</span>";
                     }
                     die($db_obj->error . " " . $db_obj->errno);
                 }
@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $msg_username = "<span class='text-success'>Username wurde aktualisiert!</span>";
             } else {
                 if ($db_obj->errno === 1062) { // error code 1062 means duplicate entry in unique
-                    $msg_username = "<span class='text-success'>Username has already been taken</span>";
+                    $msg_username = "<span class='text-success'>Der Benutzername wurde bereits verwendet.</span>";
                 }
                 die($db_obj->error . " " . $db_obj->errno);
             }
@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("si", $new_password, $user_id);
         $stmt->execute();
 
-        $msg_password = "Password reset successfully!";
+        $msg_password = "Passwort erfolgreich zurückgesetzt!";
     }
 }
 
@@ -186,7 +186,7 @@ function test_input($data)
                 <div class="col-md-5 border-right">
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right">Profileinstellungen <?php echo $user_username ?></h4>
+                            <h4 class="text-right">Profileinstellungen für <?php echo "<span class='text-success' style='font-style: italic;'> $user_username </span>"?></h4>
                         </div>
                         <div class="row mt-3">
                             <form action="" method="post">
