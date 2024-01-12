@@ -32,37 +32,21 @@ session_start();
         include_once "./includes/dbaccess.php";
 
         // News Post PHP
-
         $query_select = "SELECT `news_title`, `news_text`, `news_filepath`, `news_date` FROM `news` ORDER BY `news_id` DESC";
         $stmt = $db_obj->prepare($query_select);
         $stmt->execute();
         $stmt->bind_result($db_newsTitle, $db_newsText, $db_newsFilepath, $db_newsDate);
 
-        if (!($stmt->fetch())) { // If no posts have been made
+        if (!($stmt->fetch())) { // check if no posts have been made
         ?>
             <div class="container" id="login_form">
                 <div class="row" id="box">
                     <div class="col text-center"><i>Noch keine Beiträge wurden veröffentlicht.</i></div>
                 </div>
             </div>
-        <?php
-        } else {
-        ?>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-9 text-center" id="box">
-                        <h4 class="mt-3"><?php echo $db_newsTitle; ?></h4>
-                        <?php if ($db_newsFilepath) {
-                            echo '<img src="' . $db_newsFilepath . '" alt="newsImage" class="img-thumbnail mt-3 mb-3" style="width:50%;">';
-                        } ?>
-                        <p class="mb-3 text-justify"><?php echo $db_newsText; ?></p>
-                        <h6 class="mb-3 text-left">Veröffentlicht am <?php echo $db_newsDate; ?></h6>
-                    </div>
-                </div>
-            </div>
             <?php
-
-            while ($stmt->fetch()) {
+        } else {
+            do {
             ?>
                 <div class="container">
                     <div class="row justify-content-center">
@@ -77,7 +61,30 @@ session_start();
                     </div>
                 </div>
             <?php
+            } while ($stmt->fetch());
+        }
+
+        // Function to resize image
+        function resizeImage($sourcePath, $destPath, $newWidth, $newHeight)
+        {
+            list($originalWidth, $originalHeight) = getimagesize($sourcePath);
+            $ratio = $originalWidth / $originalHeight;
+
+            if ($newWidth === null) {
+                $newWidth = $newHeight * $ratio;
+            } elseif ($newHeight === null) {
+                $newHeight = $newWidth / $ratio;
             }
+
+            $image = imagecreatefromjpeg($sourcePath); // You may need to change this based on the image type (jpeg, png, gif, etc.)
+
+            $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
+            imagecopyresampled($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
+
+            imagejpeg($resizedImage, $destPath); // You may need to change this based on the image type
+
+            imagedestroy($image);
+            imagedestroy($resizedImage);
         }
 
         // Upload Form PHP
@@ -121,9 +128,19 @@ session_start();
 
                 if ($uploadCheck == 1) {
                     if (move_uploaded_file($_FILES["image"]["tmp_name"], $filepath)) {
+
+                        $resizedDir = "resized/";
+                        $resizedFile = $resizedDir . basename($_FILES["image"]["name"]);
+
+                        // Adjust these values as needed
+                        $newWidth = 300;
+                        $newHeight = 200;
+
+                        resizeImage($filepath, $resizedFile, $newWidth, $newHeight);
+
                         $query_upload = "UPDATE `news` SET `news_filepath` = ? WHERE `news`.`news_id` = (SELECT MAX(`news_id`) FROM `news`)";
                         $stmt = $db_obj->prepare($query_upload);
-                        $stmt->bind_param("s", $filepath);
+                        $stmt->bind_param("s", $resizedFile);
                         $stmt->execute();
 
                         $output = "<span class='text-success'>Newsbeitrag mit dem Bild " . $_FILES["image"]["name"] . " wurde veröffentlicht!</span>";
