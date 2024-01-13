@@ -83,7 +83,32 @@ top: 100%;
     box-shadow: 0 4px 18px 0 rgba(0,0,0,0.7);
     transform: scale(1.05);
 }
+/* styles.css */
 
+.carousel-item {
+    height: 100vh;
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.welcome-header {
+    text-align: center;
+    padding-top: 10rem;
+}
+
+.welcome-header h1 {
+    color: white;
+    font-weight: 500;
+}
+
+.welcome-header span {
+    font-style: italic;
+    color: brown;
+}
 
 /* Media query for small screens 
 @media (max-width: 767px) {

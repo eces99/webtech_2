@@ -1,6 +1,6 @@
 <!-- Für alle users sehbar -->
 <header>
-  <nav class="navbar navbar-expand-md navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="./index.php">
         <img src="./Images/Untitled-design.svg" alt="">
