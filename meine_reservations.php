@@ -25,7 +25,7 @@ if (!isset($_SESSION['user'])) {
 
 <body>
     <?php include("./includes/navbar.php"); ?>
-    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1490365728022-deae76380607?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100vh; background-repeat: no-repeat; background-size: cover; background-position:center;">
+    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1508615070457-7baeba4003ab?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100vh; background-repeat: no-repeat; background-size: cover; background-position:center;">
         <div class="bg-image">
             <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Meine Reservierungen</h1>
         </div>
