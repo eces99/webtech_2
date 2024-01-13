@@ -63,7 +63,7 @@ if ($_SESSION['role'] != "admin") {
                     echo "<td>" . $user['username'] . "</td>";
                     //echo "<td>" . $user['password'] . "</td>";      //wie sinvoll pass zu sehen? datenschutz?
                     echo "<td>" . $user['status'] . "</td>";
-                    echo "<td><a href='reservationsverwaltung.php'</a>Details</td>"; //that will change to reservations link
+                    echo "<td><a href='reservationsverwaltung.php?user_id=" . $user['user_id'] . "'>Details</a></td>"; //that will change to reservations link
                     // Add a link or button for editing with the user ID as a parameter
                     echo "<td><a href='user_update.php?user_id=" . $user['user_id'] . "' class='btn btn-primary btn-sm'>Edit</a></td>";
                     // Add a delete button for each row

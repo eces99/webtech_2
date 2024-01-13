@@ -55,60 +55,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   require_once "./includes/dbaccess.php";
 
   $availability_query = "SELECT r.reservation_id
-    FROM reservations r
-    LEFT JOIN rooms rm ON r.room_id = rm.id
-    WHERE rm.room_type = '$room_type'
-    AND ('$arrival_date' BETWEEN r.arrival_date AND r.departure_date
-        OR '$departure_date' BETWEEN r.arrival_date AND r.departure_date)";
+        FROM reservations r
+        LEFT JOIN rooms rm ON r.room_id = rm.id
+        WHERE rm.room_type = '$room_type'
+        AND ('$arrival_date' BETWEEN r.arrival_date AND r.departure_date
+            OR '$departure_date' BETWEEN r.arrival_date AND r.departure_date)";
 
   // Check room availability
   $availability_result = mysqli_query($db_obj, $availability_query);
 
+  if (mysqli_num_rows($availability_result) > 0) {
+    // Room type is not available for the given dates
+    $error7 = "Error: Room type not available for the selected dates.";
+} else {
+    // Get user_id from the session
+    $user_id = $_SESSION['uid'];
 
-if (mysqli_num_rows($availability_result) > 0) {
-        // Room type is not available for the given dates
-        $error7 = "Error: Room type not available for the selected dates.";
+    // Get the available room_id for the specified room type and time slot
+    $available_room_query = "SELECT id
+                             FROM rooms
+                             WHERE room_type = '$room_type'
+                             AND id NOT IN (
+                                 SELECT room_id
+                                 FROM reservations
+                                 WHERE ('$arrival_date' BETWEEN arrival_date AND departure_date
+                                     OR '$departure_date' BETWEEN arrival_date AND departure_date)
+                                 AND reservation_status != 'storniert'
+                             )
+                             LIMIT 1";
+
+    $available_room_result = mysqli_query($db_obj, $available_room_query);
+
+    if ($available_room_row = mysqli_fetch_assoc($available_room_result)) {
+        $room_id = $available_room_row['id'];
+
+        $aktuellerTimestamp = time();
+        $timestamp = date("Y-m-d H:i:s", $aktuellerTimestamp);
+
+        // Insert reservation into the database
+        $query = "INSERT INTO `reservations`(`arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`, `uid_fk`, `erstellt_am`, `room_id`) VALUES (?,?,?,?,?,?,?,?,?)";
+        $stmt = $db_obj->stmt_init();
+
+        if (!$stmt->prepare($query)) {
+            die("SQL error: " . $db_obj->error);
+        }
+
+        $stmt = $db_obj->prepare($query);
+        $stmt->bind_param("ssssssisi", $arrival_date, $departure_date, $room_type, $breakfast_service, $parking_service, $pets_service, $user_id, $timestamp, $room_id);
+
+        if ($stmt->execute()) {
+            $conf_msg = "Reservierung erfolgreich. Bitte clicken Sie <a href='./meine_reservations.php'>hier</a> um Ihre Reservierungen zu sehen.";
+        } else {
+            // Handle the case where the reservation couldn't be executed
+            $error7 = "Error: Unable to complete the reservation.";
+        }
     } else {
-  // Get user_id from the session
-  $user_id = $_SESSION['uid'];
-
-      // Get the available room_id for the specified room type
-      $available_room_query = "SELECT id FROM rooms WHERE room_type = '$room_type' AND id NOT IN (SELECT room_id FROM reservations WHERE ('$arrival_date' BETWEEN arrival_date AND departure_date OR '$departure_date' BETWEEN arrival_date AND departure_date)) LIMIT 1";      $available_room_result = mysqli_query($db_obj, $available_room_query);
-  
-      if ($available_room_row = mysqli_fetch_assoc($available_room_result)) {
-          $room_id = $available_room_row['id'];
-  
-
-  $aktuellerTimestamp = time();
-  $timestamp = date("Y-m-d H:i:s", $aktuellerTimestamp);
-
-  // Insert reservation into the database
-  $query = "INSERT INTO `reservations`(`arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`, `uid_fk`, `erstellt_am`, `room_id`) VALUES (?,?,?,?,?,?,?,?,?)";
-  $stmt = $db_obj->stmt_init();
-  if (!$stmt->prepare($query)) {
-    die("SQL error: " . $db_obj->error);
-  }
-
-    $stmt = $db_obj->prepare($query);
-    $stmt->bind_param("ssssssisi", $arrival_date, $departure_date, $room_type, $breakfast_service, $parking_service, $pets_service, $user_id, $timestamp, $room_id);
-
-  if ($stmt->execute()) {  
-    $conf_msg = "Reservierung erfolgreich";
-    // Close the statement and connection when done
-    //$stmt->close();
-    //$db_obj->close();
-    //die();
-  }
-  }
-}
-    }
-    else {
-      // If trying to access the page without pressing the submit button, send back to the index page
-      //header("Location: ../register_page.php");
+        // Handle the case where no available room was found
+        $error7 = "Error: No available room found for the selected room type and time slot.";
     }
 }
-
-
+} else {
+// Handle the case where the form is not properly submitted
+// You might want to set an error message or redirect to an error page
+  }
+}
 
 ?>
 <!DOCTYPE html>

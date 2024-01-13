@@ -15,10 +15,12 @@ try {
         die("Connection failed: " . $db_obj->connect_error);
     }
 
-    return $db_obj;
+    //return $db_obj;
 
     // Optional: Set character set to utf8 (or any other desired character set)
     $db_obj->set_charset("utf8");
+    return $db_obj;
+
 } catch (Exception $e) {
     echo "Connection failed: " . $e->getMessage();
 }

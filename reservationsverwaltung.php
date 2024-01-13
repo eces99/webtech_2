@@ -29,6 +29,20 @@ if ($_SESSION['role'] != "admin") {
             <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Reservationsverwaltung</h1>
         </div>
         <div class="container">
+        <?php
+                    include_once "./includes/dbaccess.php";
+
+                    if(isset($_GET['user_id'])){
+                          $userId = $_GET['user_id'];
+                    }
+                  
+
+                    $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id WHERE user_id = ?";
+                    $stmt = $db_obj->prepare($query);
+                    $stmt->bind_param("i", $userId);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    if ($result->num_rows > 0) { ?>
             <div class="table-responsive">
                 <table class="table">
                     <th>Anreise</th>
@@ -42,14 +56,8 @@ if ($_SESSION['role'] != "admin") {
                     <th>Benutzer</th>
                     <th>Erstellt am</th>
                     <th>Update status</th>
-                    <?php
-                    include_once "./includes/dbaccess.php";
-
-                    $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id";
-                    $stmt = $db_obj->prepare($query);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
                     
+                    <?php
                     while ($res = $result->fetch_assoc()) {
                         // Inside the while loop
                         echo "<tr>";
@@ -69,6 +77,7 @@ if ($_SESSION['role'] != "admin") {
                     ?>
                 </table>
             </div>
+            <?php } else { echo "Keine Reservierungen vorhanden!";} ?>
         </div>
     </div>
 
