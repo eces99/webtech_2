@@ -3,8 +3,9 @@
     max-height: 40px; /* Adjust the max-height as needed */
   }
 
+
   #box {
-  background-color: rgba(255, 255, 255, 0.5); /* White with 0.5 opacity */
+  background-color: rgba(255, 255, 255, 0.5); 
   background-size: cover;
   margin: 2rem;
   }

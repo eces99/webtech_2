@@ -126,13 +126,19 @@ function test_input($data)
     <header>
         <?php include_once './includes/navbar.php' ?>
     </header>
-    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1508615070457-7baeba4003ab?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100%; background-repeat: no-repeat; background-size: cover;">
 
-        <div id="register_page" class="container">
-            <div class="row justify-content-center">
-                <div class="col-xxs-6 col-md-8 col-lg-6" id="box">
-                    <div class="p-3 mb-2 bg-transparent text-dark">
-                        <h1 class="h3 mb-3 font-weight-normal text-center">Anmeldeformular</h1>
+    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1508615070457-7baeba4003ab?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-position:center; background-size:cover; background-repeat:no-repeat; height:100vh;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-10">
+          <div class="" style="border-radius: 1rem;">
+            <div class="row g-0">
+              <div class="col-md-6 col-lg-5 d-none d-md-block mt-5 pt-5 pt-xl-4">
+                <img src="https://images.unsplash.com/photo-1551918120-9739cb430c6d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="res" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+              </div>
+              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                <div class="body mb-3 px-3 p-lg-4 text-black">
+                  <h1 class="h3 mb-3 font-weight-normal text-center">Anmeldeformular</h1>
                         <!--<form action="./includes/formhandler.inc.php" method="post">-->
                         <form method="post">
                             <select class="form-select" aria-label="anrede" name="anrede">
