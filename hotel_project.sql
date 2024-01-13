@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 12. Jan 2024 um 18:38
+-- Erstellungszeit: 13. Jan 2024 um 02:26
 -- Server-Version: 10.4.19-MariaDB
 -- PHP-Version: 7.3.28
 
@@ -52,7 +52,9 @@ CREATE TABLE `news` (
 --
 
 INSERT INTO `news` (`news_id`, `news_title`, `news_text`, `news_filepath`, `news_date`, `admin_id`) VALUES
-(20, 'Werner und Tottenham - passt das?', 'Werners Motive sind klar nachvollziehbar: Der Angreifer will unbedingt bei der Heim-EM im Sommer dabei sein. Ein Ziel, das er jedoch in Leipzig ernsthaft gefährdet sieht, da er bei den Sachsen zuletzt nur noch die zweite Geige spielte. „Er muss Spielpraxis sammeln, wenn er bei der Europameisterschaft eine Rolle spielen möchte“, betonte Rose.', 'resized/2068144_body_780622_ticker_dier_afp.jpg', '2024-01-12', 0);
+(20, 'Werner und Tottenham - passt das?', 'Werners Motive sind klar nachvollziehbar: Der Angreifer will unbedingt bei der Heim-EM im Sommer dabei sein. Ein Ziel, das er jedoch in Leipzig ernsthaft gefährdet sieht, da er bei den Sachsen zuletzt nur noch die zweite Geige spielte. „Er muss Spielpraxis sammeln, wenn er bei der Europameisterschaft eine Rolle spielen möchte“, betonte Rose.', 'resized/2068144_body_780622_ticker_dier_afp.jpg', '2024-01-12', 0),
+(21, 'Urlaubstrends 2024: Der Sommer kann kommen', 'Der Mittelmeerraum wird 2024 erneut zu den beliebtesten Urlaubsregionen der Österreicherinnen und Österreicher zählen, ist Freizeitforscher Peter Zellmann überzeugt. Und der Trend, kurzfristig zu buchen, wird sich weiter verstärken.', 'resized/Screenshot 2024-01-13 022337.png', '2024-01-13', 0),
+(22, 'Urlaubstrends 2024: Der Sommer kann kommen', 'Der Mittelmeerraum wird 2024 erneut zu den beliebtesten Urlaubsregionen der Österreicherinnen und Österreicher zählen, ist Freizeitforscher Peter Zellmann überzeugt. Und der Trend, kurzfristig zu buchen, wird sich weiter verstärken.', '', '2024-01-13', 0);
 
 -- --------------------------------------------------------
 
@@ -150,7 +152,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT für Tabelle `news`
 --
 ALTER TABLE `news`
-  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT für Tabelle `reservations`

@@ -67,6 +67,23 @@ session_start();
         // Function to resize image
         function resizeImage($sourcePath, $destPath, $newWidth, $newHeight)
         {
+            $imageInfo = getimagesize($sourcePath);
+            $mime = $imageInfo['mime'];
+
+            switch ($mime) {
+                case 'image/jpeg':
+                    $image = imagecreatefromjpeg($sourcePath);
+                    break;
+                case 'image/png':
+                    $image = imagecreatefrompng($sourcePath);
+                    break;
+                case 'image/gif':
+                    $image = imagecreatefromgif($sourcePath);
+                    break;
+                default:
+                    return false; // Unsupported image type
+            }
+
             list($originalWidth, $originalHeight) = getimagesize($sourcePath);
             $ratio = $originalWidth / $originalHeight;
 
@@ -76,15 +93,25 @@ session_start();
                 $newHeight = $newWidth / $ratio;
             }
 
-            $image = imagecreatefromjpeg($sourcePath); // You may need to change this based on the image type (jpeg, png, gif, etc.)
-
             $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
             imagecopyresampled($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
 
-            imagejpeg($resizedImage, $destPath); // You may need to change this based on the image type
+            switch ($mime) {
+                case 'image/jpeg':
+                    imagejpeg($resizedImage, $destPath);
+                    break;
+                case 'image/png':
+                    imagepng($resizedImage, $destPath);
+                    break;
+                case 'image/gif':
+                    imagegif($resizedImage, $destPath);
+                    break;
+            }
 
             imagedestroy($image);
             imagedestroy($resizedImage);
+
+            return true;
         }
 
         // Upload Form PHP
