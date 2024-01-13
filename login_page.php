@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <br>
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Passwort</label>
-                                            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" value="<?php if (isset($_POST["password"])) echo $_POST["password"] ?>">
+                                            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                                         </div>
                                         <?php echo "<span class='error_msg'> $msg_pass </span>" ?>
 
