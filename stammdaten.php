@@ -28,7 +28,7 @@ $user_password = $user['password'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST["anrede"])) {
-        if ($user_anrede != $_POST["anrede"]) {
+        if ($user_anrede != $_POST["anrede"]) { // if there are changes to anrede
             $newquery = "UPDATE `users` SET `anrede` = ? WHERE `users`.`user_id` = ?";
             $stmt = $db_obj->prepare($newquery);
             $stmt->bind_param("si", $_POST["anrede"], $_SESSION['uid']);
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST["vorname"])) {
-        if ($user_vorname != $_POST["vorname"]) {
+        if ($user_vorname != $_POST["vorname"]) { // if there are changes to vorname
 
             $newquery = "UPDATE `users` SET `vorname` = ? WHERE `users`.`user_id` = ?";
             $stmt = $db_obj->prepare($newquery);
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST["lastname"])) {
-        if ($user_lastname != $_POST["lastname"]) {
+        if ($user_lastname != $_POST["lastname"]) { // if there are changes to lastname
 
             $newquery = "UPDATE `users` SET `lastname` = ? WHERE `users`.`user_id` = ?";
             $stmt = $db_obj->prepare($newquery);
@@ -67,10 +67,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST["email"])) {
-        if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) { // serverside validation if the email is valid
             $msg_email = "Ungültige E-Mail-Adresse!";
         } else {
-            if ($user_email != $_POST["email"]) {
+            if ($user_email != $_POST["email"]) { // if there are changes to anrede
                 $newquery = "UPDATE `users` SET `email` = ? WHERE `users`.`user_id` = ?";
                 $stmt = $db_obj->prepare($newquery);
                 $stmt->bind_param("si", $_POST["email"], $_SESSION['uid']);
@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST["username"])) {
-        if ($user_username != $_POST["username"]) {
+        if ($user_username != $_POST["username"]) { // if there are changes to anrede
             $newquery = "UPDATE `users` SET `username` = ? WHERE `users`.`user_id` = ?";
             $stmt = $db_obj->prepare($newquery);
             $stmt->bind_param("si", $_POST["username"], $_SESSION['uid']);
@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if (!empty($_POST["password"]) && !empty($_POST["password_2"])) { // Check if
+    if (!empty($_POST["password"]) && !empty($_POST["password_2"])) {
         $hashpassword_old = hash('sha512', $_POST["password"]);
 
         if ($hashpassword_old == $user_password) { // Check if old password is correct
