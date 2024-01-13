@@ -19,7 +19,7 @@ session_start();
 <body>
     <?php include './includes/navbar.php' ?>
 
-    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1490365728022-deae76380607?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-position:center; background-size:cover; background-repeat:no-repeat; height:100%;">
+    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1508615070457-7baeba4003ab?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-position:center; background-size:cover; background-repeat:no-repeat; height:100%;">
         <div class="container">
             <div class="row row-cols-1 row-cols-md-2 g-4 pt-4 pb-5">
                 <!-- Single Room Card -->
