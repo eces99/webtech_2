@@ -127,12 +127,7 @@ session_start();
         $uploadCheck = 1;
         $output = "";
         if (isset($_POST["upload"])) {
-            $query_upload = "INSERT INTO `news` (`news_title`,`news_text`) VALUES (?, ?)"; // news post without image
-            $stmt = $db_obj->prepare($query_upload);
-            $stmt->bind_param("ss", $newsHeader, $newsText);
-            $stmt->execute();
 
-            $output = "<span class='text-success'>Newsbeitrag wurde veröffentlicht!</span>";
 
             if (isset($_FILES["image"]) && $_FILES["image"]["size"] > 0) { // news post with image
 
@@ -165,9 +160,10 @@ session_start();
 
                         resizeImage($filepath, $resizedFile, $newWidth, $newHeight);
 
-                        $query_upload = "UPDATE `news` SET `news_filepath` = ? WHERE `news`.`news_id` = (SELECT MAX(`news_id`) FROM `news`)";
+                        //$query_upload = "UPDATE `news` SET `news_filepath` = ? WHERE `news`.`news_id` = (SELECT MAX(`news_id`) FROM `news`)";
+                        $query_upload = "INSERT INTO `news` (`news_title`,`news_text`, `news_filepath`) VALUES (?, ?, ?)"; // news post with image
                         $stmt = $db_obj->prepare($query_upload);
-                        $stmt->bind_param("s", $resizedFile);
+                        $stmt->bind_param("sss", $newsHeader, $newsText, $resizedFile);
                         $stmt->execute();
 
                         $output = "<span class='text-success'>Newsbeitrag mit dem Bild " . $_FILES["image"]["name"] . " wurde veröffentlicht!</span>";
@@ -175,7 +171,16 @@ session_start();
                         $output = "<span class='text-danger'>Etwas ist beim Hochladen fehlgeschlagen!</span>";
                     }
                 }
+            } else {
+                $query_upload = "INSERT INTO `news` (`news_title`,`news_text`) VALUES (?, ?)"; // news post without image
+                $stmt = $db_obj->prepare($query_upload);
+                $stmt->bind_param("ss", $newsHeader, $newsText);
+                $stmt->execute();
+
+                $output = "<span class='text-success'>Newsbeitrag wurde veröffentlicht!</span>";
             }
+
+
             $stmt->close();
             $db_obj->close();
         }
