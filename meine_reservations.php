@@ -8,7 +8,8 @@ session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: login_page.php');
 }
-
+require_once './includes/dbaccess.php';
+$user_id = $_SESSION['uid'];
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +31,11 @@ if (!isset($_SESSION['user'])) {
             <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Meine Reservierungen</h1>
         </div>
         <div class="container">
+            <?php $query = "SELECT * FROM `reservations` WHERE `uid_fk`=$user_id";
+                $stmt = $db_obj->prepare($query);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if ($result->num_rows > 0) { ?>
             <div class="table-responsive">
                 <table class="table">
                     <th>Anreise</th>
@@ -41,9 +47,7 @@ if (!isset($_SESSION['user'])) {
                     <th>Status</th>
                     <th>Erstellt am</th>
                     <?php
-                    include_once "./includes/dbaccess.php";
-
-                    $query = "SELECT * FROM `reservations`";
+                    $query = "SELECT * FROM `reservations` WHERE `uid_fk`=$user_id";
                     $stmt = $db_obj->prepare($query);
                     $stmt->execute();
                     $result = $stmt->get_result();
@@ -63,6 +67,7 @@ if (!isset($_SESSION['user'])) {
                     ?>
                 </table>
             </div>
+            <?php } else { echo "Keine Reservierungen vorhanden!";} ?>
         </div>
     </div>
 

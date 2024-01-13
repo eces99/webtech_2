@@ -24,7 +24,7 @@ if ($_SESSION['role'] != "admin") {
 
 <body>
     <?php include("./includes/navbar.php"); ?>
-    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1490365728022-deae76380607?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100vh; background-repeat: no-repeat; background-size: cover; background-position:center;">
+    <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1503017964658-e2ff5a583c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100vh; background-repeat: no-repeat; background-size: cover; background-position:center;">
         <div class="bg-image">
             <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Reservationsverwaltung</h1>
         </div>
@@ -44,8 +44,13 @@ if ($_SESSION['role'] != "admin") {
                     <?php
                     include_once "./includes/dbaccess.php";
 
-                    $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id";
+                    
+                    $reservationId = $_GET['reservation_id'];
+                    
+                    // Fetch the specific reservation based on the ID
+                    $query = "SELECT * FROM `reservations` JOIN `users` ON reservations.uid_fk = users.user_id WHERE reservation_id = ?";
                     $stmt = $db_obj->prepare($query);
+                    $stmt->bind_param("i", $reservationId);
                     $stmt->execute();
                     $result = $stmt->get_result();
                     

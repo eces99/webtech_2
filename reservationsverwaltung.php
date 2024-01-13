@@ -63,7 +63,7 @@ if ($_SESSION['role'] != "admin") {
                         echo "<td>" . $res['uid_fk'] . "</td>";
                         echo "<td>" . $res['lastname'] . " " . $res['vorname'] . "</td>";
                         echo "<td>" . $res['erstellt_am'] . "</td>";
-                        echo "<td><a href='reservationsverwaltung_update.php'>Update</a></td>";
+                        echo "<td><a href='reservationsverwaltung_update.php?reservation_id=" . $res['reservation_id'] . "'>Update</a></td>";
                         echo "</tr>";
                     }
                     ?>

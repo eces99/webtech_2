@@ -6,8 +6,8 @@ if (!isset($_SESSION['user'])) {
 }
 // Initialisierung von Fehlermeldungen und Eingabevariablen
 
-$error1 = $error2 = $error3 = $error4 = $error5 = "";
-$conf_msg = "Reservierung gemacht";
+$error1 = $error2 = $error3 = $error4 = $error5 = $error6 = $error7 = "";
+$conf_msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -54,37 +54,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // Include your database connection
   require_once "./includes/dbaccess.php";
 
+  $availability_query = "SELECT r.reservation_id
+    FROM reservations r
+    LEFT JOIN rooms rm ON r.room_id = rm.id
+    WHERE rm.room_type = '$room_type'
+    AND ('$arrival_date' BETWEEN r.arrival_date AND r.departure_date
+        OR '$departure_date' BETWEEN r.arrival_date AND r.departure_date)";
+
+  // Check room availability
+  $availability_result = mysqli_query($db_obj, $availability_query);
+
+
+if (mysqli_num_rows($availability_result) > 0) {
+        // Room type is not available for the given dates
+        $error7 = "Error: Room type not available for the selected dates.";
+    } else {
   // Get user_id from the session
   $user_id = $_SESSION['uid'];
+
+      // Get the available room_id for the specified room type
+      $available_room_query = "SELECT id FROM rooms WHERE room_type = '$room_type' AND id NOT IN (SELECT room_id FROM reservations WHERE ('$arrival_date' BETWEEN arrival_date AND departure_date OR '$departure_date' BETWEEN arrival_date AND departure_date)) LIMIT 1";      $available_room_result = mysqli_query($db_obj, $available_room_query);
+  
+      if ($available_room_row = mysqli_fetch_assoc($available_room_result)) {
+          $room_id = $available_room_row['id'];
+  
+
   $aktuellerTimestamp = time();
   $timestamp = date("Y-m-d H:i:s", $aktuellerTimestamp);
 
   // Insert reservation into the database
-  $query = "INSERT INTO `reservations`(`arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`, `uid_fk`, `erstellt_am`) VALUES (?,?,?,?,?,?,?,?)";
+  $query = "INSERT INTO `reservations`(`arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`, `uid_fk`, `erstellt_am`, `room_id`) VALUES (?,?,?,?,?,?,?,?,?)";
   $stmt = $db_obj->stmt_init();
   if (!$stmt->prepare($query)) {
     die("SQL error: " . $db_obj->error);
   }
 
     $stmt = $db_obj->prepare($query);
-    $stmt->bind_param("ssssssis", $arrival_date, $departure_date, $room_type, $breakfast_service, $parking_service, $pets_service, $user_id, $timestamp);
+    $stmt->bind_param("ssssssisi", $arrival_date, $departure_date, $room_type, $breakfast_service, $parking_service, $pets_service, $user_id, $timestamp, $room_id);
 
   if ($stmt->execute()) {  
     $conf_msg = "Reservierung erfolgreich";
     // Close the statement and connection when done
-    $stmt->close();
-    $db_obj->close();
-    $isOk = 0;
-    header("Location: meine_reservations.php");
-    die();
+    //$stmt->close();
+    //$db_obj->close();
+    //die();
   }
   }
+}
+    }
     else {
       // If trying to access the page without pressing the submit button, send back to the index page
       //header("Location: ../register_page.php");
     }
 }
-
 
 
 
@@ -116,6 +138,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="body p-4 p-lg-5 text-black">
                   <h1 class="h3 mb-3 font-weight-normal text-center">Reservierung</h1>
+                  <?php echo "<span class='error_msg'> $error7 </span>" ?>
+
+                  <?php echo "<span class='text-success'> $conf_msg </span>" ?>
+
                   <form action="" method="post">
                     <div class="form-group ">
                       <label for="arrival_date">Anreisedatum</label>
