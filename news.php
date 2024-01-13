@@ -127,59 +127,56 @@ session_start();
         $uploadCheck = 1;
         $output = "";
         if (isset($_POST["upload"])) {
-
-
-            if (isset($_FILES["image"]) && $_FILES["image"]["size"] > 0) { // news post with image
+            // news post with image
+            if (isset($_FILES["image"]) && $_FILES["image"]["size"] > 0) {
 
                 $target_dir = "uploads/";
                 $file = @$_FILES["image"];
                 $picname = explode(".", @$_FILES["image"]["name"]);
-                $filepath = $target_dir . uniqid() . "_" . $picname[0] . "." . end($picname);
+                $filepath = $target_dir . uniqid() . "_" . $picname[0] . "." . end($picname); // filepath of old, not resized image
 
                 $uploadExt = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
                 $acceptedtype = ["jpg", "jpeg", "png", "gif"];
-                if (!in_array($uploadExt, $acceptedtype)) {
+                if (!in_array($uploadExt, $acceptedtype)) { // only certain image formats can be uploaded
                     $output = "<span class='text-danger'>Bitte nur folgende Bildformate hochladen: .jpg, .jpeg, .png, .gif</span>";
                     $uploadCheck = 0;
                 }
 
-                if ($_FILES["image"]["size"] > 15 * 1024 * 1024) {
+                if ($_FILES["image"]["size"] > 15 * 1024 * 1024) { // check if the image is below 15 MB
                     $output = "<span class='text-danger'>Bitte nur Bilder unter 15 MB hochladen!</span>";
                     $uploadCheck = 0;
                 }
 
-                if ($uploadCheck == 1) {
-                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $filepath)) {
+                if ($uploadCheck == 1) { // if the uploaded file is an image and below 15 MB
+                    if (move_uploaded_file($_FILES["image"]["tmp_name"], $filepath)) { // store image into a folder which will get resized
 
                         $resizedDir = "resized/";
-                        $resizedFile = $resizedDir . uniqid() . "_" .  basename($_FILES["image"]["name"]);
+                        $resizedFile = $resizedDir . uniqid() . "_" .  basename($_FILES["image"]["name"]); // filepath of resized image
 
-                        // Adjust these values as needed
                         $newWidth = 300;
                         $newHeight = 200;
 
                         resizeImage($filepath, $resizedFile, $newWidth, $newHeight);
 
-                        //$query_upload = "UPDATE `news` SET `news_filepath` = ? WHERE `news`.`news_id` = (SELECT MAX(`news_id`) FROM `news`)";
-                        $query_upload = "INSERT INTO `news` (`news_title`,`news_text`, `news_filepath`) VALUES (?, ?, ?)"; // news post with image
+                        $query_upload = "INSERT INTO `news` (`news_title`,`news_text`, `news_filepath`) VALUES (?, ?, ?)";
                         $stmt = $db_obj->prepare($query_upload);
                         $stmt->bind_param("sss", $newsHeader, $newsText, $resizedFile);
                         $stmt->execute();
 
-                        $output = "<span class='text-success'>Newsbeitrag mit dem Bild " . $_FILES["image"]["name"] . " wurde veröffentlicht!</span>";
+                        $output = "<span class='text-success'>Newsbeitrag mit dem Bild " . $_FILES["image"]["name"] . " wurde veröffentlicht! Klicken Sie <a href='news.php'>hier</a>, um die Seite neu zu laden und den neuen Beitrag zu sehen!</span>";
                     } else {
                         $output = "<span class='text-danger'>Etwas ist beim Hochladen fehlgeschlagen!</span>";
                     }
                 }
             } else {
-                $query_upload = "INSERT INTO `news` (`news_title`,`news_text`) VALUES (?, ?)"; // news post without image
+                // news post without image
+                $query_upload = "INSERT INTO `news` (`news_title`,`news_text`) VALUES (?, ?)";
                 $stmt = $db_obj->prepare($query_upload);
                 $stmt->bind_param("ss", $newsHeader, $newsText);
                 $stmt->execute();
 
-                $output = "<span class='text-success'>Newsbeitrag wurde veröffentlicht!</span>";
+                $output = "<span class='text-success'>Newsbeitrag wurde veröffentlicht! Klicken Sie <a href='news.php'>hier</a>, um die Seite neu zu laden und den neuen Beitrag zu sehen!</span>";
             }
-
 
             $stmt->close();
             $db_obj->close();
