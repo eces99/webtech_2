@@ -134,12 +134,12 @@ session_start();
 
             $output = "<span class='text-success'>Newsbeitrag wurde veröffentlicht!</span>";
 
-            if (isset($_FILES["image"])) { // news post with image
+            if (isset($_FILES["image"]) && $_FILES["image"]["size"] > 0) { // news post with image
 
                 $target_dir = "uploads/";
                 $file = @$_FILES["image"];
                 $picname = explode(".", @$_FILES["image"]["name"]);
-                $filepath = $target_dir . $picname[0] . "." . end($picname);
+                $filepath = $target_dir . uniqid() . "_" . $picname[0] . "." . end($picname);
 
                 $uploadExt = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
                 $acceptedtype = ["jpg", "jpeg", "png", "gif"];
@@ -157,7 +157,7 @@ session_start();
                     if (move_uploaded_file($_FILES["image"]["tmp_name"], $filepath)) {
 
                         $resizedDir = "resized/";
-                        $resizedFile = $resizedDir . basename($_FILES["image"]["name"]);
+                        $resizedFile = $resizedDir . uniqid() . "_" .  basename($_FILES["image"]["name"]);
 
                         // Adjust these values as needed
                         $newWidth = 300;
