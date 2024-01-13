@@ -133,9 +133,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="room_type">Zimmertyp</label>
                     <select class="form-select" aria-label="room" name="room_type">
                       <option selected disabled value="">Bitte wählen Sie den Zimmertyp...</option>
-                      <option value="Single">Single Zimmer - 90€/Nacht</option>
-                      <option value="Double">Double Zimmer - 120€/Nacht</option>
-                      <option value="Suite">Suite - 150€/Nacht</option>
+                      <option value="Single">Einzelzimmer - 90€/Nacht</option>
+                      <option value="Double">Doppelzimmer - 120€/Nacht</option>
+                      <option value="Familienzimmer">Familienzimmer - 150€/Nacht</option>
+                      <option value="Pool">Pool-Suite - 180€/Nacht</option>
                     </select>
                     </div>
                     <?php echo "<span class='error_msg'> $error1 </span>" ?>

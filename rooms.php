@@ -27,8 +27,8 @@ session_start();
                     <div class="card">
                         <img src="./room_imgs/single/single_room.jpg" class="card-img-top" alt="Single Zimmer">
                         <div class="card-body">
-                            <h5 class="card-title">Single Zimmer</h5>
-                            <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium reiciendis impedit at quis vitae eveniet vero sint molestiae ullam, sequi, aspernatur porro odit ex voluptates iste, ipsum suscipit eligendi aliquid!</p>
+                            <h5 class="card-title">Einzelzimmer</h5>
+                            <p class="card-text">Unser komfortables Einzelzimmer bietet alles, was Sie für einen angenehmen Aufenthalt benötigen. Mit einem gemütlichen Bett, einem gut ausgestatteten Arbeitsbereich und modernen Annehmlichkeiten ist dieses Zimmer ideal für Alleinreisende. Genießen Sie die Ruhe und Privatsphäre während Ihres Aufenthalts in unserem gemütlichen Einzelzimmer.</p>
                         </div>
                         <button class="btn btn-light" <?php if (!(isset($_SESSION["user"]))) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
                             Jetzt Buchen
@@ -55,8 +55,8 @@ session_start();
                     <div class="card">
                         <img src="./room_imgs/double/double_bedroom.jpg" class="card-img-top" alt="Double Zimmer">
                         <div class="card-body">
-                            <h5 class="card-title">Double Zimmer</h5>
-                            <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium reiciendis impedit at quis vitae eveniet vero sint molestiae ullam, sequi, aspernatur porro odit ex voluptates iste, ipsum suscipit eligendi aliquid!</p>
+                            <h5 class="card-title">Doppelzimmer</h5>
+                            <p class="card-text">Unser geräumiges Doppelzimmer ist perfekt für Paare oder Reisende, die etwas mehr Platz bevorzugen. Mit einem komfortablen Doppelbett, stilvollem Dekor und allen notwendigen Annehmlichkeiten ist dieses Zimmer ein gemütlicher Rückzugsort nach einem Tag voller Erkundungen. Entspannen Sie sich und genießen Sie die angenehme Atmosphäre unseres großzügigen Doppelzimmers.</p>
                         </div>
                         <button class="btn btn-light" <?php if (!(isset($_SESSION["user"]))) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
                             Jetzt Buchen
@@ -83,8 +83,8 @@ session_start();
                     <div class="card">
                         <img src="./room_imgs/suite/suite_bedroom.jpg" class="card-img-top" alt="Suite">
                         <div class="card-body">
-                            <h5 class="card-title">Suite Zimmer</h5>
-                            <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium reiciendis impedit at quis vitae eveniet vero sint molestiae ullam, sequi, aspernatur porro odit ex voluptates iste, ipsum suscipit eligendi aliquid!</p>
+                            <h5 class="card-title">Familienzimmer</h5>
+                            <p class="card-text">Unser Familienzimmer bietet nicht nur bequeme Schlafgelegenheiten, sondern auch einen separaten Wohnbereich für gemeinsame Momente. Mit kinderfreundlichen Annehmlichkeiten ist dieses Zimmer ideal für Familien, die eine entspannte Zeit in unserem Hotel verbringen möchten. Erleben Sie den Komfort und die Großzügigkeit unseres Familienzimmers.</p>
                         </div>
                         <button class="btn btn-light" <?php if (!(isset($_SESSION["user"]))) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
                             Jetzt Buchen
@@ -109,10 +109,10 @@ session_start();
                 <!-- Services Card -->
                 <div class="col">
                     <div class="card">
-                        <img src="https://plus.unsplash.com/premium_photo-1661392877411-8a4c5ba70462?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Spa">
+                        <img src="https://images.unsplash.com/photo-1596178067639-5c6e68aea6dc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Spa">
                         <div class="card-body">
-                            <h5 class="card-title">Extra Services</h5>
-                            <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium reiciendis impedit at quis vitae eveniet vero sint molestiae ullam, sequi, aspernatur porro odit ex voluptates iste, ipsum suscipit eligendi aliquid!</p>
+                            <h5 class="card-title">Pool-Suite</h5>
+                            <p class="card-text">Erleben Sie Luxus pur in unserer Pool-Suite. Dieser Raum bietet nicht nur komfortable Unterkünfte, sondern auch einen exklusiven privaten Pool, der Ihnen die ultimative Erholung ermöglicht. Genießen Sie ungestörte Momente der Entspannung und erfrischen Sie sich in Ihrem eigenen Pool, ohne das Zimmer verlassen zu müssen. Ein einzigartiges Erlebnis für einen besonderen Aufenthalt.</p>
                         </div>
                         <button class="btn btn-light" <?php if (!(isset($_SESSION["user"]))) { ?>data-bs-toggle="modal" data-bs-target="#Modal" <?php } else { ?> onclick="location.href='./reservation_process.php'" <?php } ?>>
                             Jetzt Buchen

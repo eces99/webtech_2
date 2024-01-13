@@ -66,7 +66,7 @@ CREATE TABLE `reservations` (
   `reservation_id` int(11) NOT NULL,
   `arrival_date` date NOT NULL,
   `departure_date` date NOT NULL,
-  `room_type` varchar(10) DEFAULT NULL,
+  `room_type` varchar(20) DEFAULT NULL,
   `breakfast_service` varchar(10) DEFAULT NULL,
   `parking_service` varchar(10) DEFAULT NULL,
   `pets_service` varchar(10) DEFAULT NULL,
