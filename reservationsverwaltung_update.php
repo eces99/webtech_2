@@ -87,7 +87,7 @@ if ($_SESSION['role'] != "admin") {
                             $stmtUpdate = $db_obj->prepare($updateQuery);
                             $stmtUpdate->bind_param("si", $newStatus, $reservationId);
                             $stmtUpdate->execute();
-                            header('Location: reservationsverwaltung.php');
+                            header("Location: reservationsverwaltung.php?user_id=" . $res['user_id']);
                         }
 
 
