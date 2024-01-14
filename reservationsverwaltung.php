@@ -43,14 +43,33 @@ if ($_SESSION['role'] != "admin") {
         </div>
         <div class="container">
             <div class="table-responsive">
+                <form method="get">
+                    <select class="form-select" aria-label="filter" name="filter">
+                        <option selected disabled value="">Reservierungen filtern nach:</option>
+                        <option <?php if (isset($_GET["filter"]) && $_GET["filter"] == "neu") echo "selected"; ?> value="neu">neu</option>
+                        <option <?php if (isset($_GET["filter"]) && $_GET["filter"] == "bestätigt") echo "selected"; ?> value="bestätigt">bestätigt</option>
+                        <option <?php if (isset($_GET["filter"]) && $_GET["filter"] == "storniert") echo "selected"; ?> value="storniert">storniert</option>
+                    </select>
+                    <?php if (isset($_GET["user_id"])) {
+                        echo '<input type="text" name="user_id" value="' . $_GET["user_id"] . '" hidden>';
+                    } ?>
+                    <button class="btn btn-primary" type="submit">filtern</button>
+                </form>
                 <table class="table">
 
                     <?php
                     if (isset($_GET['user_id'])) {
                         // Display reservations from specific user
-                        $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id WHERE `users`.`user_id` = ?";
-                        $stmt = $db_obj->prepare($query);
-                        $stmt->bind_param("i", $user_id);
+                        if (isset($_GET["filter"])) {
+                            $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id WHERE `users`.`user_id` = ? AND `reservations`.`reservation_status` = ?";
+                            $stmt = $db_obj->prepare($query);
+                            $stmt->bind_param("is", $user_id, $_GET['filter']);
+                        } else {
+                            $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id WHERE `users`.`user_id` = ?";
+                            $stmt = $db_obj->prepare($query);
+                            $stmt->bind_param("i", $user_id);
+                        }
+
                         $stmt->execute();
                         $result = $stmt->get_result();
 
@@ -88,9 +107,16 @@ if ($_SESSION['role'] != "admin") {
                             echo "Keine Reservierungen von " . $user["vorname"] . ' ' . $user["lastname"]  . " vorhanden!";
                         }
                     } else {
-                        // Display all reservation
-                        $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id";
-                        $stmt = $db_obj->prepare($query);
+                        // Display all reservations
+                        if (isset($_GET["filter"])) {
+                            $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id WHERE `reservations`.`reservation_status` = ?";
+                            $stmt = $db_obj->prepare($query);
+                            $stmt->bind_param("s", $_GET['filter']);
+                        } else {
+                            $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id";
+                            $stmt = $db_obj->prepare($query);
+                        }
+
                         $stmt->execute();
                         $result = $stmt->get_result();
                         if ($result->num_rows > 0) {
