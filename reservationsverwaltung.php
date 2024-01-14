@@ -26,46 +26,110 @@ if ($_SESSION['role'] != "admin") {
     <?php include("./includes/navbar.php"); ?>
     <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1503017964658-e2ff5a583c8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); height: 100vh; background-repeat: no-repeat; background-size: cover; background-position:center;">
         <div class="bg-image">
-            <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Reservationsverwaltung</h1>
+            <?php
+            include_once "./includes/dbaccess.php";
+            if (isset($_GET['user_id'])) {
+                $user_id = $_GET['user_id'];
+                $query = "SELECT `vorname`, `lastname` FROM `users` WHERE `user_id` = ?";
+                $stmt = $db_obj->prepare($query);
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $user = $result->fetch_assoc();
+                echo '<h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Reservierungsverwaltung von ' . $user["vorname"] . ' ' . $user["lastname"]  . '</h1>';
+            } else { ?>
+                <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Reservierungsverwaltung</h1>
+            <?php } ?>
         </div>
         <div class="container">
             <div class="table-responsive">
                 <table class="table">
-                    <th>Anreise</th>
-                    <th>Abreise</th>
-                    <th>Zimmertyp</th>
-                    <th>Frühstück</th>
-                    <th>Parking</th>
-                    <th>Tiere</th>
-                    <th>Status</th>
-                    <th>UserId</th> <!-- change to visible for only admins? -->
-                    <th>Benutzer</th>
-                    <th>Erstellt am</th>
-                    <th>Update status</th>
-                    <?php
-                    include_once "./includes/dbaccess.php";
 
-                    $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id";
-                    $stmt = $db_obj->prepare($query);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    
-                    while ($res = $result->fetch_assoc()) {
-                        // Inside the while loop
-                        echo "<tr>";
-                        echo "<td>" . $res['arrival_date'] . "</td>";
-                        echo "<td>" . $res['departure_date'] . "</td>";
-                        echo "<td>" . $res['room_type'] . "</td>";
-                        echo "<td>" . $res['breakfast_service'] . "</td>";
-                        echo "<td>" . $res['parking_service'] . "</td>";
-                        echo "<td>" . $res['pets_service'] . "</td>";
-                        echo "<td>" . $res['reservation_status'] . "</td>";
-                        echo "<td>" . $res['uid_fk'] . "</td>";
-                        echo "<td>" . $res['lastname'] . " " . $res['vorname'] . "</td>";
-                        echo "<td>" . $res['erstellt_am'] . "</td>";
-                        echo "<td><a href='reservationsverwaltung_update.php?reservation_id=" . $res['reservation_id'] . "'>Update</a></td>";
-                        echo "</tr>";
+                    <?php
+                    if (isset($_GET['user_id'])) {
+                        // Display reservations from specific user
+                        $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id WHERE `users`.`user_id` = ?";
+                        $stmt = $db_obj->prepare($query);
+                        $stmt->bind_param("i", $user_id);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        if ($result->num_rows > 0) {
+                            echo '<th>Anreise</th>
+                        <th>Abreise</th>
+                        <th>Zimmertyp</th>
+                        <th>Frühstück</th>
+                        <th>Parking</th>
+                        <th>Tiere</th>
+                        <th>Status</th>
+                        <th>UserId</th> <!-- change to visible for only admins? -->
+                        <th>Erstellt am</th>
+                        <th>Update status</th>';
+
+
+                            while ($res = $result->fetch_assoc()) {
+                                // Inside the while loop
+                                if ($res['uid_fk'] == $_GET['user_id']) {
+                                    echo "<tr>";
+                                    echo "<td>" . $res['arrival_date'] . "</td>";
+                                    echo "<td>" . $res['departure_date'] . "</td>";
+                                    echo "<td>" . $res['room_type'] . "</td>";
+                                    echo "<td>" . $res['breakfast_service'] . "</td>";
+                                    echo "<td>" . $res['parking_service'] . "</td>";
+                                    echo "<td>" . $res['pets_service'] . "</td>";
+                                    echo "<td>" . $res['reservation_status'] . "</td>";
+                                    echo "<td>" . $res['uid_fk'] . "</td>";
+                                    echo "<td>" . $res['erstellt_am'] . "</td>";
+                                    echo "<td><a href='reservationsverwaltung_update.php?reservation_id=" . $res['reservation_id'] . "'>Update</a></td>";
+                                    echo "</tr>";
+                                }
+                            }
+                        } else {
+                            echo "Keine Reservierungen von " . $user["vorname"] . ' ' . $user["lastname"]  . " vorhanden!";
+                        }
+                    } else {
+                        // Display all reservation
+                        $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id";
+                        $stmt = $db_obj->prepare($query);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        if ($result->num_rows > 0) {
+                            echo '<th>Anreise</th>
+                            <th>Abreise</th>
+                            <th>Zimmertyp</th>
+                            <th>Frühstück</th>
+                            <th>Parking</th>
+                            <th>Tiere</th>
+                            <th>Status</th>
+                            <th>UserId</th> <!-- change to visible for only admins? -->
+                            <th>Benutzer</th>
+                            <th>Erstellt am</th>
+                            <th>Update status</th>';
+
+                            while ($res = $result->fetch_assoc()) {
+                                // Inside the while loop
+                                echo "<tr>";
+                                echo "<td>" . $res['arrival_date'] . "</td>";
+                                echo "<td>" . $res['departure_date'] . "</td>";
+                                echo "<td>" . $res['room_type'] . "</td>";
+                                echo "<td>" . $res['breakfast_service'] . "</td>";
+                                echo "<td>" . $res['parking_service'] . "</td>";
+                                echo "<td>" . $res['pets_service'] . "</td>";
+                                echo "<td>" . $res['reservation_status'] . "</td>";
+                                echo "<td>" . $res['uid_fk'] . "</td>";
+                                echo "<td>" . $res['lastname'] . " " . $res['vorname'] . "</td>";
+                                echo "<td>" . $res['erstellt_am'] . "</td>";
+                                echo "<td><a href='reservationsverwaltung_update.php?reservation_id=" . $res['reservation_id'] . "'>Update</a></td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "Keine Reservierungen vorhanden!";
+                        }
                     }
+
+
+
+
                     ?>
                 </table>
             </div>

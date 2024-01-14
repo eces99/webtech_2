@@ -44,16 +44,16 @@ if ($_SESSION['role'] != "admin") {
                     <?php
                     include_once "./includes/dbaccess.php";
 
-                    
+
                     $reservationId = $_GET['reservation_id'];
-                    
+
                     // Fetch the specific reservation based on the ID
                     $query = "SELECT * FROM `reservations` JOIN `users` ON reservations.uid_fk = users.user_id WHERE reservation_id = ?";
                     $stmt = $db_obj->prepare($query);
                     $stmt->bind_param("i", $reservationId);
                     $stmt->execute();
                     $result = $stmt->get_result();
-                    
+
                     while ($res = $result->fetch_assoc()) {
                         // Inside the while loop
                         echo "<tr>";
@@ -77,7 +77,7 @@ if ($_SESSION['role'] != "admin") {
                         echo "</form>";
                         echo "</td>";
 
-                            // Inside the while loop, after you output the reservation data
+                        // Inside the while loop, after you output the reservation data
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $newStatus = $_POST["reservation_status"];
                             $reservationId = $res['reservation_id']; // Assuming you have a reservation_id field in your database
@@ -88,8 +88,6 @@ if ($_SESSION['role'] != "admin") {
                             $stmtUpdate->bind_param("si", $newStatus, $reservationId);
                             $stmtUpdate->execute();
                             header('Location: reservationsverwaltung.php');
-
-                            
                         }
 
 

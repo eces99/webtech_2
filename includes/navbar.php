@@ -28,6 +28,9 @@
           <?php }
           if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") { ?>
             <li class="nav-item">
+              <a class="nav-link" href="./reservationsverwaltung.php">Reservierungsverwaltung</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="./userverwaltung.php">Userverwaltung</a>
             </li>
           <?php } ?>
