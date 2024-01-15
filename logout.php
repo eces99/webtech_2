@@ -2,7 +2,6 @@
 session_start();
 session_destroy();
 
-echo "Logout erfolgreich";
 header('Refresh: 0; URL = index.php');
 ?>
 
