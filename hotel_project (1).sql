@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 14. Jan 2024 um 16:29
--- Server-Version: 10.4.19-MariaDB
--- PHP-Version: 7.3.28
+-- Generation Time: Jan 15, 2024 at 03:12 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,24 +18,24 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `hotel_project`
+-- Database: `hotel_project`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `admins`
+-- Table structure for table `admins`
 --
 
 CREATE TABLE `admins` (
   `admin_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `news`
+-- Table structure for table `news`
 --
 
 CREATE TABLE `news` (
@@ -45,10 +45,10 @@ CREATE TABLE `news` (
   `news_filepath` varchar(512) NOT NULL,
   `news_date` date DEFAULT current_timestamp(),
   `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Daten für Tabelle `news`
+-- Dumping data for table `news`
 --
 
 INSERT INTO `news` (`news_id`, `news_title`, `news_text`, `news_filepath`, `news_date`, `admin_id`) VALUES
@@ -60,7 +60,7 @@ INSERT INTO `news` (`news_id`, `news_title`, `news_text`, `news_filepath`, `news
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `reservations`
+-- Table structure for table `reservations`
 --
 
 CREATE TABLE `reservations` (
@@ -75,30 +75,31 @@ CREATE TABLE `reservations` (
   `admin_id` int(11) NOT NULL,
   `uid_fk` int(11) DEFAULT NULL,
   `erstellt_am` datetime DEFAULT NULL,
-  `room_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `room_id` int(11) DEFAULT NULL,
+  `price` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Daten für Tabelle `reservations`
+-- Dumping data for table `reservations`
 --
 
-INSERT INTO `reservations` (`reservation_id`, `arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`, `reservation_status`, `admin_id`, `uid_fk`, `erstellt_am`, `room_id`) VALUES
-(25, '2024-01-16', '2024-01-18', 'Single', 'Ja', 'Ja', 'Ja', 'neu', 0, 41, '2024-01-14 16:17:35', 1),
-(26, '2024-01-22', '2024-01-24', 'Single', 'Ja', 'Nein', 'Nein', 'neu', 0, 42, '2024-01-14 16:18:59', 1);
+INSERT INTO `reservations` (`reservation_id`, `arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`, `reservation_status`, `admin_id`, `uid_fk`, `erstellt_am`, `room_id`, `price`) VALUES
+(29, '2024-01-24', '2024-01-26', 'Pool', 'Ja', 'Ja', 'Ja', 'neu', 0, 42, '2024-01-15 15:07:36', 8, 205),
+(30, '2024-01-18', '2024-01-19', 'Double', 'Nein', 'Nein', 'Ja', 'neu', 0, 42, '2024-01-15 15:07:52', 3, 120);
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `rooms`
+-- Table structure for table `rooms`
 --
 
 CREATE TABLE `rooms` (
   `id` int(11) NOT NULL,
   `room_type` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Daten für Tabelle `rooms`
+-- Dumping data for table `rooms`
 --
 
 INSERT INTO `rooms` (`id`, `room_type`) VALUES
@@ -114,7 +115,7 @@ INSERT INTO `rooms` (`id`, `room_type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -127,10 +128,10 @@ CREATE TABLE `users` (
   `username` varchar(32) NOT NULL,
   `password` varchar(128) NOT NULL,
   `status` varchar(32) NOT NULL DEFAULT 'aktiv'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Daten für Tabelle `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `status`) VALUES
@@ -143,23 +144,23 @@ INSERT INTO `users` (`user_id`, `role`, `anrede`, `vorname`, `lastname`, `email`
 (46, 'user', 'Herr', 'Lewis', 'Hamilton', 'lh44@gmail.com', 'hamilton', '3014f908bc8a7992d2f49dcaf9343caf2a8bb12321b8020d21d950bf71c7dada7a8220c2be236e6cfa7a10d33f679c00c263ff066d69e4df2fbac12194f0d099', 'aktiv');
 
 --
--- Indizes der exportierten Tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indizes für die Tabelle `admins`
+-- Indexes for table `admins`
 --
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`admin_id`,`user_id`);
 
 --
--- Indizes für die Tabelle `news`
+-- Indexes for table `news`
 --
 ALTER TABLE `news`
   ADD PRIMARY KEY (`news_id`);
 
 --
--- Indizes für die Tabelle `reservations`
+-- Indexes for table `reservations`
 --
 ALTER TABLE `reservations`
   ADD PRIMARY KEY (`reservation_id`),
@@ -167,13 +168,13 @@ ALTER TABLE `reservations`
   ADD KEY `room_id` (`room_id`);
 
 --
--- Indizes für die Tabelle `rooms`
+-- Indexes for table `rooms`
 --
 ALTER TABLE `rooms`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indizes für die Tabelle `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
@@ -181,45 +182,45 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT für Tabelle `admins`
+-- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT für Tabelle `news`
+-- AUTO_INCREMENT for table `news`
 --
 ALTER TABLE `news`
   MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
--- AUTO_INCREMENT für Tabelle `reservations`
+-- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT für Tabelle `rooms`
+-- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT für Tabelle `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
--- Constraints der exportierten Tabellen
+-- Constraints for dumped tables
 --
 
 --
--- Constraints der Tabelle `reservations`
+-- Constraints for table `reservations`
 --
 ALTER TABLE `reservations`
   ADD CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`uid_fk`) REFERENCES `users` (`user_id`),
