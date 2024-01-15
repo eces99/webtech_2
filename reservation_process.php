@@ -79,21 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Include your database connection
   require_once "./includes/dbaccess.php";
-/*
-  $availability_query = "SELECT r.reservation_id
-        FROM reservations r
-        LEFT JOIN rooms rm ON r.room_id = rm.id
-        WHERE rm.room_type = '$room_type'
-        AND ('$arrival_date' BETWEEN r.arrival_date AND r.departure_date
-            OR '$departure_date' BETWEEN r.arrival_date AND r.departure_date)";
 
-  // Check room availability
-  $availability_result = mysqli_query($db_obj, $availability_query);
-
-  if (mysqli_num_rows($availability_result) > 0) {
-    // Room type is not available for the given dates
-    $error7 = "Error: Room type not available for the selected dates.";
-} else {*/
     // Get user_id from the session
     $user_id = $_SESSION['uid'];
 

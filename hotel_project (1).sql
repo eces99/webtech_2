@@ -68,9 +68,9 @@ CREATE TABLE `reservations` (
   `arrival_date` date NOT NULL,
   `departure_date` date NOT NULL,
   `room_type` varchar(20) DEFAULT NULL,
-  `breakfast_service` varchar(10) DEFAULT 'Nein',
-  `parking_service` varchar(10) DEFAULT 'Nein',
-  `pets_service` varchar(10) DEFAULT 'Nein',
+  `breakfast_service` varchar(10) DEFAULT NULL,
+  `parking_service` varchar(10) DEFAULT NULL,
+  `pets_service` varchar(10) DEFAULT NULL,
   `reservation_status` varchar(20) DEFAULT 'neu',
   `admin_id` int(11) NOT NULL,
   `uid_fk` int(11) DEFAULT NULL,
@@ -110,7 +110,7 @@ INSERT INTO `rooms` (`id`, `room_type`) VALUES
 (5, 'Familienzimmer'),
 (6, 'Familienzimmer'),
 (7, 'Pool'),
-(9, 'Pool');
+(8, 'Pool');
 
 -- --------------------------------------------------------
 
