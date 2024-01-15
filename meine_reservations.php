@@ -46,6 +46,7 @@ $user_id = $_SESSION['uid'];
                     <th>Tiere</th>
                     <th>Status</th>
                     <th>Erstellt am</th>
+                    <th>Preis</th>
                     <?php
                     $query = "SELECT * FROM `reservations` WHERE `uid_fk`=$user_id";
                     $stmt = $db_obj->prepare($query);
@@ -62,6 +63,7 @@ $user_id = $_SESSION['uid'];
                         echo "<td>" . $res['pets_service'] . "</td>";
                         echo "<td>" . $res['reservation_status'] . "</td>";
                         echo "<td>" . $res['erstellt_am'] . "</td>";
+                        echo "<td>" . $res['price'] . "€</td>";
                         echo "</tr>";
                     }
                     ?>

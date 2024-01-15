@@ -83,6 +83,7 @@ if ($_SESSION['role'] != "admin") {
                             <th>Tiere</th>
                             <th>Status</th>
                             <th>UserId</th> <!-- change to visible for only admins? -->
+                            <th>Preis</th>
                             <th>Erstellt am</th>
                             <th>Update status</th>';
 
@@ -98,6 +99,7 @@ if ($_SESSION['role'] != "admin") {
                                     echo "<td>" . $res['pets_service'] . "</td>";
                                     echo "<td>" . $res['reservation_status'] . "</td>";
                                     echo "<td>" . $res['uid_fk'] . "</td>";
+                                    echo "<td>" . $res['price'] . "€</td>";
                                     echo "<td>" . $res['erstellt_am'] . "</td>";
                                     echo "<td><a href='reservationsverwaltung_update.php?reservation_id=" . $res['reservation_id'] . "'>Update</a></td>";
                                     echo "</tr>";
@@ -129,6 +131,7 @@ if ($_SESSION['role'] != "admin") {
                             <th>Status</th>
                             <th>UserId</th> <!-- change to visible for only admins? -->
                             <th>Benutzer</th>
+                            <th>Preis</th>
                             <th>Erstellt am</th>
                             <th>Update status</th>';
 
@@ -144,6 +147,7 @@ if ($_SESSION['role'] != "admin") {
                                 echo "<td>" . $res['reservation_status'] . "</td>";
                                 echo "<td>" . $res['uid_fk'] . "</td>";
                                 echo "<td>" . $res['lastname'] . " " . $res['vorname'] . "</td>";
+                                echo "<td>" . $res['price'] . "€</td>";
                                 echo "<td>" . $res['erstellt_am'] . "</td>";
                                 echo "<td><a href='reservationsverwaltung_update.php?reservation_id=" . $res['reservation_id'] . "'>Update</a></td>";
                                 echo "</tr>";

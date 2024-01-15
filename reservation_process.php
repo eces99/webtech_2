@@ -29,12 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["room_type"])) {
         $error3 = "Bitte füllen Sie aus!";
     } else {
-        $room_type = ($_POST["room_type"]);
+        $room_type = ($_POST["room_type"]);    
     }
     if (empty($_POST["breakfast_service"])) {
       $error4 = "Bitte füllen Sie aus!";
     } else {
-        $breakfast_service = ($_POST["breakfast_service"]);
+        $breakfast_service = ($_POST["breakfast_service"]);   
     }
     if (empty($_POST["parking_service"])) {
       $error5 = "Bitte füllen Sie aus!";
@@ -46,8 +46,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $pets_service = ($_POST["pets_service"]);
     }
-    
 
+    // Calculate price of reservation
+    if($room_type == "Single"){
+      $priceroom = 90;
+    } else if($room_type == "Double"){
+      $priceroom = 120;
+    } else if($room_type == "Familienzimmer"){
+      $priceroom = 150;
+    } else if($room_type == "Pool"){
+      $priceroom = 180;
+    }
+    if($parking_service == "Ja"){
+      $priceparkingspot = 10;
+    } else {
+      $priceparkingspot = 0;
+    }
+    if($breakfast_service == "Ja"){
+      $pricebreakfast = 15;
+    } else {
+      $pricebreakfast = 0;
+    }
+    $pricefull = $priceroom + $pricebreakfast + $priceparkingspot;
 
     if (isset($_POST["arrival_date"]) && isset($_POST["departure_date"]) && isset($_POST["room_type"])) {
 
@@ -92,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $timestamp = date("Y-m-d H:i:s", $aktuellerTimestamp);
 
         // Insert reservation into the database
-        $query = "INSERT INTO `reservations`(`arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`, `uid_fk`, `erstellt_am`, `room_id`) VALUES (?,?,?,?,?,?,?,?,?)";
+        $query = "INSERT INTO `reservations`(`arrival_date`, `departure_date`, `room_type`, `breakfast_service`, `parking_service`, `pets_service`, `uid_fk`, `erstellt_am`, `room_id`, `price`) VALUES (?,?,?,?,?,?,?,?,?,?)";
         $stmt = $db_obj->stmt_init();
 
         if (!$stmt->prepare($query)) {
@@ -100,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $stmt = $db_obj->prepare($query);
-        $stmt->bind_param("ssssssisi", $arrival_date, $departure_date, $room_type, $breakfast_service, $parking_service, $pets_service, $user_id, $timestamp, $room_id);
+        $stmt->bind_param("ssssssisii", $arrival_date, $departure_date, $room_type, $breakfast_service, $parking_service, $pets_service, $user_id, $timestamp, $room_id, $pricefull);
 
         if ($stmt->execute()) {
             $conf_msg = "Reservierung erfolgreich. Bitte clicken Sie <a href='./meine_reservations.php'>hier</a> um Ihre Reservierungen zu sehen.";
