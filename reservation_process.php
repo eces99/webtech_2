@@ -122,11 +122,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_POST["arrival_date"] = $_POST["departure_date"] = $_POST["room_type"] = $_POST["breakfast_service"] = $_POST["parking_service"] = $_POST["pets_service"] = "";
         } else {
             // Handle the case where the reservation couldn't be executed
-            $error7 = "Error: Unable to complete the reservation.";
+            $error7 = "Fehler: Die Reservierung konnte nicht abgeschlossen werden.";
         }
     } else {
         // Handle the case where no available room was found
-        $error7 = "Error: No available room found for the selected room type and time slot.";
+        $error7 = "Fehler: Kein verfügbares Zimmer gefunden für den ausgewählten Zimmertyp und Zeitraum.";
     }
 }
 } else {

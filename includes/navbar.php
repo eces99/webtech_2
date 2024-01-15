@@ -73,6 +73,7 @@
         <ul class="navbar-nav ms-auto">
           <?php
           if (isset($_SESSION['user'])) { ?>
+        <hr>
            <li class="nav-item d-lg-none">
               <a class="nav-link" href="./stammdaten.php">Meine Daten</a>
             </li>
@@ -80,7 +81,7 @@
               <a class="nav-link" href="./meine_reservations.php">Meine Reservierungen</a>
             </li>
             <li class="nav-item d-lg-none"><a class="nav-link" href="./logout.php">Logout</a></li>
-            
+
             <li class="nav-item dropdown d-none d-lg-flex">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Hallo <?php echo $_SESSION['user'] ?>
