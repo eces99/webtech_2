@@ -36,13 +36,15 @@ if ($_SESSION['role'] != "admin") {
                 $stmt->execute();
                 $result = $stmt->get_result();
                 $user = $result->fetch_assoc();
-                echo '<h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Reservierungsverwaltung von ' . $user["vorname"] . ' ' . $user["lastname"]  . '</h1>';
+                echo '<h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Reservierungen von ' . $user["vorname"] . ' ' . $user["lastname"]  . '</h1>';
             } else { ?>
-                <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Reservierungsverwaltung</h1>
+                <h1 class="display-3 text-center pt-4" style="font-weight:bold; color:white;">Reservierungen</h1>
             <?php } ?>
         </div>
         <div class="container">
                 <!-- Form to filter -->
+                <div class="row">
+                    <div class="col-8">
                 <form method="get">
                     <select class="form-select" aria-label="filter" name="filter">
                         <option selected disabled value="">Reservierungen filtern nach:</option>
@@ -53,9 +55,14 @@ if ($_SESSION['role'] != "admin") {
                     <?php if (isset($_GET["user_id"])) { // Add hidden input to store $_GET["user_id"] in order to  filter reservations from a specific user
                         echo '<input type="text" name="user_id" value="' . $_GET["user_id"] . '" hidden>';
                     } ?>
+                    </div>
+                    <div class="col-4">
                     <button class="btn btn-primary" type="submit">filtern</button>
                 </form>
-                
+            </div>
+            </div>
+                </br>
+
                 <div class="table-responsive">
                     <table class="table">
                     <?php
