@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Include your database connection
   require_once "./includes/dbaccess.php";
-
+/*
   $availability_query = "SELECT r.reservation_id
         FROM reservations r
         LEFT JOIN rooms rm ON r.room_id = rm.id
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (mysqli_num_rows($availability_result) > 0) {
     // Room type is not available for the given dates
     $error7 = "Error: Room type not available for the selected dates.";
-} else {
+} else {*/
     // Get user_id from the session
     $user_id = $_SESSION['uid'];
 
@@ -85,7 +85,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                              LIMIT 1";
 
     $available_room_result = mysqli_query($db_obj, $available_room_query);
-
     if ($available_room_row = mysqli_fetch_assoc($available_room_result)) {
         $room_id = $available_room_row['id'];
 
@@ -118,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Handle the case where the form is not properly submitted
 // You might want to set an error message or redirect to an error page
   }
-}
+//}
 
 ?>
 <!DOCTYPE html>
