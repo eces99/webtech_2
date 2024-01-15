@@ -3,7 +3,7 @@ session_start();
 session_destroy();
 
 echo "Logout erfolgreich";
-header('Refresh: 1; URL = login_page.php?menu=upload');
+header('Refresh: 0; URL = index.php');
 ?>
 
 <!DOCTYPE html>

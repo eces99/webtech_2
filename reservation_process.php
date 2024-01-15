@@ -118,6 +118,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->execute()) {
             $conf_msg = "Reservierung erfolgreich. Bitte clicken Sie <a href='./meine_reservations.php'>hier</a> um Ihre Reservierungen zu sehen.";
+            
+            $_POST["arrival_date"] = $_POST["departure_date"] = $_POST["room_type"] = $_POST["breakfast_service"] = $_POST["parking_service"] = $_POST["pets_service"] = "";
         } else {
             // Handle the case where the reservation couldn't be executed
             $error7 = "Error: Unable to complete the reservation.";
@@ -168,13 +170,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <form action="" method="post">
                     <div class="form-group ">
                       <label for="arrival_date">Anreisedatum</label>
-                      <input type="date" name="arrival_date" class="form-control input-with-post-icon datepicker" min="<?php echo date('Y-m-d'); ?>" inline="true" placeholder="Anreisedatum">
+                      <input type="date" name="arrival_date" class="form-control input-with-post-icon datepicker" min="<?php echo date('Y-m-d'); ?>" inline="true" placeholder="Anreisedatum" value="<?php if (isset($_POST["arrival_date"])) echo $_POST["arrival_date"] ?>">
                     </div>
                     <?php echo "<span class='error_msg'> $error1 </span>" ?>
 
                     <div class="form-group mt-4">
                       <label for="departure_date">Abreisedatum</label>
-                      <input type="date" name="departure_date" class="form-control input-with-post-icon datepicker" min="<?php echo date('Y-m-d'); ?>" inline="true" placeholder="Abreisedatum">
+                      <input type="date" name="departure_date" class="form-control input-with-post-icon datepicker" min="<?php echo date('Y-m-d'); ?>" inline="true" placeholder="Abreisedatum" value="<?php if (isset($_POST["departure_date"])) echo $_POST["departure_date"] ?>">
                     </div>
                     <?php echo "<span class='error_msg'> $error2 </span>" ?>
 
@@ -182,10 +184,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="room_type">Zimmertyp</label>
                     <select class="form-select" aria-label="room" name="room_type">
                       <option selected disabled value="">Bitte wählen Sie den Zimmertyp...</option>
-                      <option value="Single">Einzelzimmer - 90€/Nacht</option>
-                      <option value="Double">Doppelzimmer - 120€/Nacht</option>
-                      <option value="Familienzimmer">Familienzimmer - 150€/Nacht</option>
-                      <option value="Pool">Pool-Suite - 180€/Nacht</option>
+                      <option value="Single" <?php if (isset($_POST["room_type"])) {
+                                                                            if ($_POST["room_type"] == "Single") {
+                                                                                echo "selected";
+                                                                            }
+                                                                        } ?>>Einzelzimmer - 90€/Nacht</option>
+                      <option value="Double" <?php if (isset($_POST["room_type"])) {
+                                                                            if ($_POST["room_type"] == "Double") {
+                                                                                echo "selected";
+                                                                            }
+                                                                        } ?>>Doppelzimmer - 120€/Nacht</option>
+                      <option value="Familienzimmer" <?php if (isset($_POST["room_type"])) {
+                                                                            if ($_POST["room_type"] == "Familienzimmer") {
+                                                                                echo "selected";
+                                                                            }
+                                                                        } ?>>Familienzimmer - 150€/Nacht</option>
+                      <option value="Pool" <?php if (isset($_POST["room_type"])) {
+                                                                            if ($_POST["room_type"] == "Pool") {
+                                                                                echo "selected";
+                                                                            }
+                                                                        } ?>>Pool-Suite - 180€/Nacht</option>
                     </select>
                     </div>
                     <?php echo "<span class='error_msg'> $error3 </span>" ?>
@@ -195,8 +213,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="breakfast_service">Frühstück</label>
                     <select class="form-select" aria-label="breakfast" name="breakfast_service">
                       <option selected disabled value="">Möchten Sie Frühstück?</option>
-                      <option value="Ja">Ja + 15€</option>
-                      <option value="Nein">Nein</option>
+                      <option value="Ja" <?php if (isset($_POST["breakfast_service"])) {
+                                                                            if ($_POST["breakfast_service"] == "Ja") {
+                                                                                echo "selected";
+                                                                            }
+                                                                        } ?>>Ja + 15€</option>
+                      <option value="Nein" <?php if (isset($_POST["breakfast_service"])) {
+                                                                            if ($_POST["breakfast_service"] == "Nein") {
+                                                                                echo "selected";
+                                                                            }
+                                                                        } ?>>Nein</option>
                     </select>
                     </div>
                     <?php echo "<span class='error_msg'> $error4 </span>" ?>
@@ -205,8 +231,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="parking_service">Parkplatz</label>
                     <select class="form-select" aria-label="park" name="parking_service">
                       <option selected disabled value="">Möchten Sie einen Parkplatz reservieren?</option>
-                      <option value="Ja">Ja + 10€</option>
-                      <option value="Nein">Nein</option>
+                      <option value="Ja" <?php if (isset($_POST["parking_service"])) {
+                                                                            if ($_POST["parking_service"] == "Ja") {
+                                                                                echo "selected";
+                                                                            }
+                                                                        } ?>>Ja + 10€</option>
+                      <option value="Nein" <?php if (isset($_POST["parking_service"])) {
+                                                                            if ($_POST["parking_service"] == "Nein") {
+                                                                                echo "selected";
+                                                                            }
+                                                                        } ?>>Nein</option>
                     </select>
                     </div>
                     <?php echo "<span class='error_msg'> $error5 </span>" ?>
@@ -215,8 +249,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="pets_service">Haustiere</label>
                     <select class="form-select" aria-label="tiere" name="pets_service">
                       <option selected disabled value="">Bringen Sie Ihre Haustiere mit?</option>
-                      <option value="Ja">Ja (kostenlos)</option>
-                      <option value="Nein">Nein</option>
+                      <option value="Ja" <?php if (isset($_POST["pets_service"])) {
+                                                                            if ($_POST["pets_service"] == "Ja") {
+                                                                                echo "selected";
+                                                                            }
+                                                                        } ?>>Ja (kostenlos)</option>
+                      <option value="Nein" <?php if (isset($_POST["pets_service"])) {
+                                                                            if ($_POST["pets_service"] == "Nein") {
+                                                                                echo "selected";
+                                                                            }
+                                                                        } ?>>Nein</option>
                     </select>
                     </div>
                     <?php echo "<span class='error_msg'> $error6 </span>" ?>
