@@ -57,6 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $priceroom = 150;
     } else if($room_type == "Pool"){
       $priceroom = 180;
+    } else {
+      $priceroom = 0;
     }
     if($parking_service == "Ja"){
       $priceparkingspot = 10;
