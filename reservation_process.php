@@ -8,6 +8,7 @@ if (!isset($_SESSION['user'])) {
 
 $error1 = $error2 = $error3 = $error4 = $error5 = $error6 = $error7 = "";
 $conf_msg = "";
+$parking_service = $breakfast_service = $pets_service = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -67,9 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
       $pricebreakfast = 0;
     }
-    $pricefull = $priceroom + $pricebreakfast + $priceparkingspot;
+    $departureDateTime = new DateTime($departure_date);
+    $arrivalDateTime = new DateTime($arrival_date);
+    $dateDifference = $departureDateTime->diff($arrivalDateTime);
+    $numericDifference = $dateDifference->days;
 
-    if (isset($_POST["arrival_date"]) && isset($_POST["departure_date"]) && isset($_POST["room_type"])) {
+    $pricefull = $priceroom*($numericDifference) + $pricebreakfast + $priceparkingspot;
+
+    if (isset($_POST["arrival_date"]) && isset($_POST["departure_date"]) && isset($_POST["room_type"]) && isset($_POST["breakfast_service"]) && isset($_POST["parking_service"]) && isset($_POST["pets_service"])) {
 
   // Include your database connection
   require_once "./includes/dbaccess.php";
@@ -195,7 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       <option value="Pool">Pool-Suite - 180€/Nacht</option>
                     </select>
                     </div>
-                    <?php echo "<span class='error_msg'> $error1 </span>" ?>
+                    <?php echo "<span class='error_msg'> $error3 </span>" ?>
 
 
                     <div class="form-group mt-4">
@@ -206,7 +212,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       <option value="Nein">Nein</option>
                     </select>
                     </div>
-                    <?php echo "<span class='error_msg'> $error1 </span>" ?>
+                    <?php echo "<span class='error_msg'> $error4 </span>" ?>
 
                     <div class="form-group mt-4">
                     <label for="parking_service">Parkplatz</label>
@@ -216,7 +222,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       <option value="Nein">Nein</option>
                     </select>
                     </div>
-                    <?php echo "<span class='error_msg'> $error1 </span>" ?>
+                    <?php echo "<span class='error_msg'> $error5 </span>" ?>
 
                     <div class="form-group mt-4">
                     <label for="pets_service">Haustiere</label>
@@ -226,7 +232,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       <option value="Nein">Nein</option>
                     </select>
                     </div>
-                    <?php echo "<span class='error_msg'> $error1 </span>" ?>
+                    <?php echo "<span class='error_msg'> $error6 </span>" ?>
 
                     <br>
                     <div class="btns">

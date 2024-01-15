@@ -108,8 +108,8 @@ INSERT INTO `rooms` (`id`, `room_type`) VALUES
 (3, 'Double'),
 (4, 'Double'),
 (5, 'Familienzimmer'),
-(7, 'Familienzimmer'),
-(8, 'Pool'),
+(6, 'Familienzimmer'),
+(7, 'Pool'),
 (9, 'Pool');
 
 -- --------------------------------------------------------
