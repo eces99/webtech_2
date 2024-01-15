@@ -68,27 +68,37 @@
                 <a class="dropdown-item" href="./userverwaltung.php">Userverwaltung</a>
               </div>
             </li>
-
-      <!--
-            <li class="nav-item">
-              <a class="nav-link" href="./reservationsverwaltung.php">Reservierungsverwaltung</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./userverwaltung.php">Userverwaltung</a>
-            </li>
-          -->
           <?php } ?>
         </ul>
         <ul class="navbar-nav ms-auto">
           <?php
           if (isset($_SESSION['user'])) { ?>
+           <li class="nav-item d-lg-none">
+              <a class="nav-link" href="./stammdaten.php">Meine Daten</a>
+            </li>
+            <li class="nav-item d-lg-none">
+              <a class="nav-link" href="./meine_reservations.php">Meine Reservierungen</a>
+            </li>
+            <li class="nav-item d-lg-none"><a class="nav-link" href="./logout.php">Logout</a></li>
+            
+            <li class="nav-item dropdown d-none d-lg-flex">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Hallo <?php echo $_SESSION['user'] ?>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="./stammdaten.php">Meine Daten</a>
+                <a class="dropdown-item" href="./meine_reservations.php">Meine Reservierungen</a>
+                <a class="dropdown-item"href="./logout.php">Logout</a>
+              </div>
+            </li>
+            <!--
             <li class="nav-item">
               <a class="nav-link" href="./stammdaten.php">Meine Daten</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="./meine_reservations.php">Meine Reservierungen</a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="./logout.php">Logout</a></li>
+            <li class="nav-item"><a class="nav-link" href="./logout.php">Logout</a></li> -->
           <?php } else { ?>
 
             <!-- nicht logged in users können die nur login und anmelden auf der rechte seite des navbars sehen ansehen -->
