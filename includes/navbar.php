@@ -16,23 +16,67 @@
           <li class="nav-item">
             <a class="nav-link" href="./news.php">News</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./rooms.php">Zimmer & Angebote</a>
-          </li>
+          
           <!-- nur logged in users können die reservierungs seite und stammdaetn bzw. logout button ansehen -->
           <?php
-          if (isset($_SESSION['user'])) { ?>
+          // For non-admin users no dropdown menu
+          if (isset($_SESSION['user']) && $_SESSION['role'] != "admin") { ?> 
+            <li class="nav-item">
+              <a class="nav-link" href="./rooms.php">Zimmer & Angebote</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="./reservation_process.php">Zimmer buchen</a>
             </li>
+          <?php 
+        // For anonymous users no dropdown menu
+        } else if(!isset($_SESSION['user'])) { ?>
+            <li class="nav-item">
+            <a class="nav-link" href="./rooms.php">Zimmer & Angebote</a>
+          </li>
           <?php }
+          // For admin users dropdown menu for "Zimmer" and "Verwaltung"
           if (isset($_SESSION['role']) && $_SESSION['role'] == "admin") { ?>
+          <li class="nav-item d-lg-none">
+              <a class="nav-link" href="./rooms.php">Zimmer & Angebote</a>
+            </li>
+            <li class="nav-item d-lg-none">
+              <a class="nav-link" href="./reservation_process.php">Zimmer buchen</a>
+            </li>
+
+            <li class="nav-item dropdown d-none d-lg-flex">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Zimmer
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="./rooms.php">Zimmer & Angebote</a>
+                <a class="dropdown-item" href="./reservation_process.php">Zimmer buchen</a>
+              </div>
+            </li>
+            <li class="nav-item d-lg-none">
+              <a class="nav-link" href="./reservationsverwaltung.php">Reservierungsverwaltung</a>
+            </li>
+            <li class="nav-item d-lg-none">
+              <a class="nav-link" href="./userverwaltung.php">Userverwaltung</a>
+            </li>
+
+            <li class="nav-item dropdown d-none d-lg-flex">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Verwaltung
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="./reservationsverwaltung.php">Reservierungsverwaltung</a>
+                <a class="dropdown-item" href="./userverwaltung.php">Userverwaltung</a>
+              </div>
+            </li>
+
+      <!--
             <li class="nav-item">
               <a class="nav-link" href="./reservationsverwaltung.php">Reservierungsverwaltung</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="./userverwaltung.php">Userverwaltung</a>
             </li>
+          -->
           <?php } ?>
         </ul>
         <ul class="navbar-nav ms-auto">
