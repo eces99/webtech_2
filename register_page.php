@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         require_once "./includes/dbaccess.php";
 
         // Create a query and insert into using SQL statement
-        $query = "INSERT INTO `users`(`role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `status`, `profile_photo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //placeholders
+        $query = "INSERT INTO `users`(`role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //placeholders
 
         // Check query for errors (f.e. duplicate entries for unique usernames/emails)
         $stmt = $db_obj->stmt_init();

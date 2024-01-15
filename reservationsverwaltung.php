@@ -43,6 +43,7 @@ if ($_SESSION['role'] != "admin") {
         </div>
         <div class="container">
             <div class="table-responsive">
+                <!-- Form to filter -->
                 <form method="get">
                     <select class="form-select" aria-label="filter" name="filter">
                         <option selected disabled value="">Reservierungen filtern nach:</option>
@@ -50,7 +51,7 @@ if ($_SESSION['role'] != "admin") {
                         <option <?php if (isset($_GET["filter"]) && $_GET["filter"] == "bestätigt") echo "selected"; ?> value="bestätigt">bestätigt</option>
                         <option <?php if (isset($_GET["filter"]) && $_GET["filter"] == "storniert") echo "selected"; ?> value="storniert">storniert</option>
                     </select>
-                    <?php if (isset($_GET["user_id"])) {
+                    <?php if (isset($_GET["user_id"])) { // Add hidden input to store $_GET["user_id"] in order to  filter reservations from a specific user
                         echo '<input type="text" name="user_id" value="' . $_GET["user_id"] . '" hidden>';
                     } ?>
                     <button class="btn btn-primary" type="submit">filtern</button>
@@ -60,11 +61,11 @@ if ($_SESSION['role'] != "admin") {
                     <?php
                     if (isset($_GET['user_id'])) {
                         // Display reservations from specific user
-                        if (isset($_GET["filter"])) {
+                        if (isset($_GET["filter"])) { // query with filter
                             $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id WHERE `users`.`user_id` = ? AND `reservations`.`reservation_status` = ?";
                             $stmt = $db_obj->prepare($query);
                             $stmt->bind_param("is", $user_id, $_GET['filter']);
-                        } else {
+                        } else { // query without filter
                             $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id WHERE `users`.`user_id` = ?";
                             $stmt = $db_obj->prepare($query);
                             $stmt->bind_param("i", $user_id);
@@ -84,7 +85,6 @@ if ($_SESSION['role'] != "admin") {
                         <th>UserId</th> <!-- change to visible for only admins? -->
                         <th>Erstellt am</th>
                         <th>Update status</th>';
-
 
                             while ($res = $result->fetch_assoc()) {
                                 // Inside the while loop
@@ -108,11 +108,11 @@ if ($_SESSION['role'] != "admin") {
                         }
                     } else {
                         // Display all reservations
-                        if (isset($_GET["filter"])) {
+                        if (isset($_GET["filter"])) { // query with filter
                             $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id WHERE `reservations`.`reservation_status` = ?";
                             $stmt = $db_obj->prepare($query);
                             $stmt->bind_param("s", $_GET['filter']);
-                        } else {
+                        } else {  // query without filter
                             $query = "SELECT  * FROM `reservations` JOIN `users` on reservations.uid_fk=users.user_id";
                             $stmt = $db_obj->prepare($query);
                         }
