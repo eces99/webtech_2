@@ -62,7 +62,12 @@ if ($_SESSION['role'] != "admin") {
                         echo "<td>" . $user['email'] . "</td>";
                         echo "<td>" . $user['username'] . "</td>";
                         //echo "<td>" . $user['password'] . "</td>";      //wie sinvoll pass zu sehen? datenschutz?
-                        echo "<td>" . $user['status'] . "</td>";
+                        if ($user['status'] == 'aktiv') {
+                        echo "<td><span class='status text-success'>&bull;</span>" . $user['status'] . "</td>";
+                        } else {
+                            echo "<td><span class='status text-danger'>&bull;</span>" . $user['status'] . "</td>";
+
+                        }
                         echo "<td><a href='reservationsverwaltung.php?user_id=" . $user['user_id'] . "'</a>Details</td>"; //that will change to reservations link
                         // Add a link or button for editing with the user ID as a parameter
                         echo "<td><a href='user_update.php?user_id=" . $user['user_id'] . "' class='btn btn-primary btn-sm'>Edit</a></td>";

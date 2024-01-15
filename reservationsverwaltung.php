@@ -42,7 +42,6 @@ if ($_SESSION['role'] != "admin") {
             <?php } ?>
         </div>
         <div class="container">
-            <div class="table-responsive">
                 <!-- Form to filter -->
                 <form method="get">
                     <select class="form-select" aria-label="filter" name="filter">
@@ -56,8 +55,9 @@ if ($_SESSION['role'] != "admin") {
                     } ?>
                     <button class="btn btn-primary" type="submit">filtern</button>
                 </form>
-                <table class="table">
-
+                
+                <div class="table-responsive">
+                    <table class="table">
                     <?php
                     if (isset($_GET['user_id'])) {
                         // Display reservations from specific user
@@ -76,15 +76,15 @@ if ($_SESSION['role'] != "admin") {
 
                         if ($result->num_rows > 0) {
                             echo '<th>Anreise</th>
-                        <th>Abreise</th>
-                        <th>Zimmertyp</th>
-                        <th>Frühstück</th>
-                        <th>Parking</th>
-                        <th>Tiere</th>
-                        <th>Status</th>
-                        <th>UserId</th> <!-- change to visible for only admins? -->
-                        <th>Erstellt am</th>
-                        <th>Update status</th>';
+                            <th>Abreise</th>
+                            <th>Zimmertyp</th>
+                            <th>Frühstück</th>
+                            <th>Parking</th>
+                            <th>Tiere</th>
+                            <th>Status</th>
+                            <th>UserId</th> <!-- change to visible for only admins? -->
+                            <th>Erstellt am</th>
+                            <th>Update status</th>';
 
                             while ($res = $result->fetch_assoc()) {
                                 // Inside the while loop
@@ -152,16 +152,11 @@ if ($_SESSION['role'] != "admin") {
                             echo "Keine Reservierungen vorhanden!";
                         }
                     }
-
-
-
-
                     ?>
                 </table>
             </div>
         </div>
     </div>
-
     <?php include './includes/footer.php' ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
