@@ -86,6 +86,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $msg_email = "Ungültige E-Mail-Adresse!";
         } else {
             if ($user_email != $_POST["email"]) {
+
+                try {
+                    
                 $newquery = "UPDATE `users` SET `email` = ? WHERE `users`.`user_id` = ?";
                 $stmt = $db_obj->prepare($newquery);
                 $stmt->bind_param("si", $_POST["email"], $user_id);
@@ -99,13 +102,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                     die($db_obj->error . " " . $db_obj->errno);
                 }
+                } catch (mysqli_sql_exception $e) {
+                    if ($e->getCode() == 1062) {
+                        // Handle the duplicate entry error
+                        $msg_username = "<span class='text-danger'>Die E-Mail-Adresse wurde bereits verwendet!</span>";
+                    } else {
+                        // Handle other MySQL errors
+                        $msg_username = "MySQL error: " . $e->getMessage();
+                    }
+                }
             }
         }
     }
 
     if (isset($_POST["username"])) {
         if ($user_username != $_POST["username"]) {
-            $newquery = "UPDATE `users` SET `username` = ? WHERE `users`.`user_id` = ?";
+            try {
+                // Your MySQL query here
+                $newquery = "UPDATE `users` SET `username` = ? WHERE `users`.`user_id` = ?";
             $stmt = $db_obj->prepare($newquery);
             $stmt->bind_param("si", $_POST["username"], $user_id);
 
@@ -114,10 +128,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $msg_username = "<span class='text-success'>Username wurde aktualisiert!</span>";
             } else {
                 if ($db_obj->errno === 1062) { // error code 1062 means duplicate entry in unique
-                    $msg_username = "<span class='text-success'>Der Benutzername wurde bereits verwendet.</span>";
+                    $msg_username = "<span class='text-danger'>Der Benutzername wurde bereits verwendet.</span>";
                 }
                 die($db_obj->error . " " . $db_obj->errno);
             }
+            } catch (mysqli_sql_exception $e) {
+                if ($e->getCode() == 1062) {
+                    // Handle the duplicate entry error
+                    $msg_username = "<span class='text-danger'>Der Benutzername wurde bereits verwendet.</span>";
+                } else {
+                    // Handle other MySQL errors
+                    $msg_username = "MySQL error: " . $e->getMessage();
+                }
+            }
+            
         }
     }
 

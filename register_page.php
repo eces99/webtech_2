@@ -63,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         require_once "./includes/dbaccess.php";
 
+        try {
         // Create a query and insert into using SQL statement
         $query = "INSERT INTO `users`(`role`, `anrede`, `vorname`, `lastname`, `email`, `username`, `password`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; //placeholders
 
@@ -88,6 +89,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             die($db_obj->error . " " . $db_obj->errno);
         }
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() == 1062) {
+                // Handle the duplicate entry error
+                $msg_username = "<span class='text-danger'>Benutzername ist bereits vergeben/E-Mail ist bereits registriert</span>";
+            } else {
+                // Handle other MySQL errors
+                $msg_username = "MySQL error: " . $e->getMessage();
+            }
+        }
+
     } else {
         // If trying to access the page without pressing the submit button, send back to the index page
         //header("Location: ../register_page.php");
