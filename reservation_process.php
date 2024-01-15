@@ -8,7 +8,7 @@ if (!isset($_SESSION['user'])) {
 
 $error1 = $error2 = $error3 = $error4 = $error5 = $error6 = $error7 = "";
 $conf_msg = "";
-$parking_service = $breakfast_service = $pets_service = "";
+$parking_service = $arrival_date = $departure_date = $room_type = $breakfast_service = $pets_service = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if (!empty($arrival_date) && !empty($departure_date)) {
       if (($arrival_date) > ($departure_date)){
-        $error2 = "Bitte füllen Sie aus!";
+        $error2 = "Bitte Anreisedatum vor Abreisedatum auswählen";
       }
     }
     if (empty($_POST["room_type"])) {
@@ -75,11 +75,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $pricefull = $priceroom*($numericDifference) + $pricebreakfast + $priceparkingspot;
 
-    if (isset($_POST["arrival_date"]) && isset($_POST["departure_date"]) && isset($_POST["room_type"]) && isset($_POST["breakfast_service"]) && isset($_POST["parking_service"]) && isset($_POST["pets_service"])) {
+    if (isset($_POST["arrival_date"]) && isset($_POST["departure_date"]) && isset($_POST["room_type"]) && isset($_POST["breakfast_service"]) && isset($_POST["parking_service"]) && isset($_POST["pets_service"]) && (($_POST["arrival_date"]) <= ($_POST["departure_date"]))) {
 
   // Include your database connection
   require_once "./includes/dbaccess.php";
-
+  
     // Get user_id from the session
     $user_id = $_SESSION['uid'];
 
@@ -174,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       <label for="departure_date">Abreisedatum</label>
                       <input type="date" name="departure_date" class="form-control input-with-post-icon datepicker" min="<?php echo date('Y-m-d'); ?>" inline="true" placeholder="Abreisedatum">
                     </div>
-                    <?php echo "<span class='error_msg'> $error1 </span>" ?>
+                    <?php echo "<span class='error_msg'> $error2 </span>" ?>
 
                     <div class="form-group mt-4">
                     <label for="room_type">Zimmertyp</label>
