@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Set a cookie for the username (you can set other cookie parameters as needed)
                     setcookie('username', $username, time() + 3600, '/'); // Cookie expires in 1 hour
 
-                    header("Location: login_success.php");
+                    header("Location: index.php");
                     die();
                 } else {
                     $errorMsg = "Sie sind inaktiv, bitte kontaktieren Sie uns!";
