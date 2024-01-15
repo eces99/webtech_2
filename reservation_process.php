@@ -47,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pets_service = ($_POST["pets_service"]);
     }
 
+    // Calculate price of reservation
     if($room_type == "Single"){
       $priceroom = 90;
     } else if($room_type == "Double"){
