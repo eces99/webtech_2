@@ -25,7 +25,7 @@
 
             <div class="col-md-4 text-center">
                 Informationspflicht laut §5 E-Commerce Gesetz, §14 Unternehmensgesetzbuch, §63 Gewerbeordnung und Offenlegungspflicht laut §25 Mediengesetz</br>
-                Hotel Moonlight GmbH</br>
+                Hotel Casa Valle GmbH</br>
                 Hotellerie</br>
                 UID-Nr: ATU12345678</br>
                 FN: 123456a</br>
